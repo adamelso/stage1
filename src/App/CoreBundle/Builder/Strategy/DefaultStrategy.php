@@ -150,7 +150,7 @@ class DefaultStrategy
          * Build successful!
          * 
          * @todo the commit can timeout for no obvious reason, while actually committing
-         *       catch the timeout and check if the image has been commited
+         *       catch the timeout and check if the image has been committed
          *          if yes, proceed
          *          if not, retry (3 times ?)
          */

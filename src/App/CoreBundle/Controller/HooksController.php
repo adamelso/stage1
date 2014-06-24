@@ -145,7 +145,7 @@ class HooksController extends Controller
             ->findByHash($hash);
 
         if (count($sameHashBuilds) > 0) {
-            $logger->warn('found builds with same hash', ['cound' => count($sameHashBuilds)]);
+            $logger->warn('found builds with same hash', ['count' => count($sameHashBuilds)]);
             $allowRebuild = array_reduce($sameHashBuilds, function($result, $b) {
                 return $result || $b->getAllowRebuild();
             }, false);

@@ -10,7 +10,7 @@ class BuildMessage extends AbstractMessage
     {
         $this->setExtra([
             'message' => $message,
-            'lenght' => strlen($message),
+            'length' => strlen($message),
             'type' => 'output',
             'stream' => 1,
         ]);

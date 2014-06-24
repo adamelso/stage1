@@ -66,7 +66,7 @@ TODO
 
 * builds
     * switch runtime to supervisor or something to make sure everything runs as it should
-    * check that the runtime container was successfuly built
+    * check that the runtime container was successful built
     * check the desired branch is available
     * running and building status are confusing
     * the build process must be completely error/fool proof
@@ -81,7 +81,7 @@ TODO
     * log trigger source (manual / push)
     * before starting a build, check that the required docker image is present
     * rewrite the build system, with extensibility in mind
-        * build steps could be infered at import time (or pre-build time)
+        * build steps could be inferred at import time (or pre-build time)
         * also, if a specific step fail, we know what it exactly is, so we can try and guess why it did fail and
           tell the user steps to take to fix it (or maybe fix it automatically, I'm looking at you, missing deploy key)
     * container ports should be bound on local private IPs instead of stage1.io public IP
