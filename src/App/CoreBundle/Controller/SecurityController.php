@@ -225,8 +225,8 @@ class SecurityController extends Controller
         $data = $accessTokenResponse->json();
 
         if (isset($data['error'])) {
-            $this->addFlash('error', 'An error occured during authentication, please try again later.');
-            $this->get('logger')->error('An error occured during authentication', [
+            $this->addFlash('error', 'An error occurred during authentication, please try again later.');
+            $this->get('logger')->error('An error occurred during authentication', [
                 'error' => $data['error'],
                 'state' => $token
             ]);
