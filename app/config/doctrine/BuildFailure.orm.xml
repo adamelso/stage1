@@ -13,7 +13,7 @@
         <field name="createdAt" column="created_at" type="datetime" />
         <field name="updatedAt" column="updated_at" type="datetime" />
 
-        <one-to-one field="build" target-entity="App\Model\Build" inversed-by="script">
+        <one-to-one field="build" target-entity="App\Model\Build" inversed-by="failure">
             <cascade><persist /></cascade>
             <join-column name="build_id" reference-column-name="id" on-delete="CASCADE" />
         </one-to-one>
