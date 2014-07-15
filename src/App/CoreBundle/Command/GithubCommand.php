@@ -32,7 +32,7 @@ class GithubCommand extends ContainerAwareCommand
             $user = $repo->findOneBySpec($input->getOption('user'));
 
             if (!$user) {
-                throw new RuntimeException(sprintf('Could not impersonate user "%s"', $input->getOption('user')));
+                throw new \RuntimeException(sprintf('Could not impersonate user "%s"', $input->getOption('user')));
             }
 
             $output->writeln('impersonating <info>'.$user->getUsername().'</info> with token <info>'.$user->getAccessToken().'</info>');

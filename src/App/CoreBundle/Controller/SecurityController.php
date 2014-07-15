@@ -4,6 +4,7 @@ namespace App\CoreBundle\Controller;
 
 use App\Model\User;
 use App\CoreBundle\SshKeys;
+use App\Model\BetaSignup;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
