@@ -21,7 +21,7 @@ if [ ! -d /var/www/yuhao ]; then
     cd /var/www/yuhao
     composer install
     cd -
-    chmod -R vagrant:vagrant /var/www/yuhao
+    chown -R vagrant:vagrant /var/www/yuhao
 fi
 
 if ! docker images | grep stage1 > /dev/null; then
