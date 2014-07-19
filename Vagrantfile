@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
     config.hostmanager.enabled = true
     config.hostmanager.manage_host = true
 
-    config.vm.box = "ubermuda/stage1-dev"
+    config.vm.box = "stage1/dev"
 
     config.vm.hostname = 'stage1.dev'
     config.vm.network :private_network, ip: '192.168.215.42'
