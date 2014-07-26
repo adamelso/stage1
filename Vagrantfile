@@ -28,6 +28,9 @@ if ! docker images | grep stage1 > /dev/null; then
     bin/docker/update.sh
     bin/yuhao/update.sh
 fi
+
+app/console cache:clear
+chmod -R 777 app/cache app/logs
 EOF
 
 Vagrant.configure("2") do |config|
