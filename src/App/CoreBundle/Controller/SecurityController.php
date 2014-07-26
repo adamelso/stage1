@@ -84,8 +84,6 @@ class SecurityController extends Controller
 
         $result = $githubResponse->json();
 
-        // var_dump($result); die;
-
         if (null === ($user = $this->getDoctrine()->getRepository('Model:User')->findOneByGithubId($result['id']))) {
             $user = User::fromGithubResponse($result);
             $user->setStatus(User::STATUS_WAITING_LIST);
@@ -97,7 +95,6 @@ class SecurityController extends Controller
             $user->setPrivateKey($keys['private']);
         }
 
-        // $user->addAccessTokenScopes(explode(',', $scope));
         $user->setAccessTokenScope($scope);
 
         if (false && strlen($user->getEmail()) === 0) {
@@ -183,7 +180,6 @@ class SecurityController extends Controller
         }
 
         $token = $this->get('form.csrf_provider')->generateCsrfToken('github');
-        $session->set('csrf_token', $token);
 
         $payload = [
             'client_id' => $this->container->getParameter('github_client_id'),
@@ -206,8 +202,6 @@ class SecurityController extends Controller
         if (!$this->get('form.csrf_provider')->isCsrfTokenValid('github', $token)) {
             throw new RuntimeException('CSRF Mismatch');
         }
-
-        $this->get('session')->remove('csrf_token');
 
         $payload = [
             'client_id' => $this->container->getParameter('github_client_id'),

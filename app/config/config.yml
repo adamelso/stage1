@@ -21,7 +21,7 @@ framework:
     trusted_proxies: ~
     session:
         name: STAGE1SESSID
-        # handler_id: session.handler.redis
+        handler_id: ~
     fragments:
         path: /_fragment
 
