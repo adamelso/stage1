@@ -79,7 +79,7 @@ class BuildRepository extends EntityRepository
     public function findRunningBuildsByUser(User $user)
     {
         $query = $this->createQueryBuilder('b')
-            ->select()
+            ->select('b')
             ->leftJoin('b.project', 'p')
             ->leftJoin('p.users', 'u')
             ->where('u.id = ?1')
@@ -91,7 +91,7 @@ class BuildRepository extends EntityRepository
             ])
             ->getQuery();
 
-        return $query->execute();
+        return $query->getResult();
 
     }
 
