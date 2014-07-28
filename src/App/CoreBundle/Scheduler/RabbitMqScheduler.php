@@ -10,40 +10,36 @@ class RabbitMqScheduler implements SchedulerInterface
 {
     private $logger;
 
-    private $stopProducer;
-
-    private $killProducer;
+    private $producers = [];
 
     public function __construct(LoggerInterface $logger, Producer $stopProducer, Producer $killProducer)
     {
         $this->logger = $logger;
-        $this->stopProducer = $stopProducer;
-        $this->killProducer = $killProducer;
+        $this->producers['stop'] = $stopProducer;
+        $this->producers['kill'] = $killProducer;
+    }
+
+    private function send($order, Build $build)
+    {
+        $this->logger->info('sending scheduler order', [
+            'order' => $order,
+            'build_id' => $build->getId(),
+            'routingKey' => $build->getRoutingKey(),
+        ]);
+
+        $message = ['build_id' => $build->getId()];
+        $routingKey = $build->getRoutingKey();
+
+        $this->producers[$order]->publish(json_encode($message), $routingKey);
     }
 
     public function stop(Build $build)
     {
-        $this->logger->info('sending stop order', [
-            'build_id' => $build->getId(),
-            'routingKey' => $build->getRoutingKey(),
-        ]);
-
-        $message = json_encode(['build_id' => $build->getId()]);
-        $routingKey = $build->getRoutingKey();
-
-        $this->stopProducer->publish($message, $routingKey);
+        $this->send('stop', $build);
     }
 
     public function kill(Build $build)
     {
-        $this->logger->info('sending kill order', [
-            'build_id' => $build->getId(),
-            'routingKey' => $build->getRoutingKey(),
-        ]);
-
-        $message = json_encode(['build_id' => $build->getId()]);
-        $routingKey = $build->getRoutingKey();
-
-        $this->killProducer->publish($message, $routingKey);
+        $this->send('kill', $build);
     }
 }
