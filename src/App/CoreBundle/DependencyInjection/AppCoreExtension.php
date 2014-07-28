@@ -20,9 +20,10 @@ class AppCoreExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
+        $files = ['controllers', 'form', 'listeners', 'misc', 'model', 'rabbitmq', 'repositories', 'twig'];
 
-        foreach (array('controllers', 'form', 'listeners', 'misc', 'model', 'rabbitmq', 'twig') as $config) {
-            $loader->load(sprintf('%s.xml', $config));
+        foreach ($files as $file) {
+            $loader->load(sprintf('%s.xml', $file));
         }
     }
 }

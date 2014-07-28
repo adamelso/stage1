@@ -41,6 +41,16 @@ class PullRequest
         return $this->getTitle();
     }
 
+    /**
+     * A Pull Request can not be a demo
+     * 
+     * @return boolean
+     */
+    public function getIsDemo()
+    {
+        return false;
+    }
+
     public function getHashFromRef()
     {
     }

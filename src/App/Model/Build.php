@@ -133,6 +133,16 @@ class Build implements WebsocketRoutable
         return json_encode($this->asWebsocketMessage());
     }
 
+    public function isDemo()
+    {
+        return $this->isBranch() && $this->getBranch()->getIsDemo();
+    }
+
+    public function isBranch()
+    {
+        return !$this->isPullRequest();
+    }
+
     public function isPullRequest()
     {
         if ($this->getPayload()) {
@@ -849,14 +859,6 @@ class Build implements WebsocketRoutable
     public function getHost()
     {
         return $this->host;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDemo()
-    {
-        return $this->getIsDemo();
     }
 
     /**

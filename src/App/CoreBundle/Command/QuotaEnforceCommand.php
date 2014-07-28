@@ -13,7 +13,10 @@ class QuotaEnforceCommand extends ContainerAwareCommand
     {
         $this
             ->setName('stage1:quota:enforce')
-            ->setDescription('Enforces quotas');
+            ->setDescription('Enforces quotas')
+            ->setDefinition([
+                new InputOption('user', 'u', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'One or several usernames to check', []),
+            ]);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -21,7 +24,12 @@ class QuotaEnforceCommand extends ContainerAwareCommand
         $container = $this->getContainer();
 
         $repository = $container->get('doctrine')->getRepository('Model:User');
-        $users = $repository->findAll();
+
+        if (count($input->getOption('user')) > 0) {
+            $users = $repository->findBy(['username' => $input->getOption('user')]);
+        } else {
+            $users = $repository->findAll();
+        }
 
         $runningBuildsQuota = $container->get('app_core.quota.running_builds');
 

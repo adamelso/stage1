@@ -2,18 +2,20 @@
 
 namespace App\CoreBundle\Quota;
 
-use Docker\Docker;
 use Doctrine\Common\Persistence\ObjectManager;
+use App\CoreBundle\Scheduler\SchedulerInterface;
 use App\Model\Build;
 use App\Model\BuildRepository;
 use App\Model\User;
 use Psr\Log\LoggerInterface;
 
-class RunningBuildsQuota
+use Exception;
+
+class RunningBuildsQuota implements QuotaInterface
 {
     private $logger;
 
-    private $docker;
+    private $scheduler;
 
     private $repository;
 
@@ -21,57 +23,24 @@ class RunningBuildsQuota
 
     private $output;
 
-    public function __construct(LoggerInterface $logger, Docker $docker, ObjectManager $manager, $limit)
+    public function __construct(LoggerInterface $logger, SchedulerInterface $scheduler, BuildRepository $repository, $limit)
     {
         $this->logger = $logger;
-        $this->docker = $docker;
-        $this->manager = $manager;
+        $this->scheduler = $scheduler;
+        $this->repository = $repository;
         $this->limit = (int) $limit;
     }
 
     private function getRunningBuilds(User $user)
     {
-        $builds = $this->manager
-            ->getRepository('Model:Build')
-            ->findRunningBuildsByUser($user);
+        $builds = $this->repository->findRunningBuildsByUser($user);
 
         // demo builds don't count in the running builds quota
         $builds = array_filter($builds, function(Build $build) {
-            return !$build->getBranch()->getIsDemo();
+            return !$build->isDemo();
         });
 
         return $builds;
-    }
-
-    private function terminate(Build $build)
-    {
-        $container = $build->getContainer();
-
-        $this->logger->info('Terminating excess build', [
-            'build_id' => $build->getId(),
-            'container_id' => ($container ? $container->getId() : 'null'),
-        ]);
-
-        $build->setStatus(Build::STATUS_STOPPED);
-        $build->setMessage('Per-user running containers limit reached');
-
-        if (!$container) {
-            return;
-        }
-
-        try {
-            $this->docker
-                ->getContainerManager()
-                ->stop($container)
-                ->remove($container);
-        } catch (Exception $e) {
-            $this->logger->error('Could not stop container', [
-                'build_id' => $build->getId(),
-                'container_id' => $build->getContainer()->getId(),
-                'exception' => get_class($e),
-                'message' => $e->getMessage()
-            ]);
-        }
     }
 
     public function check(User $user)
@@ -91,15 +60,12 @@ class RunningBuildsQuota
             return;
         }
 
-        $manager = $this->manager;
         $builds = $this->getRunningBuilds($user);
         $excessBuilds = array_slice($builds, $this->limit);
 
         foreach ($excessBuilds as $build) {
-            $this->terminate($build);
-            $manager->persist($build);
+            $this->logger->info('Terminating excess build', ['build_id' => $build->getId()]);
+            $this->scheduler->stop($build);
         }
-
-        $manager->flush();
     }
 }
