@@ -3,13 +3,10 @@
 namespace App\CoreBundle\EventListener;
 
 use Symfony\Bridge\Doctrine\RegistryInterface;
-
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\EventSubscriber;
-
 use App\Model\Build;
 use App\Model\PullRequest;
-
 use Psr\Log\LoggerInterface;
 
 class BuildPullRequestRelationSubscriber implements EventSubscriber
@@ -25,8 +22,8 @@ class BuildPullRequestRelationSubscriber implements EventSubscriber
     private $doctrine;
 
     /**
-     * @param Psr\Log\LoggerInterface                   $logger
-     * @param Symfony\Bridge\Doctrine\RegistryInterface $doctrine
+     * @param LoggerInterface                   $logger
+     * @param RegistryInterface $doctrine
      */
     public function __construct(LoggerInterface $logger, RegistryInterface $doctrine)
     {
@@ -35,7 +32,7 @@ class BuildPullRequestRelationSubscriber implements EventSubscriber
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getSubscribedEvents()
     {

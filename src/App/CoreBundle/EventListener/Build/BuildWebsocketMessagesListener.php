@@ -5,11 +5,8 @@ namespace App\CoreBundle\EventListener\Build;
 use App\CoreBundle\Event\BuildStartedEvent;
 use App\CoreBundle\Event\BuildFinishedEvent;
 use App\CoreBundle\Event\BuildKilledEvent;
-
 use App\CoreBundle\Message\MessageFactory;
-
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
-
 use Psr\Log\LoggerInterface;
 
 /**

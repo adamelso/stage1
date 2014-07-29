@@ -4,7 +4,6 @@ namespace App\CoreBundle\EventListener;
 
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
 use Redis;
 
 class ProjectAccessTableListener

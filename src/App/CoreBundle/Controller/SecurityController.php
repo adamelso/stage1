@@ -5,14 +5,12 @@ namespace App\CoreBundle\Controller;
 use App\Model\User;
 use App\CoreBundle\SshKeys;
 use App\Model\BetaSignup;
-
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
-
 use DateTime;
 use RuntimeException;
 
@@ -73,6 +71,9 @@ class SecurityController extends Controller
         }
     }
 
+    /**
+     * @return string
+     */
     private function registerGithubUser(Request $request, $accessToken, $scope)
     {
         $client = $this->container->get('app_core.client.github');

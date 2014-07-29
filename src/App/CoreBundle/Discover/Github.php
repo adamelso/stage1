@@ -5,10 +5,7 @@
 namespace App\CoreBundle\Discover;
 
 use Guzzle\Http\Client;
-use Guzzle\Http\Message\Response;
-
 use Psr\Log\LoggerInterface;
-
 use App\Model\User;
 
 class Github
@@ -39,6 +36,9 @@ class Github
         return $this->importableProjects;
     }
 
+    /**
+     * @param string $reason
+     */
     public function addNonImportableProject($fullName, $reason)
     {
         $this->nonImportableProjects[] = [

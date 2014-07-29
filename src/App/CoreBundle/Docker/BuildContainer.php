@@ -3,7 +3,6 @@
 namespace App\CoreBundle\Docker;
 
 use App\Model\Build;
-
 use Docker\Container;
 
 class BuildContainer extends Container

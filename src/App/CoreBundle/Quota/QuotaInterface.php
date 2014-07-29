@@ -10,14 +10,15 @@ use App\Model\User;
 interface QuotaInterface
 {
     /**
-     * @param App\Model\User $user
+     * @param User $user
      * 
      * @return boolean
      */
     public function check(User $user);
 
     /**
-     * @param App\Model\User $user
+     * @param User $user
+     * @return void
      */
     public function enforce(User $user);
 }

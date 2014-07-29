@@ -5,25 +5,16 @@ namespace App\CoreBundle\Consumer;
 use App\CoreBundle\Builder\Builder;
 use App\Model\Build;
 use App\Model\BuildFailure;
-
 use App\CoreBundle\BuildEvents;
 use App\CoreBundle\Event\BuildStartedEvent;
 use App\CoreBundle\Event\BuildFinishedEvent;
-use App\CoreBundle\Event\BuildKilledEvent;
-
 use Docker\Docker;
 use Docker\Container;
-
-use Guzzle\Http\Exception\ClientErrorResponseException;
-
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
-
 use Psr\Log\LoggerInterface;
-
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 use Exception;
 
 

@@ -4,7 +4,6 @@ namespace App\CoreBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Bundle\TwigBundle\Controller\ExceptionController;
-
 use App\CoreBundle\Controller\ConfigureController;
 
 class ConfigureListener 

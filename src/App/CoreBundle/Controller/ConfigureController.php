@@ -13,6 +13,9 @@ use Symfony\Component\Filesystem\Exception\IOException;
 
 class ConfigureController extends BaseController
 {
+    /**
+     * @param string $file
+     */
     private function getConfigPath($file)
     {
         $rootDir = $this->containter->getParameter('kernel.root_dir');

@@ -5,9 +5,7 @@ namespace App\CoreBundle\Github;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 use Guzzle\Http\Client;
-
 use App\CoreBundle\SshKeys;
 use App\Model\User;
 use App\Model\Project;
@@ -16,9 +14,7 @@ use App\Model\Branch;
 use App\Model\PullRequest;
 use App\Model\Organization;
 use App\CoreBundle\Value\ProjectAccess;
-
 use Psr\Log\LoggerInterface;
-
 use Closure;
 use Redis;
 
@@ -97,6 +93,9 @@ class Import
         $this->feature_token_access_list = (bool) $bool;
     }
 
+    /**
+     * @param string $accessToken
+     */
     public function setAccessToken($accessToken)
     {
         $this->accessToken = $accessToken;
@@ -198,6 +197,10 @@ class Import
         return call_user_func_array([$this->redis, 'sadd'], $args);
     }
 
+    /**
+     * @param string $route
+     * @param boolean $referenceType
+     */
     private function generateUrl($route, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         return $this->router->generate($route, $parameters, $referenceType);

@@ -2,8 +2,6 @@
 
 namespace App\Model;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Feedback
  */
@@ -169,7 +167,7 @@ class Feedback
     /**
      * Get user
      *
-     * @return \App\Model\User 
+     * @return Project 
      */
     public function getUser()
     {

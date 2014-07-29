@@ -4,7 +4,6 @@ namespace App\CoreBundle\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\EventSubscriber;
-
 use DateTime;
 
 class TimestampableSubscriber implements EventSubscriber

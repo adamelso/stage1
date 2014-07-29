@@ -2,8 +2,6 @@
 
 namespace App\Model;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Organization
  */

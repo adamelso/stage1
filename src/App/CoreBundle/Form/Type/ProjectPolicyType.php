@@ -3,7 +3,6 @@
 namespace App\CoreBundle\Form\Type;
 
 use App\Model\ProjectSettings;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;

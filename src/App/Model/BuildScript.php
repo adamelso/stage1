@@ -2,8 +2,6 @@
 
 namespace App\Model;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * BuildScript
  */
@@ -37,7 +35,7 @@ class BuildScript
     /**
      * @param string $json
      * 
-     * @return App\Model\BuildScript
+     * @return BuildScript
      */
     public static function fromJson($json)
     {

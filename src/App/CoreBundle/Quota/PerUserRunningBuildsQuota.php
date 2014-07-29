@@ -2,14 +2,11 @@
 
 namespace App\CoreBundle\Quota;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use App\CoreBundle\Scheduler\SchedulerInterface;
 use App\Model\Build;
 use App\Model\BuildRepository;
 use App\Model\User;
 use Psr\Log\LoggerInterface;
-
-use Exception;
 
 /**
  * \App\CoreBundle\Quota\RunningBuildsQuota

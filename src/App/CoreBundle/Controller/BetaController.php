@@ -3,7 +3,6 @@
 namespace App\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-
 use App\Model\BetaSignup;
 
 class BetaController extends Controller

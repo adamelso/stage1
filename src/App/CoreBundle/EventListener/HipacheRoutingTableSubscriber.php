@@ -4,11 +4,8 @@ namespace App\CoreBundle\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\EventSubscriber;
-
 use Psr\Log\LoggerInterface;
-
 use App\Model\Project;
-
 use Redis;
 
 /**

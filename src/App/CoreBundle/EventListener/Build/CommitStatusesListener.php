@@ -6,7 +6,6 @@ use App\CoreBundle\Event\BuildFinishedEvent;
 use App\Model\Build;
 use Guzzle\Http\Client;
 use Psr\Log\LoggerInterface;
-
 use Exception;
 
 /**
@@ -30,8 +29,8 @@ class CommitStatusesListener
     private $enabled;
 
     /**
-     * @param Psr\Log\LoggerInterface   $logger
-     * @param Guzzle\Http\Client        $github
+     * @param LoggerInterface   $logger
+     * @param Client        $github
      * @param Docker\Docker
      */
     public function __construct(LoggerInterface $logger, Client $github, $enabled)

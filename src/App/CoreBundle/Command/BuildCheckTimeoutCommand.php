@@ -3,11 +3,9 @@
 namespace App\CoreBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use App\Model\Build;
 
 class BuildCheckTimeoutCommand extends ContainerAwareCommand

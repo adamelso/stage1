@@ -3,7 +3,6 @@
 namespace App\CoreBundle\Event;
 
 use App\Model\Build;
-
 use Symfony\Component\EventDispatcher\Event;
 
 abstract class AbstractBuildEvent extends Event

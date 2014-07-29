@@ -3,7 +3,6 @@
 namespace App\Model;
 
 use Docker\Container;
-
 use BadMethodCallException;
 
 class Build implements WebsocketRoutable
@@ -232,6 +231,10 @@ class Build implements WebsocketRoutable
     }
 
     # @todo @slug move to its own service
+
+    /**
+     * @param string $string
+     */
     private function normalize($string)
     {
         return preg_replace('/[^a-z0-9\-]/', '-', strtolower($string));
@@ -290,6 +293,9 @@ class Build implements WebsocketRoutable
         return $this->getProject()->getDockerBaseImage();
     }
 
+    /**
+     * @param string $suffix
+     */
     public function getImageName($suffix = null)
     {
         $name = sprintf('b/%d/%s/%d', $this->getProject()->getId(), $this->getNormRef(), $this->getId());
@@ -461,7 +467,7 @@ class Build implements WebsocketRoutable
     /**
      * @param integer $id
      * 
-     * @return App\Model\Build
+     * @return Build
      */
     public function setId($id)
     {
@@ -587,7 +593,7 @@ class Build implements WebsocketRoutable
     }
 
     /**
-     * @return Docker\Container
+     * @return Container|null
      */
     public function getContainer()
     {
@@ -779,6 +785,7 @@ class Build implements WebsocketRoutable
     /**
      * Get logs
      *
+     * @param string $type
      * @return \Doctrine\Common\Collections\Collection 
      */
     public function getLogs($type = null)
@@ -1126,6 +1133,9 @@ class Build implements WebsocketRoutable
         return isset($this->options[$name]);
     }
 
+    /**
+     * @param string $name
+     */
     public function getOption($name, $default = null)
     {
         return $this->hasOption($name) ? $this->options[$name] : $default;

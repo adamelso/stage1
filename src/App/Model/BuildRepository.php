@@ -4,7 +4,6 @@ namespace App\Model;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
-
 use Doctrine\ORM\NoResultException;
 
 class BuildRepository extends EntityRepository
@@ -28,7 +27,7 @@ class BuildRepository extends EntityRepository
     }
 
     /**
-     * @param App\Model\Project $project
+     * @param Project $project
      * @param string                        $ref
      * 
      * @return Doctrine\Common\Collections\Collection
@@ -72,7 +71,7 @@ class BuildRepository extends EntityRepository
     }
 
     /**
-     * @param App\Model\User $user
+     * @param User $user
      * 
      * @return Doctrine\Common\Collections\Collection
      */
@@ -96,7 +95,7 @@ class BuildRepository extends EntityRepository
     }
 
     /**
-     * @param App\Model\Project $project
+     * @param Project $project
      * 
      * @return integer
      */
@@ -116,7 +115,7 @@ class BuildRepository extends EntityRepository
     }
 
     /**
-     * @param App\Model\Project $project
+     * @param Project $project
      * 
      * @return Doctrine\Common\Collections\Collection
      */
@@ -138,7 +137,7 @@ class BuildRepository extends EntityRepository
      *       when we want to approximate the time a build will take based on previous builds, a previous
      *       build is actually the previous build "running" or "obsolete" with the same branch and project
      * 
-     * @param App\Model\Build $build
+     * @param Build $build
      * @param boolean $demo
      * 
      * @return null|App\Model\Build
@@ -171,7 +170,7 @@ class BuildRepository extends EntityRepository
     }
 
     /**
-     * @param App\Model\Build $build
+     * @param Build $build
      * 
      * @return null|App\Model\Build
      */

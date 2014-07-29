@@ -3,9 +3,7 @@
 namespace App\CoreBundle;
 
 use Symfony\Component\Process\ProcessBuilder;
-
 use App\Model\Project;
-
 use RuntimeException;
 
 class SshKeys

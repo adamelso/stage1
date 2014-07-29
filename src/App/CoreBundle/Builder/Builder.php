@@ -4,22 +4,17 @@ namespace App\CoreBundle\Builder;
 
 use App\Model\Build;
 use App\Model\BuildScript;
-
 use App\CoreBundle\Docker\AppContainer;
-use App\CoreBundle\Docker\BuildContainer;
 use App\CoreBundle\Docker\PrepareContainer;
 use App\CoreBundle\Builder\Strategy\DockerfileStrategy;
 use App\CoreBundle\Builder\Strategy\DefaultStrategy;
 use App\CoreBundle\Message\BuildMessage;
 use Symfony\Component\Process\Process;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-
 use Docker\Docker;
 use Docker\PortCollection;
-
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Psr\Log\LoggerInterface;
-
 use Exception;
 use RuntimeException;
 use Redis;
@@ -63,9 +58,9 @@ class Builder
     ];
     
     /**
-     * @param Psr\Log\LoggerInterface $logger
-     * @param Docker\Docker $docker
-     * @param Symfony\Bridge\Doctrine\RegistryInterface $doctrine
+     * @param LoggerInterface $logger
+     * @param Docker $docker
+     * @param RegistryInterface $doctrine
      */
     public function __construct(LoggerInterface $logger, Docker $docker, RegistryInterface $doctrine, Producer $websocketProducer, Redis $redis)
     {
@@ -90,7 +85,7 @@ class Builder
     /**
      * @param string $name
      * 
-     * @return mixed
+     * @return integer
      */
     public function getOption($name)
     {
@@ -98,7 +93,7 @@ class Builder
     }
 
     /**
-     * @param App\Model\Build $build
+     * @param Build $build
      * 
      * @return Docker\Container
      */

@@ -4,7 +4,6 @@ namespace App\CoreBundle\Message;
 
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 use Exception;
 
 abstract class AbstractMessage implements MessageInterface
@@ -30,6 +29,9 @@ abstract class AbstractMessage implements MessageInterface
         $this->router = $router;
     }
 
+    /**
+     * @param string $route
+     */
     public function generateUrl($route, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         return $this->router->generate($route, $parameters, $referenceType);

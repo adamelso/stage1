@@ -2,8 +2,6 @@
 
 namespace App\Model;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * ProjectSettings
  */
@@ -112,7 +110,7 @@ class ProjectSettings
     /**
      * Get branchPatterns
      *
-     * @return array 
+     * @return string 
      */
     public function getBranchPatterns()
     {

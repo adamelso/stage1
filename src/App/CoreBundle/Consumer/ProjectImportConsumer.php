@@ -5,15 +5,11 @@ namespace App\CoreBundle\Consumer;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use PhpAmqpLib\Message\AMQPMessage;
-
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-
 use App\CoreBundle\Value\ProjectAccess;
 use App\CoreBundle\Github\Import;
-
 use Psr\Log\LoggerInterface;
 
 class ProjectImportConsumer implements ConsumerInterface
@@ -41,6 +37,9 @@ class ProjectImportConsumer implements ConsumerInterface
         $logger->info('initialized '.__CLASS__, ['pid' => posix_getpid()]);
     }
 
+    /**
+     * @param string $route
+     */
     private function generateUrl($route, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         return $this->router->generate($route, $parameters, $referenceType);
@@ -57,6 +56,9 @@ class ProjectImportConsumer implements ConsumerInterface
         return $this->websocketChannel;
     }
 
+    /**
+     * @param string $event
+     */
     private function publish($event, $data = null)
     {
         echo '-> publishing "' . $event . '" to channel "' . $this->getWebsocketChannel(). '"'.PHP_EOL;

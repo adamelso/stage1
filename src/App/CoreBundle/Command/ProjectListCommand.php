@@ -4,7 +4,6 @@ namespace App\CoreBundle\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 class ProjectListCommand extends ContainerAwareCommand

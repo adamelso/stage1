@@ -3,12 +3,10 @@
 namespace App\CoreBundle\Command;
 
 use App\Model\GithubPayload;
-
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use InvalidArgumentException;
 
 class BuildPayloadAttachCommand extends ContainerAwareCommand

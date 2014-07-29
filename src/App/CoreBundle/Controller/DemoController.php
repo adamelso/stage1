@@ -5,13 +5,10 @@ namespace App\CoreBundle\Controller;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
 use App\Model\Build;
 use App\Model\Project;
 use App\Model\Demo;
-
 use RuntimeException;
 
 class DemoController extends Controller
@@ -75,6 +72,9 @@ class DemoController extends Controller
         return $steps;
     }
 
+    /**
+     * @return null|\App\Model\User
+     */
     private function getDemoUser()
     {
         if (null === $this->demoUser) {
@@ -84,6 +84,9 @@ class DemoController extends Controller
         return $this->demoUser;
     }
 
+    /**
+     * @param string $key
+     */
     private function getDemoConfig($key = null)
     {
         if (null === $this->demoConfig) {

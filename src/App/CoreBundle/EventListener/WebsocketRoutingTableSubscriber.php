@@ -4,13 +4,10 @@ namespace App\CoreBundle\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\EventSubscriber;
-
 use App\Model\Project;
 use App\Model\User;
 use App\Model\WebsocketRoutable;
-
 use Psr\Log\LoggerInterface;
-
 use Redis;
 
 /**
@@ -30,7 +27,7 @@ class WebsocketRoutingTableSubscriber implements EventSubscriber
     private $redis;
 
     /**
-     * @param Psr\Log\LoggerInterface   $logger
+     * @param LoggerInterface   $logger
      * @param Redis                     $redis
      */
     public function __construct(LoggerInterface $logger, Redis $redis)
@@ -40,7 +37,7 @@ class WebsocketRoutingTableSubscriber implements EventSubscriber
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getSubscribedEvents()
     {
@@ -53,7 +50,7 @@ class WebsocketRoutingTableSubscriber implements EventSubscriber
     /**
      * @param App\Model\WebsocketRoutable
      * 
-     * @return array
+     * @return string
      */
     private function getChannels(WebsocketRoutable $entity)
     {

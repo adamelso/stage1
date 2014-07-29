@@ -5,11 +5,8 @@ namespace App\CoreBundle\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use Symfony\Component\Yaml\Yaml;
-
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-
 use InvalidArgumentException;
 
 class ProjectAuditCommand extends ContainerAwareCommand

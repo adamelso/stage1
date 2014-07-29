@@ -3,14 +3,9 @@
 namespace App\CoreBundle\Consumer;
 
 use App\Model\Build;
-
-use Docker\Docker;
-
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
-
 use Psr\Log\LoggerInterface;
-
 use Redis;
 
 class DockerOutputConsumer implements ConsumerInterface

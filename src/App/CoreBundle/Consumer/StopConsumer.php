@@ -3,7 +3,6 @@
 namespace App\CoreBundle\Consumer;
 
 use App\Model\Build;
-use App\Model\Project;
 use Docker\Docker;
 use Docker\Exception\ContainerNotFoundException;
 use Exception;

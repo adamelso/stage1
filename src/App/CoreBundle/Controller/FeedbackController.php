@@ -4,7 +4,6 @@ namespace App\CoreBundle\Controller;
 
 use App\Model\Feedback;
 use Symfony\Component\HttpFoundation\Request;
-
 use Swift_Message;
 
 class FeedbackController extends Controller

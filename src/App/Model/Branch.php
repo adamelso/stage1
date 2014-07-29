@@ -54,7 +54,7 @@ class Branch
     /**
      * @param string $domain
      *
-     * @return App\Model\Branch
+     * @return Branch
      */
     public function setDomain($domain)
     {

@@ -6,10 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
-use App\Model\Build;
 use App\Model\Project;
-
 use InvalidArgumentException;
 
 class BuildScheduleCommand extends ContainerAwareCommand

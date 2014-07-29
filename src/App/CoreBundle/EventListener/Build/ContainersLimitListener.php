@@ -4,7 +4,6 @@ namespace App\CoreBundle\EventListener\Build;
 
 use App\CoreBundle\Event\BuildFinishedEvent;
 use App\CoreBundle\Quota\QuotaInterface;
-
 use Psr\Log\LoggerInterface;
 
 /**
@@ -24,9 +23,7 @@ class ContainersLimitListener
     private $quota;
 
     /**
-     * @param Psr\Log\LoggerInterface                   $logger
-     * @param Symfony\Bridge\Doctrine\RegistryInterface $doctrine
-     * @param Docker\Docker                             $docker
+     * @param LoggerInterface                   $logger
      */
     public function __construct(LoggerInterface $logger, QuotaInterface $quota)
     {

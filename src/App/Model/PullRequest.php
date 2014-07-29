@@ -2,8 +2,6 @@
 
 namespace App\Model;
 
-use Symfony\Component\Process\Process;
-
 class PullRequest
 {
     protected $id;

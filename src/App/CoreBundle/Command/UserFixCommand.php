@@ -3,11 +3,9 @@
 namespace App\CoreBundle\Command;
 
 use App\CoreBundle\SshKeys;
-
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use Exception;
 
 class UserFixCommand extends ContainerAwareCommand

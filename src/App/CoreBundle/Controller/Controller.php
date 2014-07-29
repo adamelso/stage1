@@ -4,7 +4,6 @@ namespace App\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
 use App\Model\Project;
 use App\Model\Build;
 use App\CoreBundle\Message\MessageInterface;
@@ -14,6 +13,9 @@ class Controller extends BaseController
 {
     const REGEXP_IP = '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}';
 
+    /**
+     * @return string
+     */
     protected function getHashFromRef(Project $project, $ref, $accessToken = null)
     {
         if (null === $accessToken) {
@@ -39,6 +41,10 @@ class Controller extends BaseController
         return $response->json()['object']['sha'];
     }
 
+    /**
+     * @param string $type
+     * @param string $message
+     */
     protected function addFlash($type, $message)
     {
         $this->getRequest()->getSession()->getFlashBag()->add($type, $message);
@@ -116,6 +122,9 @@ class Controller extends BaseController
         return (false !== array_search(true, $results));
     }
 
+    /**
+     * @return Build|null
+     */
     protected function findBuild($id, $checkAuth = true)
     {
         $build = $this->getDoctrine()->getRepository('Model:Build')->find($id);

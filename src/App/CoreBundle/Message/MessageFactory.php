@@ -4,7 +4,6 @@ namespace App\CoreBundle\Message;
 
 use App\Model\Build;
 use App\Model\BuildLog;
-
 use Symfony\Component\Routing\RouterInterface;
 
 class MessageFactory
@@ -15,7 +14,7 @@ class MessageFactory
     private $router;
 
     /**
-     * @param Symfony\Component\Routing\RouterInterface $router
+     * @param RouterInterface $router
      */
     public function __construct(RouterInterface $router)
     {
@@ -38,7 +37,7 @@ class MessageFactory
     }
 
     /**
-     * @param App\Model\Build $build
+     * @param Build $build
      */
     public function createBuildStarted(Build $build)
     {
@@ -49,7 +48,7 @@ class MessageFactory
     }
 
     /**
-     * @param App\Model\Build $build
+     * @param Build $build
      */
     public function createBuildFinished(Build $build)
     {
@@ -60,7 +59,7 @@ class MessageFactory
     }
 
     /**
-     * @param App\Model\Build $build
+     * @param Build $build
      */
     public function createBuildCanceled(Build $build)
     {
@@ -71,7 +70,7 @@ class MessageFactory
     }
 
     /**
-     * @param App\Model\Build $build
+     * @param Build $build
      */
     public function createBuildKilled(Build $build)
     {
@@ -82,7 +81,7 @@ class MessageFactory
     }
 
     /**
-     * @param App\Model\BuildLog $buildLog
+     * @param BuildLog $buildLog
      */
     public function createBuildLog(BuildLog $buildLog)
     {
@@ -90,7 +89,7 @@ class MessageFactory
     }
 
     /**
-     * @param App\Model\Build $build
+     * @param Build $build
      * @param string $step
      */
     public function createBuildStepMessage(Build $build, $step)

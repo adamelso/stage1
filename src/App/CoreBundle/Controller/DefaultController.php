@@ -2,15 +2,9 @@
 
 namespace App\CoreBundle\Controller;
 
-use App\Model\Branch;
 use App\Model\Build;
-use App\Model\Project;
-use App\Model\GithubPayload;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
-use Exception;
 
 class DefaultController extends Controller
 {

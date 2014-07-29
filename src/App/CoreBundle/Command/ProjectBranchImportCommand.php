@@ -6,7 +6,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-
 use App\Model\Branch;
 use InvalidArgumentException;
 
@@ -77,6 +76,9 @@ class ProjectBranchImportCommand extends ContainerAwareCommand
         $em->flush();
     }
 
+    /**
+     * @return null|\App\Model\Project
+     */
     private function findProject($spec)
     {
         $repository = $this->getContainer()->get('doctrine')->getRepository('Model:Project');

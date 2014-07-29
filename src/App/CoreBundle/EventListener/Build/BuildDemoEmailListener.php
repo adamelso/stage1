@@ -3,12 +3,9 @@
 namespace App\CoreBundle\EventListener\Build;
 
 use App\CoreBundle\Event\BuildFinishedEvent;
-
 use Psr\Log\LoggerInterface;
-
 use Swift_Mailer;
 use Swift_Message;
-
 use Exception;
 
 /**
@@ -38,7 +35,7 @@ class BuildDemoEmailListener
     }
 
     /**
-     * @param App\CoreBundle\Event\BuildFinishedEvent $event
+     * @param BuildFinishedEvent $event
      */
     public function onBuildFinished(BuildFinishedEvent $event)
     {

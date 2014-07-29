@@ -7,11 +7,9 @@ use App\Model\Build;
 use App\Model\Project;
 use App\Model\ProjectSettings;
 use App\Model\GithubPayload;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Exception;
 
 class HooksController extends Controller

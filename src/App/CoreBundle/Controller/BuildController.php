@@ -2,12 +2,9 @@
 
 namespace App\CoreBundle\Controller;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Process\ProcessBuilder;
-
 use App\Model\Build;
 
 class BuildController extends Controller

@@ -4,6 +4,9 @@ namespace App\CoreBundle\Message;
 
 interface MessageInterface
 {
+    /**
+     * @return string
+     */
     public function getEvent();
 
     public function getData();
@@ -12,5 +15,8 @@ interface MessageInterface
 
     public function getRoutes();
 
+    /**
+     * @return string
+     */
     public function __toString();
 }

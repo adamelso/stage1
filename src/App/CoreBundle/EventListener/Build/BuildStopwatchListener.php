@@ -4,11 +4,8 @@ namespace App\CoreBundle\EventListener\Build;
 
 use App\CoreBundle\Event\BuildStartedEvent;
 use App\CoreBundle\Event\BuildFinishedEvent;
-
 use Symfony\Component\Stopwatch\Stopwatch;
-
 use Psr\Log\LoggerInterface;
-
 use DateTime;
 use LogicException;
 
@@ -29,7 +26,7 @@ class BuildStopwatchListener
 
     /**
      * @var Psr\Log\LoggerInterface
-     * @param Symfony\Component\Stopwatch\Stopwatch $stopwatch
+     * @param Stopwatch $stopwatch
      */
     public function __construct(LoggerInterface $logger, Stopwatch $stopwatch)
     {

@@ -2,18 +2,15 @@
 
 namespace App\CoreBundle\Builder\Strategy;
 
-use App\CoreBundle\Docker\AppContainer;
 use App\CoreBundle\Docker\BuildContainer;
 use App\CoreBundle\Message\BuildMessage;
 use App\Model\Build;
 use App\Model\BuildScript;
 use Docker\Docker;
-use Docker\PortCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\Process;
-
 use Exception;
 
 class DefaultStrategy
@@ -37,6 +34,9 @@ class DefaultStrategy
         $this->options = $options;
     }
 
+    /**
+     * @param string $name
+     */
     public function getOption($name)
     {
         return $this->options[$name];

@@ -73,6 +73,9 @@ class User implements UserInterface, \Serializable
         $this->setAccessTokenScope(implode(',', $hasScopes));
     }
 
+    /**
+     * @param string $name
+     */
     public function hasAccessTokenScope($name)
     {
         $scopes = explode(',', $this->getAccessTokenScope());

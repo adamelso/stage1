@@ -2,10 +2,8 @@
 
 namespace App\CoreBundle;
 
-use App\Model\Branch;
 use App\Model\Build;
 use App\Model\Project;
-use App\Model\User;
 use App\Model\GithubPayload;
 use App\CoreBundle\Message\MessageFactory;
 use App\CoreBundle\Scheduler\SchedulerInterface;

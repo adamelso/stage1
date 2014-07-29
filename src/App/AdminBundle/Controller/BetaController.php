@@ -4,7 +4,6 @@ namespace App\AdminBundle\Controller;
 
 use App\Model\BetaSignup;
 use Symfony\Component\HttpFoundation\Request;
-
 use DateTime;
 use Swift_Message;
 

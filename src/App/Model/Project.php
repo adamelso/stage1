@@ -4,9 +4,7 @@ namespace App\Model;
 
 use Docker\Context\Context;
 use Docker\Context\ContextBuilder;
-
 use Doctrine\Common\Collections\ArrayCollection;
-
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -124,6 +122,9 @@ class Project implements WebsocketRoutable
         return $options;
     }
 
+    /**
+     * @param string $identityRoot
+     */
     public function dumpSshKeys($identityRoot, $owner = 'root', $put = 'file_put_contents', $exec = 'exec')
     {
         $put($identityRoot.'/id_project', $this->getPrivateKey());
@@ -143,6 +144,9 @@ class Project implements WebsocketRoutable
         $exec('chown -R '.$owner.':'.$owner.' '.$identityRoot);
     }
 
+    /**
+     * @param string $identityRoot
+     */
     public function getSshConfig($identityRoot)
     {
         $identities = [$identityRoot.'/id_project'];
@@ -1154,7 +1158,7 @@ SSH;
     /**
      * Get pullRequests
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return PullRequest[] 
      */
     public function getPullRequests()
     {

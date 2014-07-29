@@ -6,7 +6,6 @@ use App\Model\Project;
 use App\Model\ProjectSettings;
 use App\Model\Organization;
 use App\CoreBundle\SshKeys;
-
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

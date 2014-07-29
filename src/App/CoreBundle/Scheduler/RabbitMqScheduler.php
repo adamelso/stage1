@@ -23,8 +23,8 @@ class RabbitMqScheduler implements SchedulerInterface
 
     /**
      * @param \Psr\Log\LoggerInterface                   $logger
-     * @param \OldSound\RabbitMqBundle\RabbitMqProducer  $stopProducer
-     * @param \OldSound\RabbitMqBundle\RabbitMqProducer  $killProducer
+     * @param Producer  $stopProducer
+     * @param Producer  $killProducer
      */
     public function __construct(LoggerInterface $logger, Producer $stopProducer, Producer $killProducer)
     {

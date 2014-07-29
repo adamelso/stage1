@@ -3,9 +3,7 @@
 namespace App\CoreBundle\EventListener\Build;
 
 use App\CoreBundle\Event\BuildFinishedEvent;
-
 use Psr\Log\LoggerInterface;
-
 use Redis;
 
 /**
@@ -31,7 +29,7 @@ class BuildRoutingListener
     private $buildHostMask;
 
     /**
-     * @param Psr\Log\LoggerInterface $logger
+     * @param LoggerInterface $logger
      * @param Redis $redis
      * @param string $buildHostMask
      */
@@ -46,7 +44,7 @@ class BuildRoutingListener
     }
 
     /**
-     * @param App\CoreBundle\Event\BuildFinishedEvent $event
+     * @param BuildFinishedEvent $event
      */
     public function onBuildFinished(BuildFinishedEvent $event)
     {

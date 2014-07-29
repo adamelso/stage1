@@ -4,7 +4,6 @@ namespace App\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use App\CoreBundle\Value\ProjectAccess;
 use App\Model\Project;
 
@@ -224,7 +223,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      * @param integer $id
      */
     public function updateEnvAction(Request $request, $id)
@@ -242,7 +241,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      * @param integer $id
      */
     public function updateUrlsAction(Request $request, $id)

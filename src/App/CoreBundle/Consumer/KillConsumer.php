@@ -3,21 +3,14 @@
 namespace App\CoreBundle\Consumer;
 
 use App\Model\Build;
-use App\Model\Project;
 use App\CoreBundle\Message\MessageFactory;
-
 use Docker\Docker;
-
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use PhpAmqpLib\Message\AMQPMessage;
-
 use Psr\Log\LoggerInterface;
-
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-
 use Exception;
 
 class KillConsumer implements ConsumerInterface
