@@ -12,22 +12,22 @@ use Psr\Log\LoggerInterface;
 use Exception;
 
 /**
- * App\CoreBundle\Quota\RunningBuildsQuota
+ * \App\CoreBundle\Quota\RunningBuildsQuota
  */
 class PerUserRunningBuildsQuota implements QuotaInterface
 {
     /**
-     * @var Psr\Log\LoggerInterface
+     * @var \Psr\Log\LoggerInterface
      */
     private $logger;
 
     /**
-     * @var App\CoreBundle\Scheduler\SchedulerInterface
+     * @var \App\CoreBundle\Scheduler\SchedulerInterface
      */
     private $scheduler;
 
     /**
-     * @var App\Model\BuildRepository
+     * @var \App\Model\BuildRepository
      */
     private $repository;
 
@@ -37,14 +37,14 @@ class PerUserRunningBuildsQuota implements QuotaInterface
     private $limit;
 
     /**
-     * @var Symfony\Component\Console\Output\OutputInterface
+     * @var \Symfony\Component\Console\Output\OutputInterface
      */
     private $output;
 
     /**
-     * @param Psr\Log\LoggerInterface                       $logger
-     * @param App\CoreBundle\Scheduler\SchedulerInterface   $scheduler
-     * @param App\Model\BuildRepository                     $repository
+     * @param \Psr\Log\LoggerInterface                       $logger
+     * @param \App\CoreBundle\Scheduler\SchedulerInterface   $scheduler
+     * @param \App\Model\BuildRepository                     $repository
      * @param integer                                       $limit
      */
     public function __construct(LoggerInterface $logger, SchedulerInterface $scheduler, BuildRepository $repository, $limit)
@@ -56,9 +56,9 @@ class PerUserRunningBuildsQuota implements QuotaInterface
     }
 
     /**
-     * @param App\Model\User $user
+     * @param \App\Model\User $user
      * 
-     * @return App\Model\Build[]
+     * @return \App\Model\Build[]
      */
     private function getRunningBuilds(User $user)
     {
@@ -73,7 +73,7 @@ class PerUserRunningBuildsQuota implements QuotaInterface
     }
 
     /**
-     * @param App\Model\User $user
+     * @param \App\Model\User $user
      * 
      * @return boolean
      */
@@ -89,7 +89,7 @@ class PerUserRunningBuildsQuota implements QuotaInterface
     }
 
     /**
-     * @param App\Model\User $user
+     * @param \App\Model\User $user
      */
     public function enforce(User $user)
     {

@@ -7,24 +7,24 @@ use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Psr\Log\LoggerInterface;
 
 /**
- * App\CoreBundle\Scheduler\RabbitMqScheduler
+ * \App\CoreBundle\Scheduler\RabbitMqScheduler
  */
 class RabbitMqScheduler implements SchedulerInterface
 {
     /**
-     * @var Psr\Log\LoggerInterface
+     * @var \Psr\Log\LoggerInterface
      */
     private $logger;
 
     /**
-     * @var OldSound\RabbitMqBundle\RabbitMq\Producer[]
+     * @var \OldSound\RabbitMqBundle\RabbitMq\Producer[]
      */
     private $producers = [];
 
     /**
-     * @param Psr\Log\LoggerInterface                   $logger
-     * @param OldSound\RabbitMqBundle\RabbitMqProducer  $stopProducer
-     * @param OldSound\RabbitMqBundle\RabbitMqProducer  $killProducer
+     * @param \Psr\Log\LoggerInterface                   $logger
+     * @param \OldSound\RabbitMqBundle\RabbitMqProducer  $stopProducer
+     * @param \OldSound\RabbitMqBundle\RabbitMqProducer  $killProducer
      */
     public function __construct(LoggerInterface $logger, Producer $stopProducer, Producer $killProducer)
     {
@@ -35,7 +35,7 @@ class RabbitMqScheduler implements SchedulerInterface
 
     /**
      * @param string            $order
-     * @param App\Model\Build   $build
+     * @param \App\Model\Build   $build
      */
     private function send($order, Build $build, $vars = [])
     {
@@ -52,7 +52,7 @@ class RabbitMqScheduler implements SchedulerInterface
     }
 
     /**
-     * @param App\Model\Build $build
+     * @param \App\Model\Build $build
      */
     public function stop(Build $build, $message = null)
     {
@@ -60,7 +60,7 @@ class RabbitMqScheduler implements SchedulerInterface
     }
 
     /**
-     * @param App\Model\Build $build
+     * @param \App\Model\Build $build
      */
     public function kill(Build $build, $message = null)
     {
