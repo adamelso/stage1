@@ -10,12 +10,14 @@ use App\Model\Build;
 interface SchedulerInterface
 {
     /**
-     * @param App\Model\Build $build
+     * @param App\Model\Build   $build
+     * @param string            $message
      */
-    public function stop(Build $build);
+    public function stop(Build $build, $message = null);
 
     /**
-     * @param App\Model\Build $build
+     * @param App\Model\Build   $build
+     * @param string            $message
      */
-    public function kill(Build $build);
+    public function kill(Build $build, $message = null);
 }

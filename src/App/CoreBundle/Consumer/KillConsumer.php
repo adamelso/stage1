@@ -65,6 +65,10 @@ class KillConsumer implements ConsumerInterface
 
         $build->setStatus(Build::STATUS_KILLED);
 
+        if (isset($body->message) && strlen($body->message) > 0) {
+            $build->setMessage($body->message);
+        }
+
         $em = $this->doctrine->getManager();
         $em->persist($build);
         $em->flush();

@@ -79,6 +79,10 @@ class StopConsumer implements ConsumerInterface
 
         $build->setStatus($body->status ?: Build::STATUS_STOPPED);
 
+        if (isset($body->message) && strlen($body->message) > 0) {
+            $build->setMessage($body->message);
+        }
+
         $em = $this->doctrine->getManager();
         $em->persist($build);
         $em->flush();

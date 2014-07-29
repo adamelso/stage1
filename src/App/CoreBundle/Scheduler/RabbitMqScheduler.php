@@ -37,7 +37,7 @@ class RabbitMqScheduler implements SchedulerInterface
      * @param string            $order
      * @param App\Model\Build   $build
      */
-    private function send($order, Build $build)
+    private function send($order, Build $build, $vars = [])
     {
         $this->logger->info('sending scheduler order', [
             'order' => $order,
@@ -45,25 +45,25 @@ class RabbitMqScheduler implements SchedulerInterface
             'routingKey' => $build->getRoutingKey(),
         ]);
 
-        $message = ['build_id' => $build->getId()];
+        $vars = array_merge(['build_id' => $build->getId()], $vars);
         $routingKey = $build->getRoutingKey();
 
-        $this->producers[$order]->publish(json_encode($message), $routingKey);
+        $this->producers[$order]->publish(json_encode($vars), $routingKey);
     }
 
     /**
      * @param App\Model\Build $build
      */
-    public function stop(Build $build)
+    public function stop(Build $build, $message = null)
     {
-        $this->send('stop', $build);
+        $this->send('stop', $build, ['message ' => $message]);
     }
 
     /**
      * @param App\Model\Build $build
      */
-    public function kill(Build $build)
+    public function kill(Build $build, $message = null)
     {
-        $this->send('kill', $build);
+        $this->send('kill', $build, ['message' => $message]);
     }
 }
