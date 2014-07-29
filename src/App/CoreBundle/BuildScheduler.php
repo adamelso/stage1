@@ -8,6 +8,7 @@ use App\Model\Project;
 use App\Model\User;
 use App\Model\GithubPayload;
 use App\CoreBundle\Message\MessageFactory;
+use App\CoreBundle\Scheduler\SchedulerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -34,7 +35,7 @@ class BuildScheduler
         $this->logger = $logger;
         $this->doctrine = $doctrine;
         $this->buildProducer = $buildProducer;
-        $this->killProducer = $killProducer;
+        $this->scheduler = $scheduler;
         $this->websocketProducer = $websocketProducer;
         $this->messageFactory = $messageFactory;
     }

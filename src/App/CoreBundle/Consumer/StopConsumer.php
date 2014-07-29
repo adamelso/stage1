@@ -46,35 +46,29 @@ class StopConsumer implements ConsumerInterface
             return;
         }
 
-        if (!$container = $build->getContainer()) {
-            $logger->info('build has no container');
+        if ($build->hasContainer()) {
+            try {
+                $this->docker
+                    ->getContainerManager()
+                    ->stop($container)
+                    ->remove($container);
 
-            return;
-        }
-
-        try {
-
-            $this
-                ->docker
-                ->getContainerManager()
-                ->stop($container)
-                ->remove($container);
-
-            $this->logger->info('stopped and removed container', [
-                'build' => $build->getId(),
-                'container' => $build->getContainer()->getId()
-            ]);
-        } catch (ContainerNotFoundException $e) {
-            $this->logger->warn('found container but docker did not find it', [
-                'build' => $build->getId(),
-                'container' => $build->getContainer()->getId()
-            ]);
-        } catch (Exception $e) {
-            $this->logger->error('error stopping container', [
-                'build' => $build->getId(),
-                'container' => $build->getContainer()->getId(),
-                'message' => $e->getMessage(),
-            ]);
+                $this->logger->info('stopped and removed container', [
+                    'build' => $build->getId(),
+                    'container' => $build->getContainer()->getId()
+                ]);
+            } catch (ContainerNotFoundException $e) {
+                $this->logger->warn('found container but docker did not find it', [
+                    'build' => $build->getId(),
+                    'container' => $build->getContainer()->getId()
+                ]);
+            } catch (Exception $e) {
+                $this->logger->error('error stopping container', [
+                    'build' => $build->getId(),
+                    'container' => $build->getContainer()->getId(),
+                    'message' => $e->getMessage(),
+                ]);
+            }
         }
 
         $build->setStatus($body->status ?: Build::STATUS_STOPPED);

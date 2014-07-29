@@ -63,8 +63,7 @@
 
         <service id="app_core.listener.build.containers_limit" class="%app_core.listener.build.container_limit.class%">
             <argument type="service" id="logger" />
-            <argument type="service" id="doctrine" />
-            <argument type="service" id="app_core.docker" />
+            <argument type="service" id="app_core.quota.per_user_running_builds" />
             <argument>%stage1_running_containers_per_user%</argument>
 
             <tag name="monolog.logger" channel="build" />

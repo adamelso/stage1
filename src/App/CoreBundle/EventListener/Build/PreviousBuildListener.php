@@ -3,6 +3,7 @@
 namespace App\CoreBundle\EventListener\Build;
 
 use App\Model\Build;
+use App\Model\BuildRepository;
 use App\CoreBundle\Event\BuildFinishedEvent;
 use App\CoreBundle\Scheduler\SchedulerInterface;
 use Psr\Log\LoggerInterface;
@@ -55,6 +56,10 @@ class PreviousBuildListener
             return;
         }
 
-        $scheduler->stop($previousBuild, Build::STATUS_OBSOLETE);
+        $this->logger->info('detected previous build', [
+            'previous_build_id' => $previousBuild->getId(),
+        ]);
+
+        $this->scheduler->stop($previousBuild, Build::STATUS_OBSOLETE);
     }
 }
