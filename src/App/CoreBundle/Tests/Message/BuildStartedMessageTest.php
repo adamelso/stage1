@@ -10,7 +10,7 @@ class BuildStartedMessageTest extends PHPUnit_Framework_TestCase
 {
     public function testGetEvent()
     {
-        $build = $this->getMock('App\\CoreBundle\\Entity\\Build');
+        $build = $this->getMock('App\\Model\\Build');
         $message = new BuildStartedMessage($build);
 
         $this->assertEquals('build.started', $message->getEvent());

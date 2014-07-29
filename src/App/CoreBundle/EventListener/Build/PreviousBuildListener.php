@@ -4,13 +4,8 @@ namespace App\CoreBundle\EventListener\Build;
 
 use App\Model\Build;
 use App\CoreBundle\Event\BuildFinishedEvent;
-use Docker\Docker;
-use Docker\Exception\ContainerNotFoundException;
-use OldSound\RabbitMqBundle\RabbitMq\Producer;
+use App\CoreBundle\Scheduler\SchedulerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
-
-use Exception;
 
 /**
  * Marks a previous build for a same ref obsolete
@@ -23,31 +18,25 @@ class PreviousBuildListener
     private $logger;
 
     /**
-     * @var Symfony\Bridge\Doctrine\RegistryInterface
+     * @var App\Model\BuildRepository
      */
-    private $doctrine;
+    private $repository;
 
     /**
-     * @var Docker\Docker
+     * @var App\CoreBundle\Scheduler\SchedulerInterface
      */
-    private $docker;
-
-    /**
-     * @var OldSound\RabbitMqBundle\RabbitMq\Producer
-     */
-    private $stopProducer;
+    private $scheduler;
 
     /**
      * @param Psr\Log\LoggerInterface
      * @param Symfony\Bridge\Doctrine\RegistryInterface
      * @param Docker\Docker
      */
-    public function __construct(LoggerInterface $logger, RegistryInterface $doctrine, Docker $docker, Producer $stopProducer)
+    public function __construct(LoggerInterface $logger, BuildRepository $repository, SchedulerInterface $scheduler)
     {
         $this->logger = $logger;
-        $this->doctrine = $doctrine;
-        $this->docker = $docker;
-        $this->stopProducer = $stopProducer;
+        $this->repository = $repository;
+        $this->scheduler = $scheduler;
 
         $logger->info('initialized '.__CLASS__);
     }
@@ -60,38 +49,12 @@ class PreviousBuildListener
             return;
         }
 
-        $logger = $this->logger;
-        $em = $this->doctrine->getManager();
-
-        $buildRepository = $em->getRepository('Model:Build');
-        $previousBuild = $buildRepository->findPreviousBuild($build);
+        $previousBuild = $this->repository->findPreviousBuild($build);
 
         if (!$previousBuild) {
-            $logger->info('no previous build', ['build' => $build->getId()]);
-            
             return;
         }
 
-        if (!$previousBuild->hasContainer()) {
-            $logger->info('previous build does not have a container', [
-                'build' => $build->getId(),
-                'previous_build' => $previousBuild->getId()
-            ]);
-
-            $previousBuild->setStatus(Build::STATUS_OBSOLETE);
-            $em->persist($previousBuild);
-
-            return;
-        }
-
-        $logger->info('sending stop order', [
-            'build' => $previousBuild->getId(),
-            'routing_key' => $build->getRoutingKey(),
-        ]);
-
-        $this->stopProducer->publish(json_encode([
-            'build_id' => $previousBuild->getId(),
-            'status' => Build::STATUS_OBSOLETE,
-        ]), $build->getRoutingKey());
+        $scheduler->stop($previousBuild, Build::STATUS_OBSOLETE);
     }
 }

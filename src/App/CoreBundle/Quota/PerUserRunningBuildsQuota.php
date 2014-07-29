@@ -102,7 +102,7 @@ class PerUserRunningBuildsQuota implements QuotaInterface
 
         foreach ($excessBuilds as $build) {
             $this->logger->info('Terminating excess build', ['build_id' => $build->getId()]);
-            $this->scheduler->stop($build, 'Per-user running builds limit reached ('.$user->getUsername().')');
+            $this->scheduler->stop($build, Build::STATUS_STOPPED, 'Per-user running builds limit reached ('.$user->getUsername().')');
         }
     }
 }

@@ -54,16 +54,16 @@ class RabbitMqScheduler implements SchedulerInterface
     /**
      * @param \App\Model\Build $build
      */
-    public function stop(Build $build, $message = null)
+    public function stop(Build $build, $status = Build::STATUS_STOPPED, $message = null)
     {
-        $this->send('stop', $build, ['message ' => $message]);
+        $this->send('stop', $build, ['message ' => $message, 'status' => $status]);
     }
 
     /**
      * @param \App\Model\Build $build
      */
-    public function kill(Build $build, $message = null)
+    public function kill(Build $build, $status = Build::STATUS_KILLED, $message = null)
     {
-        $this->send('kill', $build, ['message' => $message]);
+        $this->send('kill', $build, ['message' => $message, 'status' => $status]);
     }
 }

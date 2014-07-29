@@ -195,15 +195,7 @@ class BuildController extends Controller
     {
         try {
             $build = $this->findBuild($id);
-            $routingKey = $build->getRoutingKey();
-
-            $this->get('logger')->info('sending kill order', [
-                'build' => $id,
-                'routing_key' => $routingKey
-            ]);
-
-            $this->get('old_sound_rabbit_mq.kill_producer')->publish(json_encode(['build_id' => $id]), $routingKey);
-
+            $this->get('app_core.scheduler')->kill($build);
             return new JsonResponse(null, 200);
         } catch (Exception $e) {
             return new JsonResponse(['message' => $e->getMessage()], 500);

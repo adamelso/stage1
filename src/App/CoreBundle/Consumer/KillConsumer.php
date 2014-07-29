@@ -63,7 +63,7 @@ class KillConsumer implements ConsumerInterface
             return;
         }
 
-        $build->setStatus(Build::STATUS_KILLED);
+        $build->setStatus($body->status ?: Build::STATUS_KILLED);
 
         if (isset($body->message) && strlen($body->message) > 0) {
             $build->setMessage($body->message);

@@ -39,9 +39,8 @@
 
         <service id="app_core.listener.build.previous_build" class="%app_core.listener.build.previous_build.class%">
             <argument type="service" id="logger" />
-            <argument type="service" id="doctrine" />
-            <argument type="service" id="app_core.docker" />
-            <argument type="service" id="old_sound_rabbit_mq.stop_producer" />
+            <argument type="service" id="app_core.repository.build" />
+            <argument type="service" id="app_core.scheduler" />
             <tag name="monolog.logger" channel="build" />
             <tag name="kernel.event_listener" priority="0" event="build.finished" />
         </service>

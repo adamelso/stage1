@@ -3,6 +3,7 @@
 namespace App\CoreBundle\Tests\Quota;
 
 use App\CoreBundle\Quota\PerUserRunningBuildsQuota;
+use App\Model\Build;
 use PHPUnit_Framework_TestCase;
 
 class PerUserRunningBuildsQuotaTest extends PHPUnit_Framework_TestCase
@@ -81,7 +82,7 @@ class PerUserRunningBuildsQuotaTest extends PHPUnit_Framework_TestCase
         $this->scheduler
             ->expects($this->once())
             ->method('stop')
-            ->with($excessBuild, 'Per-user running builds limit reached (jdoe)');
+            ->with($excessBuild, Build::STATUS_STOPPED, 'Per-user running builds limit reached (jdoe)');
 
         $this->repository
             ->method('findRunningBuildsByUser')

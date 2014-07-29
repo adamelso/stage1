@@ -33,12 +33,6 @@ class BuildKillCommand extends ContainerAwareCommand
             $this->writeln('<error>Build not found</error>');
         }
 
-        $logger->info('sending kill order', [
-            'build' => $build->getId(),
-            'routing_key' => $build->getRoutingKey(),
-        ]);
-
-        $producer = $this->getContainer()->get('old_sound_rabbit_mq.kill_producer');
-        $producer->publish(json_encode(['build_id' => $input->getArgument('build_id')]), $build->getRoutingKey());
+        $this->getContainer()->get('app_core.scheduler')->kill($build);
     }
 }

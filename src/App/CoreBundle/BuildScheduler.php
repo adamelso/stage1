@@ -21,7 +21,7 @@ class BuildScheduler
 
     private $buildProducer;
 
-    private $killProducer;
+    private $scheduler;
 
     private $websocketProducer;
 
@@ -29,7 +29,7 @@ class BuildScheduler
 
     private $options = array('builder_host_allow' => null);
 
-    public function __construct(LoggerInterface $logger, RegistryInterface $doctrine, Producer $buildProducer, Producer $killProducer, Producer $websocketProducer, MessageFactory $messageFactory)
+    public function __construct(LoggerInterface $logger, RegistryInterface $doctrine, Producer $buildProducer, SchedulerInterface $scheduler, Producer $websocketProducer, MessageFactory $messageFactory)
     {
         $this->logger = $logger;
         $this->doctrine = $doctrine;
@@ -85,7 +85,7 @@ class BuildScheduler
                 $em->flush();
             } else {
                 $logger->info('killing same ref build', ['ref' => $ref, 'canceled_build' => $build->getId()]);
-                $this->killProducer->publish(json_encode(['build_id' => $build->getId()]));
+                $scheduler->kill($build);
             }
         }
 
