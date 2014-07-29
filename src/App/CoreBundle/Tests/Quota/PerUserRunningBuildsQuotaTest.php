@@ -3,7 +3,6 @@
 namespace App\CoreBundle\Tests\Quota;
 
 use App\CoreBundle\Quota\PerUserRunningBuildsQuota;
-
 use PHPUnit_Framework_TestCase;
 
 class PerUserRunningBuildsQuotaTest extends PHPUnit_Framework_TestCase
