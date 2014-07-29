@@ -14,7 +14,7 @@ use Exception;
 /**
  * App\CoreBundle\Quota\RunningBuildsQuota
  */
-class RunningBuildsQuota implements QuotaInterface
+class PerUserRunningBuildsQuota implements QuotaInterface
 {
     /**
      * @var Psr\Log\LoggerInterface
@@ -102,7 +102,7 @@ class RunningBuildsQuota implements QuotaInterface
 
         foreach ($excessBuilds as $build) {
             $this->logger->info('Terminating excess build', ['build_id' => $build->getId()]);
-            $this->scheduler->stop($build);
+            $this->scheduler->stop($build, 'Per-user running builds limit reached ('.$user->getUsername().')');
         }
     }
 }

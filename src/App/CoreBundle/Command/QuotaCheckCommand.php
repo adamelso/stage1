@@ -31,10 +31,10 @@ class QuotaCheckCommand extends ContainerAwareCommand
             $users = $repository->findAll();
         }
 
-        $runningBuildsQuota = $container->get('app_core.quota.running_builds');
+        $quota = $container->get('app_core.quota.per_user_running_builds');
 
         foreach ($users as $user) {
-            if (!$runningBuildsQuota->check($user)) {
+            if (!$quota->check($user)) {
                 $output->writeln('User <info>'.((string) $user).'</info> is off-quota');
             }
         }
