@@ -11,18 +11,42 @@ use Psr\Log\LoggerInterface;
 
 use Exception;
 
+/**
+ * App\CoreBundle\Quota\RunningBuildsQuota
+ */
 class RunningBuildsQuota implements QuotaInterface
 {
+    /**
+     * @var Psr\Log\LoggerInterface
+     */
     private $logger;
 
+    /**
+     * @var App\CoreBundle\Scheduler\SchedulerInterface
+     */
     private $scheduler;
 
+    /**
+     * @var App\Model\BuildRepository
+     */
     private $repository;
 
+    /**
+     * @var integer
+     */
     private $limit;
 
+    /**
+     * @var Symfony\Component\Console\Output\OutputInterface
+     */
     private $output;
 
+    /**
+     * @param Psr\Log\LoggerInterface                       $logger
+     * @param App\CoreBundle\Scheduler\SchedulerInterface   $scheduler
+     * @param App\Model\BuildRepository                     $repository
+     * @param integer                                       $limit
+     */
     public function __construct(LoggerInterface $logger, SchedulerInterface $scheduler, BuildRepository $repository, $limit)
     {
         $this->logger = $logger;
@@ -31,6 +55,11 @@ class RunningBuildsQuota implements QuotaInterface
         $this->limit = (int) $limit;
     }
 
+    /**
+     * @param App\Model\User $user
+     * 
+     * @return App\Model\Build[]
+     */
     private function getRunningBuilds(User $user)
     {
         $builds = $this->repository->findRunningBuildsByUser($user);
@@ -43,6 +72,11 @@ class RunningBuildsQuota implements QuotaInterface
         return $builds;
     }
 
+    /**
+     * @param App\Model\User $user
+     * 
+     * @return boolean
+     */
     public function check(User $user)
     {
         $builds = $this->getRunningBuilds($user);
@@ -54,6 +88,9 @@ class RunningBuildsQuota implements QuotaInterface
         return false;
     }
 
+    /**
+     * @param App\Model\User $user
+     */
     public function enforce(User $user)
     {
         if ($this->check($user)) {
