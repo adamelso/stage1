@@ -52,7 +52,7 @@ class KillConsumer implements ConsumerInterface
         $build = $buildRepo->find($body->build_id);
 
         if (!$build) {
-            $logger->warn('could not find build', ['build' => $body->build_id]);
+            $logger->warning('could not find build', ['build' => $body->build_id]);
             return;
         }
 
@@ -91,7 +91,7 @@ class KillConsumer implements ConsumerInterface
         }
 
         if (null === $container = $build->getContainer()) {
-            $logger->warn('could not find a container');
+            $logger->warning('could not find a container');
         } else {
             $logger->info('trying to stop container', [
                 'build' => $build->getId(),

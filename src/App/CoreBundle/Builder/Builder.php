@@ -262,7 +262,7 @@ class Builder
             $logger->info('running app container', ['build' => $build->getId(), 'container' => $appContainer->getId()]);            
         } catch (\Docker\Exception\UnexpectedStatusCodeException $e) {
             if ($e->getCode() === 404) {
-                throw new \RuntimeException('Could not start app container ('.$e->getMessage().')', $e);
+                throw new \RuntimeException('Could not start app container ('.$e->getMessage().')', 404, $e);
             }
 
             throw $e;

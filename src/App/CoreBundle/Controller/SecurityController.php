@@ -72,7 +72,7 @@ class SecurityController extends Controller
     }
 
     /**
-     * @return string
+     * @return User
      */
     private function registerGithubUser(Request $request, $accessToken, $scope)
     {
@@ -229,20 +229,6 @@ class SecurityController extends Controller
             
             return $this->redirect($this->generateUrl('app_core_homepage'));
         }
-
-        // $githubClientId = $this->container->getParameter('github_client_id');
-        // $githubClientSecret = $this->container->getParameter('github_client_secret');
-
-        // $request = $client->get(['/applications/{client_id}/tokens/{access_token}', [
-        //     'client_id' => $githubClientId,
-        //     'access_token' => $data['access_token'],
-        // ]], [], [
-        //     'auth' => [$githubClientId, $githubClientSecret]
-        // ]);
-
-        // $response = $request->send();
-
-        // var_dump($data); die;
 
         $user = $this->registerGithubUser($request, $data['access_token'], $data['scope']);
 

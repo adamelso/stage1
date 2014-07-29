@@ -41,7 +41,6 @@ class HooksController extends Controller
 
     private function schedulePullRequest(GithubPayload $payload, Project $project)
     {
-        $doBuild = false;
         $logger = $this->get('logger');
 
         switch ($project->getSettings()->getPolicy()) {

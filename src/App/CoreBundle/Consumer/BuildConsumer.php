@@ -84,7 +84,7 @@ class BuildConsumer implements ConsumerInterface
         }
 
         if (!$build->isScheduled()) {
-            $this->logger->warn('build found but not scheduled', [
+            $this->logger->warning('build found but not scheduled', [
                 'build' => $build->getId(),
                 'status' => $build->getStatus(),
                 'status_label' => $build->getStatusLabel()
@@ -97,7 +97,7 @@ class BuildConsumer implements ConsumerInterface
         $newerScheduledBuilds = $buildRepository->findNewerScheduledBuilds($build);
 
         if (count($newerScheduledBuilds) > 0) {
-            $this->logger->warn('newer scheduled builds found for this ref', [
+            $this->logger->warning('newer scheduled builds found for this ref', [
                 'build' => $build->getId(),
                 'ref' => $build->getRef()
             ]);
@@ -127,7 +127,7 @@ class BuildConsumer implements ConsumerInterface
 
 
         if (!$allowBuild) {
-            $this->logger->warn('aborting build for already built hash', [
+            $this->logger->warning('aborting build for already built hash', [
                 'build' => $build->getId(),
                 'hash' => $build->getHash()
             ]);
