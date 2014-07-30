@@ -72,13 +72,6 @@
             <tag name="kernel.event_listener" priority="-1" event="build.finished" />
         </service>
 
-        <service id="app_core.listener.build.demo_email" class="%app_core.listener.build.build_demo_email.class%">
-            <argument type="service" id="logger" />
-            <argument type="service" id="mailer" />
-            <tag name="monolog.logger" channel="build" />
-            <tag name="kernel.event_listener" priority="-100" event="build.finished" method="onBuildFinished" />
-        </service>
-
         <service id="app_core.listener.build.stopwatch" class="%app_core.listener.build.build_stopwatch.class%">
             <argument type="service" id="logger" />
             <argument type="service" id="app_core.stopwatch" />
