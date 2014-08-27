@@ -100,7 +100,7 @@ class ImportController extends Controller
             $type = $provider->getConfigFormType();
             $defaultConfig = $this->getUser()->getProviderConfig($provider->getName());
 
-            $form = $this->createForm($type, $defaultConfig), [
+            $form = $this->createForm($type, $defaultConfig, [
                 'method' => 'post',
                 'action' => $this->generateUrl('app_core_import_provider', ['providerName' => $providerName])
             ]);
