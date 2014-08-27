@@ -23,8 +23,4 @@
     <route id="app_core_import_discover" pattern="/import/{providerName}/discover">
         <default key="_controller">AppCoreBundle:Import:discover</default>
     </route>
-
-    <route id="app_core_import_oauth_callback" pattern="/oauth/{providerName}" methods="GET">
-        <default key="_controller">AppCoreBundle:Import:oauthCallback</default>
-    </route>
 </routes>

@@ -4,7 +4,7 @@
 
 {% block fos_user_content %}
 {% if error %}
-    <div>{{ error|trans }}</div>
+    <div class="alert alert-error">{{ error|trans }}</div>
 {% endif %}
 
 
@@ -21,10 +21,10 @@
         <input class="form-control" type="password" id="password" name="_password" required="required" />
     </div>
 
-    <hr />
-
     <div class="actions">
         <button type="submit" id="_submit" name="_submit" class="btn">{{ 'security.login.submit'|trans }}</button>
+        <hr />
+        <p><a href="{{ path('app_core_login_provider', { providerName: 'github' }) }}">Login with GitHub</a></p>
     </div>
 </form>
 {% endblock fos_user_content %}

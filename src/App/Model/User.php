@@ -19,15 +19,20 @@ class User extends BaseUser implements Serializable
 
     protected $id;
 
+    /** @deprecated */
     protected $githubId;
 
     /**
-     * @todo the access token management could be refactored
-     *       using an AccessToken entity and a OneToMany relation
+     * @todo the provider and access token management could be refactored
+     *       using a Provider entity and a OneToOne relation
      */
     protected $providersAccessTokens;
 
     protected $providersScopes;
+
+    protected $loginProviderName;
+
+    protected $loginProviderUserId;
 
     protected $createdAt;
 
@@ -586,5 +591,51 @@ class User extends BaseUser implements Serializable
     public function getProvidersScopes()
     {
         return $this->providersScopes;
+    }
+
+    /**
+     * Set loginProviderName
+     *
+     * @param string $loginProviderName
+     * @return User
+     */
+    public function setLoginProviderName($loginProviderName)
+    {
+        $this->loginProviderName = $loginProviderName;
+    
+        return $this;
+    }
+
+    /**
+     * Get loginProviderName
+     *
+     * @return string 
+     */
+    public function getLoginProviderName()
+    {
+        return $this->loginProviderName;
+    }
+
+    /**
+     * Set loginProviderUserId
+     *
+     * @param string $loginProviderUserId
+     * @return User
+     */
+    public function setLoginProviderUserId($loginProviderUserId)
+    {
+        $this->loginProviderUserId = $loginProviderUserId;
+    
+        return $this;
+    }
+
+    /**
+     * Get loginProviderUserId
+     *
+     * @return string 
+     */
+    public function getLoginProviderUserId()
+    {
+        return $this->loginProviderUserId;
     }
 }

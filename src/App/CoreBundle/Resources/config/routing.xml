@@ -51,6 +51,14 @@
         <default key="_controller">AppCoreBundle:Security:primusAuth</default>
     </route>
 
+    <route id="app_core_login_provider" pattern="/login/{providerName}">
+        <default key="_controller">AppCoreBundle:Security:loginProvider</default>
+    </route>
+
+    <route id="app_core_oauth_callback" pattern="/oauth/{providerName}" methods="GET">
+        <default key="_controller">AppCoreBundle:Security:oauthCallback</default>
+    </route>
+
     <route id="app_core_homepage" pattern="/" methods="GET">
         <default key="_controller">AppCoreBundle:Default:index</default>
     </route>

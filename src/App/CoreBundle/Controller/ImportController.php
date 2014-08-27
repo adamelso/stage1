@@ -2,7 +2,6 @@
 
 namespace App\CoreBundle\Controller;
 
-use App\CoreBundle\Provider\Exception as ProviderException;
 use App\CoreBundle\Provider\Scope;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -141,41 +140,5 @@ class ImportController extends Controller
             'importUrl' => $this->generateUrl('app_core_import_import', ['providerName' => $providerName]),
             'autostart' => $request->get('autostart')
         ]);            
-    }
-
-    /**
-     * @param Request   $request
-     * @param string    $providerName
-     * 
-     * @return Response
-     */
-    public function oauthCallbackAction(Request $request, $providerName)
-    {
-        $provider = $this->get('app_core.provider.factory')->getProviderByName($providerName);
-
-        try {
-            $provider->handleOAuthCallback($request, $this->getUser());
-
-            $manager = $this->get('doctrine.orm.entity_manager');
-            $manager->persist($this->getUser());
-            $manager->flush();
-        } catch (ProviderException $e) {
-            return $this->render('AppCoreBundle:Import:index.html.twig', [
-                'exception' => $e,
-                'providers' => $this->container->getParameter('providers'),
-            ]);
-        }
-
-        $session = $request->getSession();
-
-        if (null !== $redirectUri = $session->get('import/redirect_uri')) {
-            $session->remove('import/redirect_uri');
-
-            return $this->redirect($redirectUri);
-        }
-
-        return $this->redirect($this->generateUrl('app_core_import_provider', [
-            'providerName' => $providerName
-        ]));
     }
 }

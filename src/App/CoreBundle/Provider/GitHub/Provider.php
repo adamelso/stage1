@@ -4,6 +4,7 @@ namespace App\CoreBundle\Provider\GitHub;
 
 use App\CoreBundle\Provider\PayloadInterface;
 use App\CoreBundle\Provider\ProviderInterface;
+use App\CoreBundle\Provider\Exception as ProviderException;
 use App\CoreBundle\Provider\Scope;
 use App\Model\Build;
 use App\Model\Project;
@@ -72,6 +73,11 @@ class Provider implements ProviderInterface
      * @var string
      */
     private $oauthClientSecret;
+
+    /**
+     * @var array
+     */
+    private $apiCache = [];
 
     /**
      * @var string[]
@@ -192,14 +198,16 @@ class Provider implements ProviderInterface
     /**
      * @param Request $request
      * @param User    $user
+     * 
+     * @todo passing $user should not be allowed
      */
-    public function handleOAuthCallback(Request $request, User $user)
+    public function handleOAuthCallback(Request $request, User $user = null)
     {
         $code = $request->get('code');
         $token = $request->get('state');
 
         if (!$this->csrfProvider->isCsrfTokenValid($this->getName(), $token)) {
-            throw new Exception('CSRF Mismatch');
+            throw new ProviderException('CSRF Mismatch');
         }
 
         $payload = [
@@ -220,11 +228,66 @@ class Provider implements ProviderInterface
         if (array_key_exists('error', $data)) {
             $this->logger->error('An error occurred during authentication', ['data' => $data]);
 
-            throw new Exception(sprintf('%s: %s', $data['error'], $data['error_description']));
+            throw new ProviderException(sprintf('%s: %s', $data['error'], $data['error_description']));
         }
 
-        $user->setProviderAccessToken($this->getName(), $data['access_token']);
-        $user->setProviderScopes($this->getName(), explode(',', $data['scope']));
+        if (null !== $user) {
+            $user->setProviderAccessToken($this->getName(), $data['access_token']);
+            $user->setProviderScopes($this->getName(), explode(',', $data['scope']));            
+        }
+
+        return [
+            'access_token' => $data['access_token'],
+            'scope' => $data['scope'],
+        ];
+    }
+
+    /**
+     * @param string $accessToken
+     */
+    public function getUserData($accessToken)
+    {
+        if (!isset($this->apiCache[$accessToken])) {
+            $this->apiCache[$accessToken] = [];
+        }
+
+        if (!isset($this->apiCache[$accessToken]['/user'])) {
+            $client = $this->configureClientForAccessToken($accessToken);
+            $this->apiCache[$accessToken]['/user'] = $client->get('/user')->send()->json();
+        }
+
+        return $this->apiCache[$accessToken]['/user'];
+    }
+
+    /**
+     * @param string $accessToken
+     * 
+     * @return string
+     */
+    public function getProviderUserId($accessToken)
+    {
+        return $this->getUserData($accessToken)['id'];
+    }
+
+    /**
+     * @param string $accessToken
+     * 
+     * @return User
+     */
+    public function createUser($accessToken)
+    {
+        $data = $this->getUserData($accessToken);
+
+        $user = new User();
+        $user->setLoginProviderUserId($data['id']);
+        $user->setLoginProviderName($this->getName());
+        $user->setUsername($data['login']);
+
+        if (isset($data['email']) && strlen($data['email']) > 0) {
+            $user->setEmail($data['email']);
+        }
+
+        return $user;
     }
 
     /**
@@ -243,27 +306,36 @@ class Provider implements ProviderInterface
     }
 
     /**
-     * @param User $user
      * @param string $scope
-     * @param string $redirectUri
      * 
      * @return Response
      */
-    public function requireScope($scope)
+    public function requireScope($scope = null)
     {
         $token = $this->csrfProvider->generateCsrfToken($this->getName());
-        $redirectUri = $this->router->generate('app_core_import_oauth_callback', ['providerName' => $this->getName()], true);
+        $redirectUri = $this->router->generate('app_core_oauth_callback', ['providerName' => $this->getName()], true);
 
         $payload = [
             'client_id' => $this->getOAuthClientId(),
             'redirect_uri' => $redirectUri,
-            'state' => $token,
-            'scope' => $this->translateScope($scope),
+            'state' => $token
         ];
+
+        if (null !== $scope) {
+            $payload['scope'] = $this->translateScope($scope);
+        }
 
         $oauthUrl = $this->getAuthorizeUrl().'?'.http_build_query($payload);
 
         return new RedirectResponse($oauthUrl);
+    }
+
+    /**
+     * @return string
+     */
+    public function requireLogin()
+    {
+        return $this->requireScope();
     }
 
     /**
@@ -383,10 +455,18 @@ class Provider implements ProviderInterface
     {
         $accessToken = $user->getProviderAccessToken($this->getName());
 
+        return $this->configureClientForAccessToken($accessToken);
+    }
+
+    /**
+     * @param string $accessToken
+     */
+    public function configureClientForAccessToken($accessToken)
+    {
         $client = clone $this->client;
         $client->setDefaultOption('headers/Authorization', 'token '.$accessToken);
 
-        return $this->client;
+        return $this->client;        
     }
 
     /**

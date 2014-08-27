@@ -76,4 +76,9 @@ parameters:
     help_site_url:                      http://help.stage1.dev/
 
     # providers
+    # @todo this should not be a param but rather collected through a compiler pass
+    # like, provider services be tagged stage1.provider
     providers:                          ['github']
+
+    # Users bypassing the beta signup process
+    force_enable: ['ubermuda']

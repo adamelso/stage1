@@ -1,38 +1,6 @@
 # -*- mode: ruby -*-
 # vim:set ft=ruby:
 
-$script = <<EOF
-cd /var/www/stage1
-composer self-update
-composer install
-
-app/console doctrine:database:drop --force
-app/console doctrine:database:create
-app/console doctrine:schema:update --force
-app/console assetic:dump
-
-bundle install
-$(cd node/ && npm install)
-
-sudo fab service.export
-
-if [ ! -d /var/www/yuhao ]; then
-    git clone https://github.com/stage1/yuhao.git /var/www/yuhao
-    cd /var/www/yuhao
-    composer install
-    cd -
-    chown -R vagrant:vagrant /var/www/yuhao
-fi
-
-if ! docker images | grep stage1 > /dev/null; then
-    bin/docker/update.sh
-    bin/yuhao/update.sh
-fi
-
-app/console cache:clear
-chmod -R 777 app/cache app/logs
-EOF
-
 Vagrant.configure("2") do |config|
 
     config.hostmanager.enabled = true
@@ -47,7 +15,7 @@ Vagrant.configure("2") do |config|
 
     config.hostmanager.aliases = %w(stage1.dev www.stage1.dev help.stage1.dev)
 
-    config.vm.provision :shell, :inline => $script
+    config.vm.provision :shell, :path => 'bin/vagrant-provision'
 
     config.vm.provider 'vmware_fusion' do |v|
         v.vmx['memsize'] = 1024

@@ -8,7 +8,13 @@
             <generator strategy="AUTO" />
         </id>
 
+        <!-- @deprecated -->
         <field name="githubId" column="github_id" type="integer" nullable="true" />
+
+        <field name="loginProviderName" column="login_provider_name" type="string" length="255" nullable="true" />
+
+        <!-- do not make assumptions on how user ids are stocked in the provider -->
+        <field name="loginProviderUserId" column="login_provider_user_id" type="string" length="255" nullable="true" />
 
         <field name="createdAt" column="created_at" type="datetime" />
 
