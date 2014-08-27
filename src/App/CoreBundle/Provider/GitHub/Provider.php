@@ -167,14 +167,6 @@ class Provider implements ProviderInterface, OAuthProviderInterface
     }
 
     /**
-     * @return array
-     */
-    public function getDefaultConfig(User $user)
-    {
-        return [];
-    }
-
-    /**
      * @param array $config
      * 
      * @return ProviderInterface

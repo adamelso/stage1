@@ -30,6 +30,8 @@ class User extends BaseUser implements Serializable
 
     protected $providersScopes;
 
+    protected $providersConfigs;
+
     protected $loginProviderName;
 
     protected $loginProviderUserId;
@@ -89,6 +91,31 @@ class User extends BaseUser implements Serializable
         return $this->getProjects()->filter(function($project) use ($provider) {
             return $project->getProviderName() === $provider->getName();
         });
+    }
+
+    /**
+     * @param string $provider
+     * 
+     * @return array
+     */
+    public function getProviderConfig($provider)
+    {
+        return array_exists($provider, $this->getProvidersConfigs())
+            ? $this->providersConfigs[$provider]
+            : [];
+    }
+
+    /**
+     * @param string $provider
+     * @param array $config
+     * 
+     * @return User
+     */
+    public function setProviderConfig($provider, array $config)
+    {
+        $this->providersConfigs[$provider] = $config;
+
+        return $this;
     }
 
     /**
@@ -637,5 +664,28 @@ class User extends BaseUser implements Serializable
     public function getLoginProviderUserId()
     {
         return $this->loginProviderUserId;
+    }
+
+    /**
+     * Set providersConfigs
+     *
+     * @param array $providersConfigs
+     * @return User
+     */
+    public function setProvidersConfigs($providersConfigs)
+    {
+        $this->providersConfigs = $providersConfigs;
+    
+        return $this;
+    }
+
+    /**
+     * Get providersConfigs
+     *
+     * @return array 
+     */
+    public function getProvidersConfigs()
+    {
+        return $this->providersConfigs;
     }
 }

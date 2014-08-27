@@ -97,7 +97,10 @@ class ImportController extends Controller
         $provider = $this->get('app_core.provider.factory')->getProviderByName($providerName);
 
         if ($provider instanceof ConfigurableProviderInterface) {
-            $form = $this->createForm($provider->getConfigFormType(), $provider->getDefaultConfig($this->getUser()), [
+            $type = $provider->getConfigFormType();
+            $defaultConfig = $this->getUser()->getProviderConfig($provider->getName());
+
+            $form = $this->createForm($type, $defaultConfig), [
                 'method' => 'post',
                 'action' => $this->generateUrl('app_core_import_provider', ['providerName' => $providerName])
             ]);
@@ -108,6 +111,9 @@ class ImportController extends Controller
                     'form' => $form->createView(),
                 ]);                
             }
+
+            $user->setProviderConfig($provider->getName(), $config);
+            $this->get('fos_user.user_manager')->updateUser($user);
 
             $provider->setConfig($config);
         }
