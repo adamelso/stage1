@@ -2,6 +2,7 @@
 
 namespace App\CoreBundle\Controller;
 
+use App\CoreBundle\Provider\ConfigurableProviderInterface;
 use App\CoreBundle\Provider\Scope;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -95,8 +96,8 @@ class ImportController extends Controller
     {
         $provider = $this->get('app_core.provider.factory')->getProviderByName($providerName);
 
-        if (null !== $type = $provider->getConfigFormType()) {
-            $form = $this->createForm($type, $provider->getDefaultConfig($this->getUser()), [
+        if ($provider instanceof ConfigurableProviderInterface) {
+            $form = $this->createForm($provider->getConfigFormType(), $provider->getDefaultConfig($this->getUser()), [
                 'method' => 'post',
                 'action' => $this->generateUrl('app_core_import_provider', ['providerName' => $providerName])
             ]);
