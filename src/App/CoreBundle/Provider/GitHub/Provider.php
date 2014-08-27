@@ -291,6 +291,21 @@ class Provider implements ProviderInterface
     }
 
     /**
+     * @param User $user
+     */
+    public function refreshScopes(User $user)
+    {
+        $client = $this->configureClientForUser($user);
+        $url = sprintf('/applications/%s/tokens/%s', $this->getOAuthClientId(), $user->getProviderAccessToken($this->getName()));
+
+        $data = $client->get($url, [], [
+            'auth' => [$this->getOAuthClientId(), $this->getOAuthClientSecret(), 'Basic']
+        ])->send()->json();
+
+        $user->setProviderScopes($this->getName(), $data['scopes']);
+    }
+
+    /**
      * @param User  $user
      * @param array $scope
      * 

@@ -52,11 +52,11 @@
     </route>
 
     <route id="app_core_login_provider" pattern="/login/{providerName}">
-        <default key="_controller">AppCoreBundle:Security:loginProvider</default>
+        <default key="_controller">AppCoreBundle:OAuth:provider</default>
     </route>
 
     <route id="app_core_oauth_callback" pattern="/oauth/{providerName}" methods="GET">
-        <default key="_controller">AppCoreBundle:Security:oauthCallback</default>
+        <default key="_controller">AppCoreBundle:OAuth:callback</default>
     </route>
 
     <route id="app_core_homepage" pattern="/" methods="GET">
