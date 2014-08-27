@@ -33,15 +33,6 @@ interface ConfigurableProviderInterface
     public function handleConfigForm(Request $request, Form $form);
 
     /**
-     * Extracts default configuration from the user
-     * 
-     * @param User $user
-     * 
-     * @return array
-     */
-    public function getDefaultConfig(User $user);
-
-    /**
      * Sets current configuration
      * 
      * @param array $config

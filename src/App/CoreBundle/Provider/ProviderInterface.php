@@ -48,6 +48,13 @@ interface ProviderInterface
     public function getDisplayName();
 
     /**
+     * Returns the provider's OAuth access token URL
+     * 
+     * @return string
+     */
+    public function getAccessTokenUrl();
+
+    /**
      * Extracts an access token from a project
      * 
      * @return string

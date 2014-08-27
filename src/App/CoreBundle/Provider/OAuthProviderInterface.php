@@ -31,13 +31,6 @@ interface OAuthProviderInterface
     public function getAuthorizeUrl();
 
     /**
-     * Returns the provider's OAuth access token URL
-     * 
-     * @return string
-     */
-    public function getAccessTokenUrl();
-
-    /**
      * Handles OAuth callback for this provider
      * 
      * @param Request $request

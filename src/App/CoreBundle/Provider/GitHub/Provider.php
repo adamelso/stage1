@@ -3,6 +3,7 @@
 namespace App\CoreBundle\Provider\GitHub;
 
 use App\CoreBundle\Provider\PayloadInterface;
+use App\CoreBundle\Provider\AbstractProvider;
 use App\CoreBundle\Provider\ProviderInterface;
 use App\CoreBundle\Provider\OAuthProviderInterface;
 use App\CoreBundle\Provider\Exception as ProviderException;
@@ -24,72 +25,29 @@ use InvalidArgumentException;
 /**
  * App\CoreBundle\Provider\GitHub\Provider
  */
-class Provider implements ProviderInterface, OAuthProviderInterface
+class Provider extends AbstractProvider implements OAuthProviderInterface
 {
-    /**
-     * @var Client
-     */
-    private $client;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $router;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @var CsrfProviderInterface
-     */
-    private $csrfProvider;
+    use \App\CoreBundle\Provider\OAuthProviderTrait;
 
     /**
      * @var string
      */
-    private $authorizeUrl = '/login/oauth/authorize';
+    protected $baseUrl = 'https://github.com';
 
     /**
      * @var string
      */
-    private $accessTokenUrl = '/login/oauth/access_token';
+    protected $baseApiUrl = 'https://api.github.com';
 
     /**
      * @var string
      */
-    private $baseUrl = 'https://github.com';
-
-    /**
-     * @var string
-     */
-    private $baseApiUrl = 'https://api.github.com';
-
-    /**
-     * @var string
-     */
-    private $oauthClientId;
-
-    /**
-     * @var string
-     */
-    private $oauthClientSecret;
+    protected $accessTokenUrl = '/login/oauth/access_token';
 
     /**
      * @var array
      */
-    private $apiCache = [];
-
-    /**
-     * @var array
-     */
-    private $config = [];
-
-    /**
-     * @var string[]
-     */
-    private $scopeMap = [
+    protected $scopeMap = [
         Scope::SCOPE_PRIVATE => 'repo',
         Scope::SCOPE_PUBLIC => 'public_repo',
         Scope::SCOPE_ACCESS => null
@@ -105,14 +63,16 @@ class Provider implements ProviderInterface, OAuthProviderInterface
     {
         $client->setDefaultOption('headers/Accept', 'application/vnd.github.v3');
 
-        $this->logger = $logger;
         $this->client = $client;
         $this->discover = $discover;
         $this->import = $import;
-        $this->router = $router;
-        $this->csrfProvider = $csrfProvider;
+
         $this->oauthClientId = $oauthClientId;
         $this->oauthClientSecret = $oauthClientSecret;
+
+        $this->authorizeUrl = '/login/oauth/authorize';
+
+        parent::__construct($logger, $router, $csrfProvider);
     }
 
     /**
@@ -137,171 +97,6 @@ class Provider implements ProviderInterface, OAuthProviderInterface
     public function getDisplayName()
     {
         return 'GitHub';
-    }
-
-    /**
-     * @return string
-     */
-    public function getConfigFormType()
-    {
-        return null;
-    }
-
-    /**
-     * @param Request   $request
-     * @param Form      $form
-     * 
-     * @return array|boolean
-     */
-    public function handleConfigForm(Request $request, Form $form)
-    {
-        if ($request->isMethod('post')) {
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
-                return $form->getData();
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param array $config
-     * 
-     * @return ProviderInterface
-     */
-    public function setConfig(array $config)
-    {
-        $this->config = $config;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOAuthClientId()
-    {
-        return $this->oauthClientId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOAuthClientSecret()
-    {
-        return $this->oauthClientSecret;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAuthorizeUrl()
-    {
-        return $this->baseUrl.$this->authorizeUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAccessTokenUrl()
-    {
-        return $this->baseUrl.$this->accessTokenUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAccessToken(Project $project)
-    {
-        return $project->getUsers()->first()->getProviderAccessToken($this->getName());
-    }
-
-    /**
-     * Translates a Stage1 scope to the provider scope.
-     * 
-     * @param string $scope
-     * 
-     * @return string|null
-     */
-    public function translateScope($scope)
-    {
-        if (array_key_exists($scope, $this->scopeMap)) {
-            return $this->scopeMap[$scope];
-        }
-
-        throw new InvalidArgumentException('Unknown internal scope "'.$scope.'"');
-    }
-
-    /**
-     * Translates a provider scope to a Stage1 scope
-     * @param string $scope
-     * 
-     * @return string
-     */
-    public function reverseTranslateScope($scope)
-    {
-        if (in_array($scope, $this->scopeMap)) {
-            return $this->scopeMap[array_search($scope, $this->scopeMap)];
-        }
-
-        throw new InvalidArgumentException('Unknown provider scope "'.$scope.'"');
-    }
-
-    /**
-     * @param Request $request
-     * @param User    $user
-     * 
-     * @todo passing $user should not be allowed
-     */
-    public function handleOAuthCallback(Request $request, User $user = null)
-    {
-        $code = $request->get('code');
-        $token = $request->get('state');
-
-        if (!$this->csrfProvider->isCsrfTokenValid($this->getName(), $token)) {
-            throw new ProviderException('CSRF Mismatch');
-        }
-
-        $payload = [
-            'client_id' => $this->getOAuthClientId(),
-            'client_secret' => $this->getOAuthClientSecret(),
-            'code' => $code,
-        ];
-
-        $client = clone $this->client;
-        $client->setDefaultOption('headers/Accept', 'application/json');
-
-        $request = $client->post($this->getAccessTokenUrl());
-        $request->setBody(http_build_query($payload));
-
-        $response = $request->send();
-        $data = $response->json();
-
-        if (array_key_exists('error', $data)) {
-            $this->logger->error('An error occurred during authentication', ['data' => $data]);
-
-            throw new ProviderException(sprintf('%s: %s', $data['error'], $data['error_description']));
-        }
-
-        if (null !== $user) {
-            $user->setProviderAccessToken($this->getName(), $data['access_token']);
-            $user->setProviderScopes($this->getName(), explode(',', $data['scope']));            
-        }
-
-        return [
-            'access_token' => $data['access_token'],
-            'scope' => $data['scope'],
-        ];
     }
 
     /**
@@ -368,21 +163,6 @@ class Provider implements ProviderInterface, OAuthProviderInterface
     }
 
     /**
-     * @param User  $user
-     * @param array $scope
-     * 
-     * @return boolean
-     */
-    public function hasScope(User $user, $scope)
-    {
-        $translatedScope = $this->translateScope($scope);
-
-        return (null === $translatedScope)
-            ? $user->hasProviderAccessToken($this->getName())
-            : $user->hasProviderScope($this->getName(), $translatedScope);
-    }
-
-    /**
      * @param string $scope
      * 
      * @return Response
@@ -405,14 +185,6 @@ class Provider implements ProviderInterface, OAuthProviderInterface
         $oauthUrl = $this->getAuthorizeUrl().'?'.http_build_query($payload);
 
         return new RedirectResponse($oauthUrl);
-    }
-
-    /**
-     * @return string
-     */
-    public function requireLogin()
-    {
-        return $this->requireScope();
     }
 
     /**
@@ -510,33 +282,7 @@ class Provider implements ProviderInterface, OAuthProviderInterface
     }
 
     /**
-     * @param Project $project
-     * 
-     * @return Client
-     */
-    public function configureClientForProject(Project $project)
-    {
-        if (count($project->getUsers()) === 0) {
-            throw new InvalidArgumentException('Project "'.$project->getFullName().'" has no users');
-        }
-
-        return $this->configureClientForUser($project->getUsers()->first());
-    }
-
-    /**
-     * @param User $user
-     * 
-     * @return Client
-     */
-    public function configureClientForUser(User $user)
-    {
-        $accessToken = $user->getProviderAccessToken($this->getName());
-
-        return $this->configureClientForAccessToken($accessToken);
-    }
-
-    /**
-     * @param string $accessToken
+     * {@inheritDoc}
      */
     public function configureClientForAccessToken($accessToken)
     {
