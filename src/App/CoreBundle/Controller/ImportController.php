@@ -95,6 +95,22 @@ class ImportController extends Controller
     {
         $provider = $this->get('app_core.provider.factory')->getProviderByName($providerName);
 
+        if (null !== $type = $provider->getConfigFormType()) {
+            $form = $this->createForm($type, $provider->getDefaultConfig($this->getUser()), [
+                'method' => 'post',
+                'action' => $this->generateUrl('app_core_import_provider', ['providerName' => $providerName])
+            ]);
+
+            if (false === $config = $provider->handleConfigForm($request, $form)) {
+                return $this->render('AppCoreBundle:Import:providerConfig.html.twig', [
+                    'provider' => $provider,
+                    'form' => $form->createView(),
+                ]);                
+            }
+
+            $provider->setConfig($config);
+        }
+
         if (!$provider->hasScope($this->getUser(), Scope::SCOPE_ACCESS)) {
             $ret = $provider->requireScope(Scope::SCOPE_ACCESS);
 

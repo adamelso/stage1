@@ -8,15 +8,15 @@
         <default key="_controller">AppCoreBundle:Import:index</default>
     </route>
 
-    <route id="app_core_import_provider" pattern="/import/{providerName}" methods="GET">
+    <route id="app_core_import_provider" pattern="/import/{providerName}" methods="get|post">
         <default key="_controller">AppCoreBundle:Import:provider</default>
     </route>
 
-    <route id="app_core_import_import" pattern="/import/{providerName}/import" methods="POST">
+    <route id="app_core_import_import" pattern="/import/{providerName}/import" methods="post">
         <default key="_controller">AppCoreBundle:Import:import</default>
     </route>
 
-    <route id="app_core_import_scope" pattern="/import/{providerName}/scope/{scope}" methods="GET">
+    <route id="app_core_import_scope" pattern="/import/{providerName}/scope/{scope}" methods="get">
         <default key="_controller">AppCoreBundle:Import:scope</default>
     </route>
 

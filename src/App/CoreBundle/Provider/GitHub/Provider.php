@@ -13,6 +13,7 @@ use App\Model\User;
 use Guzzle\Http\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfProviderInterface;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -80,6 +81,11 @@ class Provider implements ProviderInterface
     private $apiCache = [];
 
     /**
+     * @var array
+     */
+    private $config = [];
+
+    /**
      * @var string[]
      */
     private $scopeMap = [
@@ -111,6 +117,14 @@ class Provider implements ProviderInterface
     /**
      * @return string
      */
+    public function __toString()
+    {
+        return $this->getDisplayName();
+    }
+
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'github';
@@ -122,6 +136,61 @@ class Provider implements ProviderInterface
     public function getDisplayName()
     {
         return 'GitHub';
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfigFormType()
+    {
+        return null;
+    }
+
+    /**
+     * @param Request   $request
+     * @param Form      $form
+     * 
+     * @return array|boolean
+     */
+    public function handleConfigForm(Request $request, Form $form)
+    {
+        if ($request->isMethod('post')) {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                return $form->getData();
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDefaultConfig(User $user)
+    {
+        return [];
+    }
+
+    /**
+     * @param array $config
+     * 
+     * @return ProviderInterface
+     */
+    public function setConfig(array $config)
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**
