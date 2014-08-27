@@ -11,12 +11,15 @@
 </div>
 {% endif %}
 
-<h2>Select provider to import projects from</h2>
+<h2>Select a source to import projects from</h2>
 <hr />
 
-<ul>
+<div id="providers">
 {% for provider in providers %}
-    <a class="btn" href="{{ path('app_core_import_provider', { providerName: provider }) }}">{{ provider }}</a>
+    <div class="provider">
+        <a href="{{ path('app_core_import_provider', { providerName: provider }) }}"><img src="/images/providers/{{ provider }}.png" alt="{{ provider }}" /></a>
+    </div>
 {% endfor %}
-</ul>
+</div>
+
 {% endblock %}

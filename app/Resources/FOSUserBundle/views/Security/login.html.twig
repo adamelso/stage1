@@ -24,7 +24,7 @@
     <div class="actions">
         <button type="submit" id="_submit" name="_submit" class="btn">{{ 'security.login.submit'|trans }}</button>
         <hr />
-        <p><a href="{{ path('app_core_login_provider', { providerName: 'github' }) }}">Login with GitHub</a></p>
+        <p><a class="btn" href="{{ path('app_core_login_provider', { providerName: 'github' }) }}">Login with GitHub</a></p>
     </div>
 </form>
 {% endblock fos_user_content %}

@@ -255,3 +255,9 @@ textarea.per-line-settings {
 #projects_import_info {
     text-align: justify;
 }
+
+#providers .provider {
+    text-align: center;
+    display: inline-block;
+    padding: 0px 50px;
+}
