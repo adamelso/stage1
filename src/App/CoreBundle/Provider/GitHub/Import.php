@@ -14,11 +14,12 @@ use App\Model\Branch;
 use App\Model\PullRequest;
 use App\Model\Organization;
 use App\CoreBundle\Value\ProjectAccess;
+use App\CoreBundle\Provider\ImporterInterface;
 use Psr\Log\LoggerInterface;
 use Closure;
 use Redis;
 
-class Import
+class Import implements ImporterInterface
 {
     private $logger;
 
@@ -38,6 +39,7 @@ class Import
 
     private $initialProjectAccess;
 
+    /** @deprecated */
     private $projectAccessToken;
 
     private $feature_ip_access_list = false;

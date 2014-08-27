@@ -4,6 +4,7 @@ namespace App\CoreBundle\Provider\GitHub;
 
 use App\CoreBundle\Provider\PayloadInterface;
 use App\CoreBundle\Provider\ProviderInterface;
+use App\CoreBundle\Provider\OAuthProviderInterface;
 use App\CoreBundle\Provider\Exception as ProviderException;
 use App\CoreBundle\Provider\Scope;
 use App\Model\Build;
@@ -23,7 +24,7 @@ use InvalidArgumentException;
 /**
  * App\CoreBundle\Provider\GitHub\Provider
  */
-class Provider implements ProviderInterface
+class Provider implements ProviderInterface, OAuthProviderInterface
 {
     /**
      * @var Client
@@ -423,15 +424,15 @@ class Provider implements ProviderInterface
     }
 
     /**
-     * @return Discover
+     * {@inheritDoc}
      */
-    public function getDiscover()
+    public function getDiscoverer()
     {
         return $this->discover;
     }
 
     /**
-     * @return Import
+     * {@inheritDoc}
      */
     public function getImporter()
     {

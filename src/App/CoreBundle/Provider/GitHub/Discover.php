@@ -1,94 +1,53 @@
 <?php
 
-# @todo move to App\CoreBundle\Github\Discover
-
 namespace App\CoreBundle\Provider\GitHub;
 
-use Guzzle\Http\Client;
-use Psr\Log\LoggerInterface;
+use App\CoreBundle\Provider\DiscovererInterface;
 use App\Model\User;
+use Guzzle\Http\Client;
+use Guzzle\Http\Message\Response;
+use Psr\Log\LoggerInterface;
 
-class Discover
+class Discover implements DiscovererInterface
 {
+    /**
+     * @var Client
+     */
     private $client;
 
+    /**
+     * @var array
+     */
     private $projectsCache = [];
 
+    /**
+     * @var array
+     */
     private $importableProjects = [];
 
+    /**
+     * @var array
+     */
     private $nonImportableProjects = [];
 
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
 
+    /**
+     * @param Client $client
+     * @param LoggerInterface $logger
+     */
     public function __construct(Client $client, LoggerInterface $logger)
     {
         $this->client = $client;
         $this->logger = $logger;
     }
 
-    public function addImportableProject($fullName)
-    {
-        $this->importableProjects[$fullName] = $this->getProjectInfo($fullName);
-    }
-
-    public function getImportableProjects()
-    {
-        return $this->importableProjects;
-    }
-
     /**
-     * @param string $reason
+     * {@inheritDoc}
      */
-    public function addNonImportableProject($fullName, $reason)
-    {
-        $this->nonImportableProjects[] = [
-            'fullName' => $fullName,
-            'reason' => $reason
-        ];
-    }
-
-    public function getNonImportableProjects()
-    {
-        return $this->nonImportableProjects;
-    }
-
-    private function cacheProjectInfo($data)
-    {
-        $this->projectsCache[$data['full_name']] = array(
-            'name' => $data['name'],
-            'full_name' => $data['full_name'],
-            'slug' => preg_replace('/[^a-z0-9\-]/', '-', strtolower($data['full_name'])),
-            'owner_login' => $data['owner']['login'],
-            'owner_avatar_url' => $data['owner']['avatar_url'],
-            'id' => $data['id'],
-            'clone_url' => $data['clone_url'],
-            'ssh_url' => $data['ssh_url'],
-            'hooks_url' => $data['hooks_url'],
-            'keys_url' => $data['keys_url'],
-            'private' => $data['private'],
-            'exists' => false,
-        );
-    }
-
-    private function getProjectInfo($fullName)
-    {
-        return $this->projectsCache[$fullName];
-    }
-
-    public function fetchRepos($orgResponse)
-    {
-        foreach ($orgResponse->json() as $repo) {
-            if (!$repo['permissions']['admin']) {
-                $this->addNonImportableProject($repo['full_name'], 'no admin rights on the project');
-                continue;
-            }
-
-            $this->cacheProjectInfo($repo);
-
-            $this->addImportableProject($repo['full_name']);
-        }
-    }
-
     public function discover(User $user)
     {
         $client = clone $this->client;
@@ -136,5 +95,88 @@ class Discover
         }
 
         return $this->getImportableProjects();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getImportableProjects()
+    {
+        return $this->importableProjects;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getNonImportableProjects()
+    {
+        return $this->nonImportableProjects;
+    }
+
+    /**
+     * @param string $fullName
+     */
+    private function addImportableProject($fullName)
+    {
+        $this->importableProjects[$fullName] = $this->getProjectInfo($fullName);
+    }
+
+    /**
+     * @param string $reason
+     */
+    private function addNonImportableProject($fullName, $reason)
+    {
+        $this->nonImportableProjects[] = [
+            'fullName' => $fullName,
+            'reason' => $reason
+        ];
+    }
+
+    /**
+     * @param array $data
+     */
+    private function cacheProjectInfo($data)
+    {
+        $this->projectsCache[$data['full_name']] = array(
+            'name' => $data['name'],
+            'full_name' => $data['full_name'],
+            'slug' => preg_replace('/[^a-z0-9\-]/', '-', strtolower($data['full_name'])),
+            'owner_login' => $data['owner']['login'],
+            'owner_avatar_url' => $data['owner']['avatar_url'],
+            'id' => $data['id'],
+            'clone_url' => $data['clone_url'],
+            'ssh_url' => $data['ssh_url'],
+            'hooks_url' => $data['hooks_url'],
+            'keys_url' => $data['keys_url'],
+            'private' => $data['private'],
+            'exists' => false,
+        );
+    }
+
+    /**
+     * @param string $fullName
+     * 
+     * @return array
+     */
+    private function getProjectInfo($fullName)
+    {
+        return $this->projectsCache[$fullName];
+    }
+
+    /**
+     * @param Response
+     */
+    private function fetchRepos(Response $orgResponse)
+    {
+        foreach ($orgResponse->json() as $repo) {
+            if (!$repo['permissions']['admin']) {
+                $this->addNonImportableProject($repo['full_name'], 'no admin rights on the project');
+                continue;
+            }
+
+            $this->cacheProjectInfo($repo);
+
+            $this->addImportableProject($repo['full_name']);
+        }
     }
 }
