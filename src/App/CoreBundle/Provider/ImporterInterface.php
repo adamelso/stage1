@@ -18,21 +18,29 @@ interface ImporterInterface
 
     /**
      * @param ProjectAccess $initialProjectAccess
+     * 
+     * @return ImporterInterface
      */
     public function setInitialProjectAccess(ProjectAccess $initialProjectAccess);
 
     /**
      * @param boolean $bool
+     * 
+     * @return ImporterInterface
      */
     public function setFeatureIpAccessList($bool);
 
     /**
      * @param boolean $bool
+     * 
+     * @return ImporterInterface
      */
     public function setFeatureTokenAccessList($bool);
 
     /**
-     * @param string $accessToken
+     * @param string|array $accessToken
+     * 
+     * @return ImporterInterface
      */
     public function setAccessToken($accessToken);
 
@@ -42,14 +50,16 @@ interface ImporterInterface
     public function getAccessToken();
 
     /**
+     * @param User $user
+     * 
+     * @return ImporterInterface
+     */
+    public function setUser(User $user);
+
+    /**
      * @return User
      */
     public function getUser();
-
-    /**
-     * @param User $user
-     */
-    public function setUser(User $user);
 
     /**
      * @param string $fullName

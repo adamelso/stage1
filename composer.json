@@ -27,7 +27,8 @@
         "drak/native-session": "1.0.0",
         "norzechowicz/aceeditor-bundle": "0.1.*",
         "incenteev/composer-parameter-handler": "~2.1",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "league/oauth1-client": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.1"

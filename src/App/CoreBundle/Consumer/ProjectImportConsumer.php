@@ -124,9 +124,6 @@ class ProjectImportConsumer implements ConsumerInterface
             $this->publish('import.finished');
         } else {
             $this->publish('import.finished', [
-                // @todo this might not be necessary anymore to pass the websocket token/channel
-                'websocket_token' => $importer->getProjectAccessToken(),
-                'websocket_channel' => $project->getChannel(),
                 'project_slug' => $project->getSlug(),
                 'project_full_name' => $project->getFullName(),
                 'project_url' => $this->generateUrl('app_core_project_show', ['id' => $project->getId()]),

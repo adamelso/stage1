@@ -4,6 +4,7 @@ namespace App\CoreBundle\Provider;
 
 use App\Model\Project;
 use App\Model\User;
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfProviderInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -49,20 +50,14 @@ abstract class AbstractProvider implements ProviderInterface
     protected $scopeMap = [];
 
     /**
-     * @var CsrfProviderInterface
-     */
-    protected $csrfProvider;
-
-    /**
      * @param LoggerInterface       $logger
      * @param UrlGeneratorInterface $router
      * @param CsrfProviderInterface $csrfProvider
      */
-    public function __construct(LoggerInterface $logger, UrlGeneratorInterface $router, CsrfProviderInterface $csrfProvider)
+    public function __construct(LoggerInterface $logger, UrlGeneratorInterface $router)
     {
         $this->logger = $logger;
         $this->router = $router;
-        $this->csrfProvider = $csrfProvider;
     }
 
     /**
@@ -82,7 +77,17 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @return string
+     * @param User $user
+     * 
+     * @return string|array $accessToken
+     */
+    public function getAccessTokenFromUser(User $user)
+    {
+        return $user->getProviderAccessToken($this->getName());
+    }
+
+    /**
+     * @return string|array
      */
     public function getAccessToken(Project $project)
     {
@@ -146,7 +151,6 @@ abstract class AbstractProvider implements ProviderInterface
         throw new InvalidArgumentException('Unknown provider scope "'.$scope.'"');
     }
 
-
     /**
      * @param User  $user
      * @param array $scope
@@ -168,5 +172,35 @@ abstract class AbstractProvider implements ProviderInterface
     public function requireLogin()
     {
         return $this->requireScope();
+    }
+
+    /**
+     * @param Project $project
+     * 
+     * @return boolean
+     */
+    public function hasDeployKey(Project $project)
+    {
+        return $this->countDeployKeys($project) > 0;
+    }
+
+    /**
+     * @param User $user
+     * 
+     * @return array
+     */
+    public function getIndexedRepositories(User $user)
+    {
+        $indexedProjects = [];
+
+        foreach ($this->getRepositories($user) as $project) {
+            if (!array_key_exists($project['owner_login'], $indexedProjects)) {
+                $indexedProjects[$project['owner_login']] = [];
+            }
+
+            $indexedProjects[$project['owner_login']][] = $project;
+        }
+
+        return $indexedProjects;
     }
 }

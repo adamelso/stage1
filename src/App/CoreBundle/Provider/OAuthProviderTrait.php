@@ -31,6 +31,19 @@ trait OAuthProviderTrait
     private $oauthClientSecret;
 
     /**
+     * @var \Symfony\Component\Form\CsrfProvicerInterface
+     */
+    private $csrfProvider;
+
+    /**
+     * @return \Symfony\Component\Form\CsrfProviderInterface
+     */
+    public function getCsrfProvider()
+    {
+        return $this->csrfProvider;
+    }
+
+    /**
      * @return string
      */
     public function getOAuthClientId()

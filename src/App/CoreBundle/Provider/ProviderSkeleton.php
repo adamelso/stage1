@@ -28,7 +28,7 @@ class Provider extends AbstractProvider
     /**
      * @var string
      */
-    protected $baseApiUrl = 'https://bitbucket.org/api';
+    protected $baseApiUrl = 'https://bitbucket.org/api/2.0';
 
     /**
      * @var string
@@ -80,7 +80,7 @@ class Provider extends AbstractProvider
     /**
      * @param Request $request
      * @param User $user
-     *
+     * 
      * @return array
      */
     public function handleOAuthCallback(Request $request, User $user = null)
@@ -205,55 +205,22 @@ class Provider extends AbstractProvider
     /**
      * {@inheritDoc}
      */
+    public function getIndexedRepositories(User $user)
+    {
+        return $this->getRepositories($user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getRepositories(User $user)
     {
         $client = $this->configureClientForUser($user);
 
-        $accessToken = $this->getAccessTokenFromUser($user);
+        $accessToken = $this->getAccessToken($user);
 
-        $repos = $client->get('1.0/user/repositories')->send()->json();
-
-        $results = [];
-
-        foreach ($repos as $data) {
-            if ($data['scm'] !== 'git') {
-                continue;
-            }
-
-            $url = sprintf('2.0/repositories/%s/%s', $data['owner'], $data['name']);
-
-            $repo = $client->get($url)->send()->json();
-
-            $result = [
-                'name' => $repo['name'],
-                'full_name' => $repo['full_name'],
-                'slug' => preg_replace('/[^a-z0-9\-]/', '-', strtolower($repo['full_name'])),
-                'owner_login' => $repo['owner']['username'],
-                'owner_avatar_url' => $repo['owner']['links']['avatar']['href'],
-                'id' => $repo['full_name'],
-                'clone_url' => null,
-                'ssh_url' => null,
-                'hooks_url' => null,
-                'keys_url' => null,
-                'private' => $repo['is_private'],
-                'exists' => false,
-            ];
-
-            foreach ($repo['links']['clone'] as $link) {
-                switch($link['name']) {
-                    case 'https':
-                        $result['clone_url'] = $link['href'];
-                        break;
-                    case 'ssh':
-                        $result['ssh_url'] = $link['href'];
-                        break;
-                }
-            }
-
-            $results[] = $result;
-        }
-
-        return $results;
+        var_dump((string) htmlentities($client->get()->send()->getBody()));
+        die('lol');
     }
 
     /**

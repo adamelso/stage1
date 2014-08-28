@@ -11,14 +11,14 @@ class BuildContainer extends Container
     {
         parent::__construct([
             'Memory' => 256 * 1024 * 1204,  // @todo use configuration, maybe get from project
-            'Env' => $this->getEnv($build),
+            'Env' => $this->getBuildEnv($build),
             'Image' => $build->getImageName(),
             'Cmd' => ['buildapp'],
             'Volumes' => ['/.composer/cache' => []]
         ]);
     }
 
-    private function getEnv(Build $build)
+    private function getBuildEnv(Build $build)
     {
         $env = [
             'BUILD_ID='.$build->getId(),

@@ -55,9 +55,22 @@ interface ProviderInterface
     public function getAccessTokenUrl();
 
     /**
+     * Extracts an access token from an user
+     * 
+     * @param User $user
+     * 
+     * @return string|array
+     */
+    public function getAccessTokenFromUser(User $user);
+
+    /**
      * Extracts an access token from a project
      * 
-     * @return string
+     * @todo rename to getAccessTokenFromProject
+     * 
+     * @param Project $project
+     * 
+     * @return string|array
      */
     public function getAccessToken(Project $project);
 
@@ -136,13 +149,6 @@ interface ProviderInterface
      * @return string
      */
     public function requireLogin();
-
-    /**
-     * Returns a Discoverer for this provider
-     * 
-     * @return \App\CoreBundle\Provider\DiscovererInterface
-     */
-    public function getDiscoverer();
 
     /**
      * Returns an Importer for this provider
@@ -294,6 +300,8 @@ interface ProviderInterface
 
     /**
      * Install web hooks for a project
+     * 
+     * @todo add an $events parameter
      * 
      * @param Project $project
      */

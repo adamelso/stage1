@@ -1,6 +1,6 @@
 imports:
     - { resource: parameters.yml }
-    - { resource: github.yml }
+    - { resource: providers.yml }
     - { resource: security.yml }
     - { resource: consumers.yml }
 

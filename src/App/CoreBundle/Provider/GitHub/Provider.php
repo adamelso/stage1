@@ -2,11 +2,11 @@
 
 namespace App\CoreBundle\Provider\GitHub;
 
-use App\CoreBundle\Provider\PayloadInterface;
 use App\CoreBundle\Provider\AbstractProvider;
-use App\CoreBundle\Provider\ProviderInterface;
-use App\CoreBundle\Provider\OAuthProviderInterface;
 use App\CoreBundle\Provider\Exception as ProviderException;
+use App\CoreBundle\Provider\InsufficientScopeException;
+use App\CoreBundle\Provider\OAuthProviderInterface;
+use App\CoreBundle\Provider\PayloadInterface;
 use App\CoreBundle\Provider\Scope;
 use App\Model\Build;
 use App\Model\Project;
@@ -63,16 +63,19 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
     {
         $client->setDefaultOption('headers/Accept', 'application/vnd.github.v3');
 
+        $import->setProvider($this);
+
         $this->client = $client;
         $this->discover = $discover;
         $this->import = $import;
+        $this->csrfProvider = $csrfProvider;
 
         $this->oauthClientId = $oauthClientId;
         $this->oauthClientSecret = $oauthClientSecret;
 
         $this->authorizeUrl = '/login/oauth/authorize';
 
-        parent::__construct($logger, $router, $csrfProvider);
+        parent::__construct($logger, $router);
     }
 
     /**
@@ -169,7 +172,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
      */
     public function requireScope($scope = null)
     {
-        $token = $this->csrfProvider->generateCsrfToken($this->getName());
+        $token = $this->getCsrfProvider()->generateCsrfToken($this->getName());
         $redirectUri = $this->router->generate('app_core_oauth_callback', ['providerName' => $this->getName()], true);
 
         $payload = [
@@ -201,26 +204,6 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
     public function getImporter()
     {
         return $this->import;
-    }
-
-    /**
-     * @param User $user
-     * 
-     * @return array
-     */
-    public function getIndexedRepositories(User $user)
-    {
-        $indexedProjects = [];
-
-        foreach ($this->getRepositories($user) as $project) {
-            if (!array_key_exists($project['owner_login'], $indexedProjects)) {
-                $indexedProjects[$project['owner_login']] = [];
-            }
-
-            $indexedProjects[$project['owner_login']][] = $project;
-        }
-
-        return $indexedProjects;
     }
 
     /**
@@ -421,7 +404,8 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
 
         $client = $this->configureClientForProject($project);
 
-        $request = $client->post($project->getKeysUrl());
+        $request = $client->post($project->getProviderData('keys_url'));
+
         $request->setBody(json_encode([
             'key' => $project->getPublicKey(),
             'title' => 'stage1.io (added by support@stage1.io)',
@@ -431,16 +415,6 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
         $installedKey = $response->json();
 
         $project->setProviderData('deploy_key_id', $installedKey['id']);
-    }
-
-    /**
-     * @param Project $project
-     * 
-     * @return boolean
-     */
-    public function hasDeployKey(Project $project)
-    {
-        return $this->countDeployKeys($project) > 0;
     }
 
     /**
@@ -464,13 +438,35 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
      * @param Project $project
      */
     public function installHooks(Project $project)
-    {   
+    {
+        $user = $project->getUsers()->first();
+        $neededScope = $project->getIsPrivate() ? Scope::SCOPE_PRIVATE : Scope::SCOPE_PUBLIC;
+
+        if (!$this->hasScope($user, $neededScope)) {
+            throw new InsufficientScopeException($neededScope, $user->getProviderScopes($this->getName()));
+        }
+
+        /** When generating hooks from the VM, we'd rather have it pointing to a real URL */
         $githubHookUrl = $this->router->generate('app_core_hooks_github', [], true);
         $githubHookUrl = str_replace('http://localhost', 'http://stage1.io', $githubHookUrl);
 
         $hooksUrl = $project->getProviderData('hooks_url');
 
         $client = $this->configureClientForProject($project);
+
+        $events = [];
+
+        if ($this->countPushHooks($project) === 0) {
+            $events[] = 'push';
+        }
+
+        if ($this->countPullRequestHooks($project) === 0) {
+            $events[] = 'pull_request';
+        }
+
+        if (count($events) === 0) {
+            return true;
+        }
 
         $request = $client->post($hooksUrl);
         $request->setBody(json_encode([
@@ -481,6 +477,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
         ]), 'application/json');
 
         $response = $request->send();
+
         $installedHook = $response->json();
 
         $providerData = $project->setProviderData('hook_id', $installedHook['id']);

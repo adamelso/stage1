@@ -11,6 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 interface OAuthProviderInterface
 {
     /**
+     * Returns a CSRF provider
+     * 
+     * @return \Symfony\Component\Form\CsrfProviderInterface
+     */
+    public function getCsrfProvider();
+
+   /**
      * Returns the provider's OAuth client id
      * 
      * @return null|string
