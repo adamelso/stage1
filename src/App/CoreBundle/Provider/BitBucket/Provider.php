@@ -13,6 +13,7 @@ use Guzzle\Http\Client;
 use Guzzle\Plugin\Oauth\OauthPlugin;
 use Psr\Log\LoggerInterface;
 use League\OAuth1\Client\Server\Bitbucket as OAuthClient;
+use RuntimeException;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -79,6 +80,16 @@ class Provider extends AbstractProvider
         ]);
 
         parent::__construct($logger, $router);
+    }
+
+    /**
+     * @param Project $project
+     * 
+     * @return string
+     */
+    private function getProjectSlug(Project $project)
+    {
+        return $project->getProviderData('full_slug');
     }
 
     /**
@@ -162,6 +173,8 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * BitBucket can not be used as a login provider
+     * 
      * {@inheritDoc}
      */
     public function getUserData($accessToken)
@@ -170,6 +183,8 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * BitBucket can not be used as a login provider
+     * 
      * {@inheritDoc}
      */
     public function getProviderUserId($accessToken)
@@ -178,6 +193,8 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * BitBucket can not be used as a login provider
+     * 
      * {@inheritDoc}
      */
     public function createUser($accessToken)
@@ -190,7 +207,7 @@ class Provider extends AbstractProvider
      */
     public function refreshScopes(User $user)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        return true;
     }
 
     /**
@@ -224,13 +241,15 @@ class Provider extends AbstractProvider
                 continue;
             }
 
-            $url = sprintf('2.0/repositories/%s/%s', $data['owner'], $data['name']);
+            $url = sprintf('2.0/repositories/%s/%s', $data['owner'], $data['slug']);
 
             $repo = $client->get($url)->send()->json();
 
             $result = [
                 'name' => $repo['name'],
-                'full_name' => $repo['full_name'],
+                'full_name' => sprintf('%s/%s', $data['owner'], $repo['name']),
+                'full_slug' => $repo['full_name'],
+                'slug' => $data['slug'],
                 'slug' => preg_replace('/[^a-z0-9\-]/', '-', strtolower($repo['full_name'])),
                 'owner_login' => $repo['owner']['username'],
                 'owner_avatar_url' => $repo['owner']['links']['avatar']['href'],
@@ -265,10 +284,12 @@ class Provider extends AbstractProvider
      */
     public function createPayloadFromRequest(Request $request)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        return new Payload($request->get('payload'));
     }
 
     /**
+     * Pull requests are not supported, yet
+     * 
      * {@inheritDoc}
      */
     public function createPullRequestFromPayload(Project $project, $payload)
@@ -277,6 +298,8 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * Pull requests are not supported, yet
+     * 
      * {@inheritDoc}
      */
     public function getPullRequestHead(Build $build, $separator = ':')
@@ -309,14 +332,17 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * BitBucket does not support commit statuses, just faking it out
+     * 
      * {@inheritDoc}
      */
     public function setCommitStatus(Project $project, Build $build, $status)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        return true;
     }
 
     /**
+     * BitBucket does not support pull requests, yet
      * {@inheritDoc}
      */
     public function sendPullRequestComment(Project $project, Build $build)
@@ -331,7 +357,7 @@ class Provider extends AbstractProvider
     {
         $client = $this->configureClientForProject($project);
 
-        $url = sprintf('1.0/repositories/%s/branches', $project->getFullName());
+        $url = sprintf('1.0/repositories/%s/branches', $this->getProjectSlug($project));
         $branches = [];
 
         foreach ($client->get($url)->send()->json() as $name => $branch) {
@@ -346,7 +372,16 @@ class Provider extends AbstractProvider
      */
     public function pruneDeployKeys(Project $project)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        $client = $this->configureClientForProject($project);
+
+        $deleteUrl = sprintf('1.0/repositories/{%s}/deploy-keys/{pk}', $this->getProjectSlug($project));
+        $listUrl = sprintf('1.0/repositories/%s/deploy-keys', $this->getProjectSlug($project));
+
+        foreach ($client->get($listUrl)->send()->json() as $key) {
+            if ($key['key'] !== $project->getPublicKey()) {
+                $client->delete([$deleteUrl, ['pk' => $key['pk']]])->send();
+            }
+        }
     }
 
     /**
@@ -360,7 +395,7 @@ class Provider extends AbstractProvider
 
         $client = $this->configureClientForProject($project);
 
-        $url = sprintf('1.0/repositories/%s/deploy-keys', $project->getFullName());
+        $url = sprintf('1.0/repositories/%s/deploy-keys', $this->getProjectSlug($project));
 
         $request = $client->post($url);
         $request->addPostFields([
@@ -380,7 +415,18 @@ class Provider extends AbstractProvider
      */
     public function clearHooks(Project $project)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        $client = $this->configureClientForProject($project);
+
+        $deleteUrl = sprintf('1.0/repositories/%s/services/{id}', $this->getProjectSlug($project));
+        $listUrl = sprintf('1.0/repositories/%s/services', $this->getProjectSlug($project));
+
+        foreach ($client->get($url)->send()->json() as $service) {
+            foreach ($service['fields'] as $field) {
+                if (strpos($field['value'], 'stage1.io') !== false) {
+                    $client->delete([$deleteUrl, ['id' => $service['id']]])->send();
+                }
+            }
+        }
     }
 
     /**
@@ -390,7 +436,7 @@ class Provider extends AbstractProvider
     {
         $client = $this->configureClientForProject($project);
 
-        $url = sprintf('1.0/repositories/%s/services/', $project->getFullName());
+        $url = sprintf('1.0/repositories/%s/services/', $this->getProjectSlug($project));
 
         $hookUrl = $this->router->generate('app_core_hooks_provider', ['providerName' => $this->getName()], true);
 
@@ -411,11 +457,13 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * BitBucket does not support this
+     * 
      * {@inheritDoc}
      */
     public function triggerWebHook(Project $project)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        return false;
     }
 
     /**
@@ -423,7 +471,17 @@ class Provider extends AbstractProvider
      */
     public function getHashFromRef(Project $project, $ref)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        $client = $this->configureClientForProject($project);
+
+        $url = sprintf('1.0/repositories/%s/branches', $this->getProjectSlug($project));
+
+        foreach ($client->get($url)->send()->json() as $name => $branch) {
+            if ($ref === $name) {
+                return $branch['raw_node'];
+            }
+        }
+
+        throw new RuntimeException('Could not find a hash for ref "'.$ref.'"');
     }
 
     /**
@@ -433,7 +491,7 @@ class Provider extends AbstractProvider
     {
         $client = $this->configureClientForProject($project);
 
-        $url = sprintf('1.0/repositories/%s/deploy-keys', $project->getFullName());
+        $url = sprintf('1.0/repositories/%s/deploy-keys', $this->getProjectSlug($project));
         $keys = $client->get($url)->send()->json();
 
         $count = 0;
@@ -454,7 +512,7 @@ class Provider extends AbstractProvider
     {
         $client = $this->configureClientForProject($project);
 
-        $url = sprintf('1.0/repositories/%s/services', $project->getFullName());
+        $url = sprintf('1.0/repositories/%s/services', $this->getProjectSlug($project));
 
         $hookUrl = $this->router->generate('app_core_hooks_provider', ['providerName' => $this->getName()], true);
 

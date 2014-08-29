@@ -117,14 +117,13 @@ class BuildConsumer implements ConsumerInterface
         if (count($sameHashBuilds) > 0) {
             $allowBuild = array_reduce($sameHashBuilds, function($result, $b) use($build) {
                 /**
-                 * - If at least one other build is NOT scheduled, it means it has already been built.
-                 *   so we don't want to rebuild the same hash
-                 * - Otherwise, we might be the first build of a duplicate serie, so we want to build.
+                 * If at least one build if running, we don't want to rebuild it
+                 * Otherwise, a user might want to relaunch a build after a temporary
+                 * builder failure
                  */
-                return ($b->getId() === $build->getId() || $b->isScheduled()) ? $result : false;
-            }, true);
+                return ($b->isRunning() && !$b->getAllowRebuild()) ? false : $result;
+            }, $allowBuild);
         }
-
 
         if (!$allowBuild) {
             $this->logger->warning('aborting build for already built hash', [

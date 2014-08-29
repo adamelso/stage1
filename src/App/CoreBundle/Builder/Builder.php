@@ -131,9 +131,7 @@ class Builder
             'force_local_build_yml' => $build->getForceLocalBuildYml(),
         ]);
 
-        /**
-         * Generate build script using Yuhao
-         */
+        /** Generate build script using Yuhao */
         $logger->info('generating build script');
         // $publish('  generating build script'.PHP_EOL);
 

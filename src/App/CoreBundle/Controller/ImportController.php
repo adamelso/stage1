@@ -45,7 +45,9 @@ class ImportController extends Controller
 
         $session->remove('import/autostart');
 
-        $this->get('old_sound_rabbit_mq.project_import_producer')->publish(json_encode([
+        $this->get('logger')->info('requesting project import', [$infos]);
+
+        $ret = $this->get('old_sound_rabbit_mq.project_import_producer')->publish(json_encode([
             'user_id' => $user->getId(),
             'request' => $infos,
             'provider_name' => $providerName,
@@ -56,6 +58,8 @@ class ImportController extends Controller
             'client_ip' => $this->getClientIp(),
             'session_id' => $session->getId(),
         ]));
+
+        $this->get('logger')->debug($ret);
 
         return new JsonResponse(json_encode(true));
     }

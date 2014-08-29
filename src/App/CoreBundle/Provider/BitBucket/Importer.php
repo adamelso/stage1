@@ -90,7 +90,7 @@ class Importer extends AbstractImporter
     protected function doInspect(Project $project)
     {
         try {
-            $response = $this->client->get('2.0/repositories/'.$project->getFullName())->send();
+            $response = $this->client->get('2.0/repositories/'.$project->getProviderData('full_slug'))->send();
         } catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
             $this->logger->error($e->getMessage());
 
@@ -105,7 +105,8 @@ class Importer extends AbstractImporter
         $providerData = [
             'id' => $infos['full_name'],
             'owner_login' => $infos['owner']['username'],
-            'full_name' => $infos['full_name'],
+            'full_name' => sprintf('%s/%s', $infos['owner']['username'], $infos['name']),
+            'full_slug' => $infos['full_name'],
             'private' => $infos['is_private'],
             'url' => $infos['links']['self']['href'],
         ];
@@ -129,7 +130,7 @@ class Importer extends AbstractImporter
         $project->setIsPrivate($providerData['private']);
         $project->setGitUrl($providerData['private'] ? $providerData['ssh_url'] : $providerData['clone_url']);
 
-        $project->setDockerBaseImage('stage1');
+        $project->setDockerBaseImage('stage1/symfony2');
 
         if (strpos($infos['owner']['links']['self']['href'], '.0/teams')) {
             $orgName = $infos['owner']['username'];

@@ -7,10 +7,19 @@ namespace App\CoreBundle\Provider;
  */
 abstract class AbstractPayload implements PayloadInterface
 {
+    /**
+     * @var string
+     */
     protected $raw;
 
+    /**
+     * @var array
+     */
     protected $parsed;
 
+    /**
+     * @param string $raw
+     */
     public function __construct($raw)
     {
         $this->raw = $raw;

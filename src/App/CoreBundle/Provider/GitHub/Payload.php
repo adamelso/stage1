@@ -7,7 +7,9 @@ use App\CoreBundle\Provider\AbstractPayload;
 class Payload extends AbstractPayload
 {
     /**
-     * @param Request $repositoryId
+     * @param string $raw
+     * @param string $repositoryId
+     * @param string $event
      */
     public function __construct($raw, $deliveryId, $event)
     {
@@ -82,7 +84,7 @@ class Payload extends AbstractPayload
     {
         return $this->isPullRequest()
             ? sprintf('pull/%d/head', $this->getPullRequestNumber())
-            : $this->parsed['ref'];
+            : substr($this->parsed['ref'], 11);
     }
 
     /**
@@ -113,16 +115,6 @@ class Payload extends AbstractPayload
     public function getRepositoryId()
     {
         return $this->parsed['repository']['id'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getRepositoryName()
-    {
-        $repository = $this->parsed['repository'];
-
-        return sprintf('%s/%s', $repository['owner']['name'], $repository['name']);
     }
 
     /**

@@ -247,7 +247,7 @@ abstract class AbstractImporter implements ImporterInterface
     /**
      * {@inheritDoc}
      */
-    public function import($fullName, Closure $callback = null)
+    public function import(array $providerData, Closure $callback = null)
     {
         if (null === $this->provider) {
             throw new RuntimeException('No provider set');
@@ -258,11 +258,12 @@ abstract class AbstractImporter implements ImporterInterface
         }
 
         $logger = $this->logger;
-        $logger->info('importing project', ['full_name' => $fullName]);
+        $logger->info('importing project', ['full_name' => $providerData['full_name']]);
 
         $project = new Project();
-        $project->setFullName($fullName);
+        $project->setFullName($providerData['full_name']);
         $project->addUser($this->getUser());
+        $project->setProviderData($providerData);
 
         if (null === $callback) {
             $callback = function() {};

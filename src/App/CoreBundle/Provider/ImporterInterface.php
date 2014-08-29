@@ -62,10 +62,10 @@ interface ImporterInterface
     public function getUser();
 
     /**
-     * @param string $fullName
-     * @param Closure $callback
+     * @param array     $providerData
+     * @param Closure   $callback
      * 
      * @return App\Model\Project
      */
-    public function import($fullName, Closure $callback = null);
+    public function import(array $providerData, Closure $callback = null);
 }

@@ -85,20 +85,20 @@ class ProjectImportConsumer implements ConsumerInterface
     {
         $this->logger->info('received import request');
         
-        $body = json_decode($message->body);
+        $body = json_decode($message->body, true);
 
-        if (!isset($body->request) || !isset($body->request->full_name)) {
+        if (!isset($body['request'])) {
             $this->logger->error('malformed request');
             return;
         }
 
-        $user = $this->doctrine->getRepository('Model:User')->find($body->user_id);
-        $provider = $this->providerFactory->getProviderByName($body->provider_name);
+        $user = $this->doctrine->getRepository('Model:User')->find($body['user_id']);
+        $provider = $this->providerFactory->getProviderByName($body['provider_name']);
 
         $importer = $provider->getImporter();
 
         $importer->setUser($user);
-        $importer->setInitialProjectAccess(new ProjectAccess($body->client_ip, $body->session_id));
+        $importer->setInitialProjectAccess(new ProjectAccess($body['client_ip'], $body['session_id']));
 
         $this->setWebsocketChannel($user->getChannel());
 
@@ -110,13 +110,13 @@ class ProjectImportConsumer implements ConsumerInterface
 
         $this->publish('import.start', [
             'steps' => $importer->getSteps(),
-            'project_full_name' => $body->request->full_name,
-            'project_slug' => $body->request->slug,
+            'project_full_name' => $body['request']['full_name'],
+            'project_slug' => $body['request']['slug'],
         ]);
 
         $that = $this;
 
-        $project = $importer->import($body->request->full_name, function($step) use ($that) {
+        $project = $importer->import($body['request'], function($step) use ($that) {
             $that->publish('import.step', ['step' => $step['id']]);
         });
 

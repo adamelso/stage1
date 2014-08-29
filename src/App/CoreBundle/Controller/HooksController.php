@@ -175,7 +175,7 @@ class HooksController extends Controller
             return new JsonResponse(json_encode(null), 400);
         }
 
-        $ref = substr($payload->getRef(), 11);
+        $ref = $payload->getRef();
         $hash = $payload->getHash();
 
         # then, check if ref is configured to be automatically built
@@ -230,6 +230,7 @@ class HooksController extends Controller
 
         if (count($sameHashBuilds) > 0) {
             $logger->warn('found builds with same hash', ['count' => count($sameHashBuilds)]);
+            
             $allowRebuild = array_reduce($sameHashBuilds, function($result, $b) {
                 return $result || $b->getAllowRebuild();
             }, false);
