@@ -223,7 +223,10 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
      */
     public function createPayloadFromRequest(Request $request)
     {
-        return new Payload($request);
+        $deliveryId = $this->request->headers->get('X-GitHub-Delivery');
+        $event = $this->request->headers->get('X-GitHub-Event');
+
+        return new Payload($request->getContent(), $deliveryId, $event);
     }
 
     /**
@@ -446,8 +449,11 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
             throw new InsufficientScopeException($neededScope, $user->getProviderScopes($this->getName()));
         }
 
+        $githubHookUrl = $this->router->generate('app_core_hooks_provider', [
+            'providerName' => $this->getName()
+        ], true);
+
         /** When generating hooks from the VM, we'd rather have it pointing to a real URL */
-        $githubHookUrl = $this->router->generate('app_core_hooks_github', [], true);
         $githubHookUrl = str_replace('http://localhost', 'http://stage1.io', $githubHookUrl);
 
         $hooksUrl = $project->getProviderData('hooks_url');

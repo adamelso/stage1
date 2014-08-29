@@ -38,6 +38,11 @@ class Organization
     private $id;
 
     /**
+     * @var string
+     */
+    private $providerName;
+
+    /**
      * @var integer
      * @deprecated 
      */
@@ -234,5 +239,28 @@ class Organization
     public function getGithubId()
     {
         return $this->githubId;
+    }
+
+    /**
+     * Set providerName
+     *
+     * @param string $providerName
+     * @return Organization
+     */
+    public function setProviderName($providerName)
+    {
+        $this->providerName = $providerName;
+    
+        return $this;
+    }
+
+    /**
+     * Get providerName
+     *
+     * @return string 
+     */
+    public function getProviderName()
+    {
+        return $this->providerName;
     }
 }

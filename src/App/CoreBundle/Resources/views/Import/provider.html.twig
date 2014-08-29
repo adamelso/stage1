@@ -5,7 +5,10 @@
 var import_url = '{{ importUrl }}';
 
 {% if autostart is defined and autostart %}
-$('.btn-import', '#candidate-{{ autostart }}').trigger('click');
+$(function() {
+    // @todo make sure this is fired off after the websocket auth
+    $('.btn-import', '#candidate-{{ autostart }}').trigger('click');
+});
 {% endif %}
 
 $('#projects-import-filter').on('keyup', function() {

@@ -8,7 +8,7 @@
 
         <field name="number" type="integer" />
         <field name="title" type="string" column="title" length="255" />
-        <field name="ref" type="string" column="ref" length="255" />
+        <field name="ref" type="string" column="ref" length="255" nullable="true" />
         <field name="open" column="open" type="boolean" />
         <field name="url" column="url" type="string" length="255" nullable="true" />
         <field name="createdAt" column="created_at" type="datetime" />

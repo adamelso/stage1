@@ -2,42 +2,19 @@
 
 namespace App\CoreBundle\Provider\GitHub;
 
-use App\CoreBundle\Provider\PayloadInterface;
-use Symfony\Component\HttpFoundation\Request;
+use App\CoreBundle\Provider\AbstractPayload;
 
-class Payload implements PayloadInterface
+class Payload extends AbstractPayload
 {
-    /**
-     * @var Request
-     */
-    private $request;
-
-    /**
-     * @var string
-     */
-    private $contents;
-
-    /**
-     * @var array
-     */
-    private $parsed;
-
     /**
      * @param Request $repositoryId
      */
-    public function __construct(Request $request)
+    public function __construct($raw, $deliveryId, $event)
     {
-        $this->request = $request;
-        $this->contents = $request->getContent();
-        $this->parsed = json_decode($this->contents, true);
-    }
-
-    /**
-     * @return string
-     */
-    public function getRawContent()
-    {
-        return $this->contents;
+        $this->deliveryId = $deliveryId;
+        $this->event = $event;
+        
+        parent::__construct($raw);
     }
 
     /**
@@ -153,7 +130,7 @@ class Payload implements PayloadInterface
      */
     public function getDeliveryId()
     {
-        return $this->request->headers->get('X-GitHub-Delivery');
+        return $this->deliveryId;
     }
 
     /**
@@ -161,6 +138,7 @@ class Payload implements PayloadInterface
      */
     public function getEvent()
     {
-        return $this->request->headers->get('X-GitHub-Event');
+        return $this->event;
+        
     }
 }

@@ -6,6 +6,7 @@ use App\Model\Build;
 use App\Model\Project;
 use App\Model\User;
 use App\CoreBundle\Provider\AbstractProvider;
+use App\CoreBundle\Provider\ImporterInterface;
 use App\CoreBundle\Provider\OAuthProviderTrait;
 use App\CoreBundle\Provider\OAuthProviderInterface;
 use Guzzle\Http\Client;
@@ -61,12 +62,15 @@ class Provider extends AbstractProvider
      * @param CsrfProviderInterface $csrfProvider
      * @param Client                $client
      */
-    public function __construct(LoggerInterface $logger, UrlGeneratorInterface $router, SessionInterface $session, Client $client, $oauthKey, $oauthSecret)
+    public function __construct(LoggerInterface $logger, UrlGeneratorInterface $router, SessionInterface $session, Client $client, ImporterInterface $importer, $oauthKey, $oauthSecret)
     {
+        $importer->setProvider($this);
+
         $this->oauthKey = $oauthKey;
         $this->oauthSecret = $oauthSecret;
         $this->session = $session;
         $this->client = $client;
+        $this->importer = $importer;
 
         $this->oauthClient = new OAuthClient([
             'identifier' => $oauthKey,
@@ -138,7 +142,7 @@ class Provider extends AbstractProvider
      */
     public function getImporter()
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        return $this->importer;
     }
 
     /**
@@ -325,7 +329,16 @@ class Provider extends AbstractProvider
      */
     public function getBranches(Project $project)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        $client = $this->configureClientForProject($project);
+
+        $url = sprintf('1.0/repositories/%s/branches', $project->getFullName());
+        $branches = [];
+
+        foreach ($client->get($url)->send()->json() as $name => $branch) {
+            $branches[] = $name;
+        }
+
+        return $branches;
     }
 
     /**
@@ -341,7 +354,25 @@ class Provider extends AbstractProvider
      */
     public function installDeployKey(Project $project)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        if ($this->hasDeployKey($project)) {
+            return;
+        }
+
+        $client = $this->configureClientForProject($project);
+
+        $url = sprintf('1.0/repositories/%s/deploy-keys', $project->getFullName());
+
+        $request = $client->post($url);
+        $request->addPostFields([
+            'label' => 'stage1.io (added by support@stage1.io)',
+            'key' => $project->getPublicKey(),
+        ]);
+
+        $response = $request->send();
+        $installedKey = $response->json();
+
+        // @bitbucketapi example response wrong (says [{}] where it really is {})
+        $project->setProviderData('deploy_key_id', $installedKey['pk']);
     }
 
     /**
@@ -357,7 +388,26 @@ class Provider extends AbstractProvider
      */
     public function installHooks(Project $project)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        $client = $this->configureClientForProject($project);
+
+        $url = sprintf('1.0/repositories/%s/services/', $project->getFullName());
+
+        $hookUrl = $this->router->generate('app_core_hooks_provider', ['providerName' => $this->getName()], true);
+
+        /** When generating hooks from the VM, we'd rather have it pointing to a real URL */
+        $hookUrl = str_replace('http://localhost', 'http://stage1.io', $hookUrl);
+
+        $request = $client->post($url);
+        $request->addPostFields([
+            'type' => 'POST',
+            'URL' => $hookUrl,
+        ]);
+
+        $response = $request->send();
+        $installedHook = $response->json();
+
+        // @bitbucketapi this one has id whereas deploy keys have pk
+        $project->setProviderData('hook_id', $installedHook['id']);
     }
 
     /**
@@ -381,7 +431,20 @@ class Provider extends AbstractProvider
      */
     public function countDeployKeys(Project $project)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        $client = $this->configureClientForProject($project);
+
+        $url = sprintf('1.0/repositories/%s/deploy-keys', $project->getFullName());
+        $keys = $client->get($url)->send()->json();
+
+        $count = 0;
+
+        foreach ($keys as $key) {
+            if ($key['key'] === $project->getPublicKey()) {
+                $count++;
+            }
+        }
+
+        return $count;
     }
 
     /**
@@ -389,7 +452,24 @@ class Provider extends AbstractProvider
      */
     public function countPushHooks(Project $project)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        $client = $this->configureClientForProject($project);
+
+        $url = sprintf('1.0/repositories/%s/services', $project->getFullName());
+
+        $hookUrl = $this->router->generate('app_core_hooks_provider', ['providerName' => $this->getName()], true);
+
+        /** When generating hooks from the VM, we'd rather have it pointing to a real URL */
+        $hookUrl = str_replace('http://localhost', 'http://stage1.io', $hookUrl);
+
+        $count = 0;
+
+        foreach ($client->get($url)->send()->json() as $hook) {
+            if (strtolower($hook['service']['type']) === 'post' && $hook['service']['fields'][0]['value'] === $hookUrl) {
+                $count++;
+            }
+        }
+
+        return $count;
     }
 
     /**
@@ -397,6 +477,6 @@ class Provider extends AbstractProvider
      */
     public function countPullRequestHooks(Project $project)
     {
-        throw new \Exception(sprintf('Not implemented: %s::%s', __CLASS__, __FUNCTION__));
+        return $this->countPushHooks($project);
     }
 }

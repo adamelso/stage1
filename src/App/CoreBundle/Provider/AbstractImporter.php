@@ -11,8 +11,8 @@ use App\Model\User;
 use Closure;
 use Psr\Log\LoggerInterface;
 use Redis;
+use RuntimeException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * App\CoreBundle\Provider\AbstractImporter
@@ -33,11 +33,6 @@ abstract class AbstractImporter implements ImporterInterface
      * @var Redis
      */
     protected $redis;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
-    protected $router;
 
     /**
      * @var SshKeysGenerator 
@@ -81,12 +76,11 @@ abstract class AbstractImporter implements ImporterInterface
      * @param UrlGeneratorInterface $router
      * @param SshKeysGenerator $sshKeysGenerator
      */
-    public function __construct(LoggerInterface $logger, RegistryInterface $doctrine, Redis $redis, UrlGeneratorInterface $router, SshKeysGenerator $sshKeysGenerator)
+    public function __construct(LoggerInterface $logger, RegistryInterface $doctrine, Redis $redis, SshKeysGenerator $sshKeysGenerator)
     {
         $this->logger = $logger;
         $this->doctrine = $doctrine;
         $this->redis = $redis;
-        $this->router = $router;
         $this->sshKeysGenerator = $sshKeysGenerator;
     }
 
@@ -437,17 +431,5 @@ abstract class AbstractImporter implements ImporterInterface
         $args = array_filter($args, function($arg) { return strlen($arg) > 0; });
 
         return (bool) call_user_func_array([$this->redis, 'sadd'], $args);
-    }
-
-    /**
-     * @param string    $route
-     * @param array     $parameters
-     * @param boolean   $referenceType
-     * 
-     * @return string
-     */
-    protected function generateUrl($route, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
-    {
-        return $this->router->generate($route, $parameters, $referenceType);
     }
 }

@@ -18,7 +18,6 @@ use Psr\Log\LoggerInterface;
 use Redis;
 use RuntimeException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 /**
@@ -35,16 +34,15 @@ class Import extends AbstractImporter
      * @param LoggerInterface       $logger
      * @param RegistryInterface     $doctrine
      * @param Redis                 $redis
-     * @param UrlGeneratorInterface $router
      * @param SshKeysGenerator      $sshKeysGenerator
      * @param Client                $client
      */
-    public function __construct(LoggerInterface $logger, RegistryInterface $doctrine, Redis $redis, UrlGeneratorInterface $router, SshKeysGenerator $sshKeysGenerator, Client $client)
+    public function __construct(LoggerInterface $logger, RegistryInterface $doctrine, Redis $redis, SshKeysGenerator $sshKeysGenerator, Client $client)
     {
         $this->client = $client;
         $this->client->setDefaultOption('headers/Accept', 'application/vnd.github.v3');
 
-        parent::__construct($logger, $doctrine, $redis, $router, $sshKeysGenerator);
+        parent::__construct($logger, $doctrine, $redis, $sshKeysGenerator);
     }
 
     /**
@@ -92,10 +90,9 @@ class Import extends AbstractImporter
             'private' => $infos['private'],
         ];
 
-        /** @todo this is to be set with ProviderInterface#getName */
-        $project->setProviderName('github');
-
+        $project->setProviderName($this->provider->getName());
         $project->setProviderData($providerData);
+
         $project->setFullName($infos['full_name']);
         $project->setName($infos['name']);
         $project->setDockerBaseImage('symfony2:latest');
@@ -107,7 +104,12 @@ class Import extends AbstractImporter
 
             $rp = $this->doctrine->getRepository('Model:Organization');
 
-            if (null === $org = $rp->findOneByName($infos['organization']['login'])) {
+            $org = $rp->findOneBy([
+                'name' => $infos['organization']['login'],
+                'providerName' => $this->provider->getName()
+            ]);
+
+            if (null === $org) {
                 $this->logger->info('organization not found, creating', ['organization' => $infos['organization']['login']]);
                 $orgKeys = $this->sshKeysGenerator->generate();
 
@@ -115,6 +117,7 @@ class Import extends AbstractImporter
                 $org->setName($infos['organization']['login']);
                 $org->setPublicKey($orgKeys['public']);
                 $org->setPrivateKey($orgKeys['private']);
+                $org->setProviderName($this->provider->getName());
             }
 
             $project->setOrganization($org);

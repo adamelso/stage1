@@ -28,3 +28,9 @@ The Importer object does the actual job of importing projects
 #### The Payload object
 
 The Payload object is used to translate a provider's webhook payload into an interface that Stage1 can read.
+
+### Debugging an Importer
+
+Use the `stage1:project:import` to more easily debug an importer:
+
+    $ app/console stage1:project:import stage1/stage1 ubermuda bitbucket

@@ -155,6 +155,8 @@ class ImportController extends Controller
             ];
         }
 
+        // @todo filter out existing projects from $indexedProjects
+
         return $this->render('AppCoreBundle:Import:provider.html.twig', [
             'provider' => $provider,
             'indexedProjects' => $indexedProjects,

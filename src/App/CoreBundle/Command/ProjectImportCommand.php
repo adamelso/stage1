@@ -33,7 +33,13 @@ class ProjectImportCommand extends ContainerAwareCommand
             $output->writeln('  - '.$step['label'].' ('.$step['id'].')');
         });
 
-        $output->writeln('Imported project <info>'.$project->getFullName().'</info> (id #<info>'.$project->getId().'</info>)');
+        if (false === $project) {
+            $output->writeln('<error>Failed to import project.</error>');
+
+            return 1;
+        }
+
+        $output->writeln('Imported project <info>'.$project->getFullName().'</info> (id #<info>'.$project->getId().'</info>) from provider <info>'.$provider->getName().'</info>');
     }
 
     private function findUser($spec)
