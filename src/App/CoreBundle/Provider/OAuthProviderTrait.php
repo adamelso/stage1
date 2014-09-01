@@ -3,6 +3,7 @@
 namespace App\CoreBundle\Provider;
 
 use App\Model\User;
+use App\CoreBundle\Provider\Exception as ProviderException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

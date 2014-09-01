@@ -21,55 +21,58 @@ class ProjectGithubFixCommand extends ContainerAwareCommand
             ->setDescription('Fixes malformed GitHub Project entities');
     }
 
+    public function message(OutputInterface $output, Project $project, $message)
+    {
+        $output->writeln(sprintf('<info>[%s]</info> %s', $project->getFullName(), $message));
+    }
+
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $repository = $this->getContainer()->get('doctrine')->getRepository('Model:Project');
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         foreach ($repository->findByProviderName('github') as $project) {
-            $output->writeln('using access token <info>'.$project->getUsers()->first()->getProviderAccessToken('github'));
+            $this->message($output, $project, 'using access token <info>'.$project->getUsers()->first()->getProviderAccessToken('github').'</info>');
 
             try {
                 $githubInfos = $this->getGithubInfos($project);
             } catch (\Exception $e) {
-                $output->writeln('<error>Could not fetch infos for <info>'.$project->getFullName().'</info></error>');
-                $output->writeln('<error>'.$e->getMessage().'</error>');
+                $output->writeln('<error>Could not fetch infos</error>');
                 continue;
             }
 
             $providerData = $project->getProviderData();
 
             if (strlen($providerData['hooks_url']) === 0) {
-                $output->writeln('fixing hooks url for <info>'.$project->getFullName().'</info>');
+                $this->message($output, $project, 'fixing hooks url');
                 $providerData['hooks_url'] = $githubInfos['hooks_url'];
             }
 
             if (strlen($project->getDockerBaseImage()) === 0) {
-                $output->writeln('fixing base image for <info>'.$project->getFullName().'</info>');
+                $this->message($output, $project, 'fixing base image');
                 $project->setDockerBaseImage('symfony2:latest');
             }
 
             if (strlen($providerData['url']) === 0) {
-                $output->writeln('fixing github url for <info>'.$project->getFullName().'</info>');
+                $this->message($output, $project, 'fixing github url');
                 $providerData['url'] = 'https://api.github.com/repos/'.$project->getFullName();
             }
 
             if (!array_key_exists('private', $providerData) || !is_bool($providerData['private'])) {
-                $output->writeln('fixing github private status for <info>'.$project->getFullName().'</info>');
+                $this->message($output, $project, 'fixing private status');
                 $providerData['private'] = $githubInfos['private'];
             }
 
             if (strlen($providerData['contents_url']) === 0) {
-                $output->writeln('fixing github contents url for <info>'.$project->getFullName().'</info>');
-                if (!isset($githubInfos['contents_url'])) {
-                    $output->writeln('<error>could not find a <info>contents_url</info> for <info>'.$project->getFullName().'</info></error>');
-                } else {
+                $this->message($output, $project, 'fixing contents url');
+
+                if (isset($githubInfos['contents_url'])) {
                     $providerData['contents_url'] = $githubInfos['contents_url'];
                 }
             }
 
             if (null === $project->getOrganization() && isset($githubInfos['organization'])) {
-                $output->writeln('fixing organization for <info>'.$project->getFullName().'</info>');
+                $this->message($output, $project, 'fixing organization');
 
                 $orgKeys = $this
                     ->getContainer()
@@ -86,7 +89,7 @@ class ProjectGithubFixCommand extends ContainerAwareCommand
             }
 
             if (!$project->getSettings() || strlen($project->getSettings()->getPolicy()) === 0) {
-                $output->writeln('fixing build policy for <info>'.$project->getFullName().'</info>');
+                $this->message($output, $project, 'fixing build policy');
 
                 $settings = $project->getSettings() ?: new ProjectSettings();
                 $settings->setPolicy(ProjectSettings::POLICY_ALL);
@@ -103,7 +106,8 @@ class ProjectGithubFixCommand extends ContainerAwareCommand
                 $client = $provider->configureClientForProject($project);
 
                 if (strlen($providerData['hook_id']) === 0) {
-                    $output->writeln('adding webhook for <info>'.$project->getFullName().'</info>');
+                    $this->message($output, $project, 'adding webhooks');
+                    
                     $request = $client->post($providerData['hooks_url']);
                     $request->setBody(json_encode([
                         'name' => 'web',
@@ -125,15 +129,14 @@ class ProjectGithubFixCommand extends ContainerAwareCommand
                     $installedHook = $response->json()[0];
 
                     if (count($installedHook['events']) === 1) {
-                        $output->writeln('adding pull_request webhook event for <info>'.$project->getFullName().'</info>');
+                        $this->message($output, $project, 'adding pull_request webhook');
                         $request = $client->patch($installedHook['url']);
                         $request->setBody(json_encode(['add_events' => ['pull_request']]));
                         $request->send();
                     }
                 }
             } catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
-                $output->writeln('<error>could not check webhook for <info>'.$project->getFullName().'</info>');
-                echo $e->getResponse()->getBody();
+                $output->writeln('<error>could not check webhook</error>');
             }
 
             $project->setProviderData($providerData);

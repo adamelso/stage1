@@ -4,6 +4,15 @@
                     http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <entity name="App\Model\User" table="user" repository-class="App\Model\UserRepository">
+        <attribute-overrides>
+            <attribute-override name="usernameCanonical">
+                <field name="usernameCanonical" column="username_canonical" type="string" length="255" />
+            </attribute-override>
+            <attribute-override name="emailCanonical">
+                <field name="emailCanonical" column="email_canonical" type="string" length="255" />
+            </attribute-override>
+        </attribute-overrides>
+
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO" />
         </id>
