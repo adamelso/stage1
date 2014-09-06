@@ -29,6 +29,11 @@ class BuildRoutingListener
     private $buildHostMask;
 
     /**
+     * @var string
+     */
+    private $builderIp;
+
+    /**
      * @param LoggerInterface $logger
      * @param Redis $redis
      * @param string $buildHostMask
@@ -40,7 +45,10 @@ class BuildRoutingListener
         $this->buildHostMask = $buildHostMask;
         $this->builderIp = $builderIp;
 
-        $logger->info('initialized '.__CLASS__);
+        $logger->info('initialized '.__CLASS__, [
+            'buildHostMask' => $buildHostMask,
+            'builderIp' => $builderIp,
+        ]);
     }
 
     /**

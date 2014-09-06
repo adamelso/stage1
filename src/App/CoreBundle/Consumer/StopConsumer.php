@@ -49,8 +49,8 @@ class StopConsumer implements ConsumerInterface
             try {
                 $this->docker
                     ->getContainerManager()
-                    ->stop($container)
-                    ->remove($container);
+                    ->stop($build->getContainer())
+                    ->remove($build->getContainer());
 
                 $this->logger->info('stopped and removed container', [
                     'build' => $build->getId(),
