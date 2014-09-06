@@ -1,3 +1,4 @@
+stage1.sql*
 /service/**/supervise/
 .DS_Store
 /output-vmware/

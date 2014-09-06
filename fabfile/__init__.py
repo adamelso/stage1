@@ -7,14 +7,11 @@ import service
 # env.hosts = ['batcave.stage1.io', 'alpha.stage1.io', 'alom.fr']
 
 env.roledefs = {
-    'web': ['batcave.stage1.io'],
-    'help': ['batcave.stage1.io'],
-    'blog': ['batcave.stage1.io'],
-    'router': ['alpha.stage1.io'],
-    'build': [
-        'alom.fr',
-        'alpha.stage1.io'
-    ],
+    'web': ['batcave'],
+    'help': ['batcave'],
+    'blog': ['batcave'],
+    'router': ['alpha'],
+    'build': ['alom', 'alpha', 'jubianchi']
 }
 
 # env.host_string = 'stage1.io'
@@ -23,7 +20,7 @@ env.project_path = '/var/www/stage1'
 env.upstart_path = '/etc/init'
 env.remote_dump_path = '/root/dump'
 env.local_dump_path = '~/dump'
-# env.use_ssh_config = True
+env.use_ssh_config = True
 env.rsync_exclude_from = './app/Resources/rsync-exclude.txt'
 
 env.processes_prefix = 'stage1'
@@ -45,6 +42,10 @@ env.log_files = [
     '/var/log/php5-fpm.log',
     '/var/log/mysql/error.log',
 ]
+
+@task
+def rsync():
+    deploy.rsync()
 
 # @task
 # def backup():
