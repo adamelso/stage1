@@ -61,12 +61,12 @@ class Importer extends AbstractImporter
         $steps = parent::getSteps();
 
         foreach ($steps as $i => $step) {
-            if ($step['id'] === 'pull_request') {
+            if ($step['id'] === 'pull_requests') {
                 unset($steps[$i]);
             }
         }
 
-        return $steps;
+        return array_values($steps);
     }
 
     /**

@@ -20,6 +20,7 @@
         }
 
         on('import.start', function(data) {
+            console.log(data);
             $('#candidate-' + data.project_slug + ' button').addClass('btn-success');
             $('#progress').html(tpl_import(data));
         });
@@ -63,12 +64,6 @@
             var project_button = tpl_project_button({ url: data.project_url });
 
             $('#project-import-footer').append(project_button);
-
-            if ($('#nav-projects').length == 0) {
-                $('#sidebar').prepend(tpl_nav_project());
-            }
-
-            $('#nav-projects').append(tpl_nav_project_item({ link: project_link }));
         });
     });
 
