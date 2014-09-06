@@ -21,6 +21,7 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider
+                login_path: /login/github
             logout: true
             anonymous: true
             switch_user: { role: ROLE_ADMIN }
