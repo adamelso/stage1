@@ -20,7 +20,7 @@
         }
 
         on('import.start', function(data) {
-            console.log(data);
+            // console.log(data);
             $('#candidate-' + data.project_slug + ' button').addClass('btn-success');
             $('#progress').html(tpl_import(data));
         });
