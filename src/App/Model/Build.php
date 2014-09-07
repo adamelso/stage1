@@ -880,29 +880,6 @@ class Build implements WebsocketRoutable
     }
 
     /**
-     * Set demo
-     *
-     * @param \App\Model\Demo $demo
-     * @return Build
-     */
-    public function setDemo(\App\Model\Demo $demo = null)
-    {
-        $this->demo = $demo;
-    
-        return $this;
-    }
-
-    /**
-     * Get demo
-     *
-     * @return \App\Model\Demo 
-     */
-    public function getDemo()
-    {
-        return $this->demo;
-    }
-
-    /**
      * Set duration
      *
      * @param integer $duration

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\CoreBundle\Provider\BitBucket;
+namespace App\CoreBundle\Provider;
 
 use App\Model\Build;
 use App\Model\Project;
@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class Provider extends AbstractProvider
+class ProviderSkeleton extends AbstractProvider
 {
     /**
      * @var string

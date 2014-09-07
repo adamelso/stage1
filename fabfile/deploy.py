@@ -33,8 +33,8 @@ def build():
     info('deploying branch "%s"' % ref)
     info('checking that the repository is clean')
 
-    git_check_is_clean(ref)
-    git_tag_release()
+    # git_check_is_clean(ref)
+    # git_tag_release()
 
     symfony_reset_local_environment()
 
@@ -49,8 +49,8 @@ def web():
     ref = git_branch()
     info('deploying branch "%s"' % ref)
 
-    git_check_is_clean(ref)
-    git_tag_release()
+    # git_check_is_clean(ref)
+    # git_tag_release()
 
     symfony_reset_local_environment()
     symfony_prepare_assets()

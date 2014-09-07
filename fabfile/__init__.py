@@ -10,7 +10,7 @@ env.roledefs = {
     'web': ['batcave'],
     'help': ['batcave'],
     'blog': ['batcave'],
-    'router': ['alpha'],
+    'router': ['batcave'],
     'build': ['alom', 'alpha', 'jubianchi']
 }
 

@@ -1,0 +1,9 @@
+parameters:
+    github_client_id: ~
+    github_client_secret: ~
+    github_api_base_url: ~
+    github_base_url: ~
+    bitbucket_key: ~
+    bitbucket_secret: ~
+    bitbucket_api_base_url: ~
+    bitbucket_base_url: ~

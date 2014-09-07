@@ -27,6 +27,7 @@ web/assets/
 app/config/parameters.ini
 app/config/parameters.yml
 app/config/github.yml
+app/config/providers.yml
 app/config/hipache_prod.json
 app/SymfonyRequirements.php
 app/check.php

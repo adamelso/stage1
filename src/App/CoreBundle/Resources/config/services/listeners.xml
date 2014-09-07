@@ -10,7 +10,6 @@
         <parameter key="app_core.listener.build.pull_request.class">App\CoreBundle\EventListener\Build\PullRequestListener</parameter>
         <parameter key="app_core.listener.build.commit_statuses.class">App\CoreBundle\EventListener\Build\CommitStatusesListener</parameter>
         <parameter key="app_core.listener.build.container_limit.class">App\CoreBundle\EventListener\Build\ContainersLimitListener</parameter>
-        <parameter key="app_core.listener.build.build_demo_email.class">App\CoreBundle\EventListener\Build\BuildDemoEmailListener</parameter>
         <parameter key="app_core.listener.build.build_stopwatch.class">App\CoreBundle\EventListener\Build\BuildStopwatchListener</parameter>
         <parameter key="app_core.listener.build.build_websocket_messages.class">App\CoreBundle\EventListener\Build\BuildWebsocketMessagesListener</parameter>
         <parameter key="app_core.listener.project_access_table.class">App\CoreBundle\EventListener\ProjectAccessTableListener</parameter>
