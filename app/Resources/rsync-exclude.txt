@@ -8,8 +8,8 @@ rsync.log
 app/SymfonyRequirements.php
 app/check.php
 app/config/parameters.yml
+app/config/providers.yml
 app/config/hipache_prod.json
-app/config/github.yml
 app/Resources/samples/
 app/cache/
 app/logs/
