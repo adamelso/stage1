@@ -16,7 +16,7 @@
 
         <p class="lead">If you wish to use Stage1 with public projects only, we will ask for the <strong>public_repo</strong> scope, which allows us to configure the Stage1 WebHook automatically in your projects. Use of this WebHook is optional, so you don't have to grant the <strong>public_repo</strong> scope if you do not wish to.</p>
 
-        <p id="get-on-stage"><a class="btn btn-large btn-success" href="{{ path('app_core_auth_github_authorize') }}">Get on stage!</a></p>
+        <p id="get-on-stage"><a class="btn btn-large btn-success" href="{{ path('app_core_login_provider', { providerName: 'github' }) }}">Get on stage!</a></p>
     </div>
 </div>
 

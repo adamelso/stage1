@@ -9,7 +9,10 @@
                 <field name="usernameCanonical" column="username_canonical" type="string" length="255" />
             </attribute-override>
             <attribute-override name="emailCanonical">
-                <field name="emailCanonical" column="email_canonical" type="string" length="255" />
+                <field name="emailCanonical" column="email_canonical" type="string" length="255" nullable="true" />
+            </attribute-override>
+            <attribute-override name="email">
+                <field name="email" column="email" type="string" length="255" nullable="true" />
             </attribute-override>
         </attribute-overrides>
 
