@@ -223,8 +223,8 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
      */
     public function createPayloadFromRequest(Request $request)
     {
-        $deliveryId = $this->request->headers->get('X-GitHub-Delivery');
-        $event = $this->request->headers->get('X-GitHub-Event');
+        $deliveryId = $request->headers->get('X-GitHub-Delivery');
+        $event = $request->headers->get('X-GitHub-Event');
 
         return new Payload($request->getContent(), $deliveryId, $event);
     }
