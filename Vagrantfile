@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
     config.vm.hostname = 'stage1.dev'
     config.vm.network :private_network, ip: '192.168.215.42'
     
-    config.vm.synced_folder '.', '/var/www/stage1', type: 'nfs'
+    config.vm.synced_folder '.', '/var/www/stage1', type: 'nfs', :mount_options => ['actimeo=1']
 
     config.hostmanager.aliases = %w(stage1.dev www.stage1.dev help.stage1.dev)
 

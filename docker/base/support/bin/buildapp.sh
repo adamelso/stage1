@@ -21,7 +21,7 @@ fi
 cd $APP_ROOT
 
 # composer configuration to avoid hitting github's api rate limit
-if [ -f composer.json && -a -n "$GITHUB_ACCESS_TOKEN" ]; then
+if [ -f composer.json -a -n "$GITHUB_ACCESS_TOKEN" ]; then
     stage1_composer_configure $GITHUB_ACCESS_TOKEN
 fi
 
