@@ -26,6 +26,24 @@ class ProjectFixProviderCommand extends ContainerAwareCommand
                 if ($this->fixProvider($output, $project)) {
                     $manager->persist($project);
                 }
+
+                if ($project->getProviderName() === 'github') {
+                    if (null === $project->getIsPrivate()) {
+                        $output->writeln('fixing private status for <info>'.$project->getFullName().'</info>');
+                        $project->setIsPrivate($project->getProviderData('private'));
+
+                        $manager->persist($project);
+                    }
+
+                    if (strlen($project->getGitUrl()) === 0) {
+                        $output->writeln('fixing git_url for <info>'.$project->getFullName().'</info>');
+                        $field = $project->getIsPrivate() ? 'ssh_url' : 'clone_url';
+                        $project->setGitUrl($project->getProviderData($field));
+
+                        $manager->persist($project);
+                    }
+                }
+
             } catch (\Exception $e) {
                 $output->writeln('<error>could not fix provider for project "'.$project->getGithubFullName().'</error>');
                 $output->writeln('<error>'.$e->getMessage().'</error>');
@@ -41,6 +59,8 @@ class ProjectFixProviderCommand extends ContainerAwareCommand
             $output->writeln('project <info>'.$project->getFullName().'</info> already migrated');
             return false;
         }
+
+        $output->writeln('migrating project <info>'.$project->getFullName().'</info>');
 
         $project->setFullName($project->getGithubFullName());
 
@@ -59,5 +79,7 @@ class ProjectFixProviderCommand extends ContainerAwareCommand
             'private' => $project->getGithubPrivate(),
             'url' => $project->getGithubUrl(),
         ]);
+
+        return true;
     }
 }
