@@ -54,7 +54,8 @@ class Builder
         'dummy_duration' => 10,
         'composer_enable_global_cache' => false,
         'composer_enable_project_cache' => false,
-        'composer_cache_path' => '/usr/local/share/composer/cache/'
+        'composer_cache_path' => '/usr/local/share/composer/cache/',
+        'dockerfile_enable_cache' => false
     ];
     
     /**

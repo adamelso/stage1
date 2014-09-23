@@ -115,6 +115,11 @@
                 <argument>dummy_duration</argument>
                 <argument>%stage1_dummy_build_duration%</argument>
             </call>
+
+            <call method="setOption">
+                <argument>dockerfile_enable_cache</argument>
+                <argument>%dockerfile_enable_cache%</argument>
+            </call>
         </service>
 
     </services>

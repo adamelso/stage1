@@ -82,3 +82,6 @@ parameters:
 
     # Users bypassing the beta signup process
     force_enable: ['ubermuda']
+
+    # enable Dockerfile cache
+    dockerfile_enable_cache: false
