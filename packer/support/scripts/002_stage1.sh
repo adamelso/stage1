@@ -64,8 +64,8 @@ cp /tmp/nginx-stage1.conf /etc/nginx/sites-available/default
 
 cp /tmp/docker-default /etc/default/docker
 
-cp /tmp/php-php.ini /etc/php5/cli/php.ini
-cp /tmp/php-php.ini /etc/php5/fpm/php.ini
+cp /tmp/php-php-cli.ini /etc/php5/cli/php.ini
+cp /tmp/php-php-fpm.ini /etc/php5/fpm/php.ini
 
 if [ -f /tmp/rabbitmq-rabbitmq.config ]; then
     cp /tmp/rabbitmq-rabbitmq.config /etc/rabbitmq/rabbitmq.config

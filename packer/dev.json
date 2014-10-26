@@ -99,8 +99,13 @@
       "type": "file"
     },
     {
-      "destination": "/tmp/php-php.ini",
-      "source": "packer/support/config/php/php.ini",
+      "destination": "/tmp/php-php-cli.ini",
+      "source": "packer/support/config/php/php-cli.ini",
+      "type": "file"
+    },
+    {
+      "destination": "/tmp/php-php-fpm.ini",
+      "source": "packer/support/config/php/php-fpm.ini",
       "type": "file"
     },
     {
