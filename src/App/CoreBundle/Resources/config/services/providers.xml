@@ -50,13 +50,13 @@
             <argument type="service" id="app_core.redis" />
             <argument type="service" id="app_core.ssh_keys_generator" />
             <argument type="service" id="app_core.provider.github.client" />
-            
+
             <tag name="monolog.logger" channel="build" />
 
             <call method="setFeatureIpAccessList">
                 <argument>%feature_ip_access_list%</argument>
             </call>
-            
+
             <call method="setFeatureTokenAccessList">
                 <argument>%feature_token_access_list%</argument>
             </call>
@@ -86,13 +86,13 @@
             <argument type="service" id="app_core.provider.bitbucket.client" />
             <argument>%bitbucket_key%</argument>
             <argument>%bitbucket_secret%</argument>
-            
+
             <tag name="monolog.logger" channel="build" />
 
             <call method="setFeatureIpAccessList">
                 <argument>%feature_ip_access_list%</argument>
             </call>
-            
+
             <call method="setFeatureTokenAccessList">
                 <argument>%feature_token_access_list%</argument>
             </call>

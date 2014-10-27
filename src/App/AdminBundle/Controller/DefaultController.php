@@ -13,7 +13,7 @@ class DefaultController extends Controller
         $projects = $doctrine
             ->getRepository('Model:Project')
             ->findBy([], ['createdAt' => 'DESC'], 5);
-            
+
         $users = $doctrine
             ->getRepository('Model:User')
             ->findBy([], ['createdAt' => 'DESC'], 5);

@@ -47,7 +47,7 @@ class PullRequest
 
     /**
      * A Pull Request can not be a demo
-     * 
+     *
      * @return boolean
      */
     public function getIsDemo()
@@ -96,7 +96,7 @@ class PullRequest
     {
         return preg_replace('/[^a-z0-9\-]/', '-', strtolower($this->getRef()));
     }
-    
+
     /** @Buildable */
     public function getLastBuild()
     {
@@ -109,25 +109,25 @@ class PullRequest
         $this->lastBuild = $build;
 
         return $this;
-    } 
+    }
 
     /**
      * Set number
      *
-     * @param integer $number
+     * @param  integer     $number
      * @return PullRequest
      */
     public function setNumber($number)
     {
         $this->number = $number;
-    
+
         return $this;
     }
 
     /**
      * Get number
      *
-     * @return integer 
+     * @return integer
      */
     public function getNumber()
     {
@@ -137,20 +137,20 @@ class PullRequest
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string      $title
      * @return PullRequest
      */
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -160,20 +160,20 @@ class PullRequest
     /**
      * Set open
      *
-     * @param boolean $open
+     * @param  boolean     $open
      * @return PullRequest
      */
     public function setOpen($open)
     {
         $this->open = $open;
-    
+
         return $this;
     }
 
     /**
      * Get open
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOpen()
     {
@@ -183,20 +183,20 @@ class PullRequest
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime   $createdAt
      * @return PullRequest
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -206,20 +206,20 @@ class PullRequest
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime   $updatedAt
      * @return PullRequest
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -229,7 +229,7 @@ class PullRequest
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -239,13 +239,13 @@ class PullRequest
     /**
      * Add builds
      *
-     * @param \App\Model\Build $builds
+     * @param  \App\Model\Build $builds
      * @return PullRequest
      */
     public function addBuild(\App\Model\Build $builds)
     {
         $this->builds[] = $builds;
-    
+
         return $this;
     }
 
@@ -262,7 +262,7 @@ class PullRequest
     /**
      * Get builds
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBuilds()
     {
@@ -272,20 +272,20 @@ class PullRequest
     /**
      * Set project
      *
-     * @param \App\Model\Project $project
+     * @param  \App\Model\Project $project
      * @return PullRequest
      */
     public function setProject(\App\Model\Project $project = null)
     {
         $this->project = $project;
-    
+
         return $this;
     }
 
     /**
      * Get project
      *
-     * @return \App\Model\Project 
+     * @return \App\Model\Project
      */
     public function getProject()
     {
@@ -295,20 +295,20 @@ class PullRequest
     /**
      * Set ref
      *
-     * @param string $ref
+     * @param  string      $ref
      * @return PullRequest
      */
     public function setRef($ref)
     {
         $this->ref = $ref;
-    
+
         return $this;
     }
 
     /**
      * Get ref
      *
-     * @return string 
+     * @return string
      */
     public function getRef()
     {
@@ -318,20 +318,20 @@ class PullRequest
     /**
      * Set url
      *
-     * @param string $url
+     * @param  string      $url
      * @return PullRequest
      */
     public function setUrl($url)
     {
         $this->url = $url;
-    
+
         return $this;
     }
 
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {

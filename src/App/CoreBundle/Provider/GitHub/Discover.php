@@ -36,7 +36,7 @@ class Discover implements DiscovererInterface
     private $logger;
 
     /**
-     * @param Client $client
+     * @param Client          $client
      * @param LoggerInterface $logger
      */
     public function __construct(Client $client, LoggerInterface $logger)
@@ -155,7 +155,7 @@ class Discover implements DiscovererInterface
 
     /**
      * @param string $fullName
-     * 
+     *
      * @return array
      */
     private function getProjectInfo($fullName)

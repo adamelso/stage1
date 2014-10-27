@@ -42,11 +42,13 @@ class ProjectController extends Controller
 
         if ($request->request->get('name') !== $project->getName()) {
             $flash->add('delete-error', 'Project name validation failed.');
+
             return $this->redirect($this->generateUrl('app_core_project_admin', ['id' => $id]));
         }
 
         if ($request->request->get('csrf_token') !== $session->get('csrf_token')) {
             $flash->add('delete-error', 'CSRF validation failed.');
+
             return $this->redirect($this->generateUrl('app_core_project_admin', ['id' => $id]));
         }
 
@@ -80,9 +82,9 @@ class ProjectController extends Controller
             ->setMaxResults(100)
             ->execute();
 
-        $running_builds = array_filter($builds, function($build) { return $build->isRunning(); });
-        $pending_builds = array_filter($builds, function($build) { return $build->isPending(); });
-        $other_builds = array_filter($builds, function($build) { return !($build->isRunning() || $build->isPending()); });
+        $running_builds = array_filter($builds, function ($build) { return $build->isRunning(); });
+        $pending_builds = array_filter($builds, function ($build) { return $build->isPending(); });
+        $other_builds = array_filter($builds, function ($build) { return !($build->isRunning() || $build->isPending()); });
 
         return $this->render('AppCoreBundle:Project:builds.html.twig', [
             'project' => $project,
@@ -209,6 +211,7 @@ class ProjectController extends Controller
 
         if ($form->isValid()) {
             $this->persistAndFlush($project);
+
             return $this->redirect($this->generateUrl('app_core_project_admin', ['id' => $project->getId()]));
         }
 
@@ -265,7 +268,7 @@ class ProjectController extends Controller
 
         if ($project->getSettings() && strlen($project->getSettings()->getPolicy()) === 0) {
             $this->get('session')->set('return', $this->generateUrl('app_core_project_branches', ['id' => $project->getId()]));
-            
+
             return $this->redirect($this->generateUrl('app_core_project_settings_policy', ['id' => $project->getId()]));
         }
 
@@ -274,7 +277,7 @@ class ProjectController extends Controller
             ->getRepository('Model:Build')
             ->findLastByRefs($project);
 
-        foreach ($builds as $build) {     
+        foreach ($builds as $build) {
             foreach ($project->getActiveBranches() as $branch) {
                 if ($branch->getName() == $build->getRef()) {
                     $branch->setLastBuild($build);
@@ -469,7 +472,7 @@ class ProjectController extends Controller
             }
 
             $access = new ProjectAccess($this->getClientIp(), $request->getSession()->getId());
-            
+
             $this->grantProjectAccess($project, $access);
 
             if (strlen($return = $request->request->get('return')) > 0) {
@@ -480,7 +483,6 @@ class ProjectController extends Controller
 
             break;
         }
-
 
         return $this->render('AppCoreBundle:Project:auth.html.twig', [
             'project' => $project,

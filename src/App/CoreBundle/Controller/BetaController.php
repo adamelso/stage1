@@ -40,7 +40,7 @@ class BetaController extends Controller
         } else {
             return $this->render('AppCoreBundle:Beta:landing.html.twig', [
                 'beta' => $beta,
-            ]);            
+            ]);
         }
     }
 

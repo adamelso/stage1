@@ -40,13 +40,13 @@ class ProjectBranchDedupCommand extends ContainerAwareCommand
                 throw new InvalidArgumentException('Project not found "' . $input->getArgument('project_spec').'"');
             }
 
-            $projects = [$project];            
+            $projects = [$project];
         }
 
         foreach ($projects as $project) {
             $branches = [];
             $output->writeln('inspecting project <info>'.$project->getFullName().'</info>');
-            
+
             foreach ($project->getBranches() as $branch) {
                 if (isset($branches[$branch->getName()])) {
                     $output->writeln('  - marking branch <info>'.$branch->getId().'</info> (<comment>'.$branch->getName().'</comment>) for removal');
@@ -64,12 +64,11 @@ class ProjectBranchDedupCommand extends ContainerAwareCommand
                 }
 
                 $branches[$branch->getName()] = $branch;
-            }            
+            }
         }
 
-
         if ($input->getOption('force')) {
-            $em->flush();            
+            $em->flush();
         } else {
             $output->writeln('<error>Use the --force if you really mean it.</error>');
         }

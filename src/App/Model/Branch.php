@@ -45,12 +45,12 @@ class Branch
         if (null === $this->domain) {
             $name = preg_replace('/[^a-z0-9\-]/', '-', strtolower($this->getName()));
 
-            return sprintf('%s.%s', $name, $this->getProject()->getDomain());            
+            return sprintf('%s.%s', $name, $this->getProject()->getDomain());
         }
 
         return $this->domain;
     }
-    
+
     /**
      * @param string $domain
      *
@@ -124,24 +124,24 @@ class Branch
 
         return $this;
     }
-    
+
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Branch
      */
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -151,20 +151,20 @@ class Branch
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime $createdAt
      * @return Branch
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -174,20 +174,20 @@ class Branch
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime $updatedAt
      * @return Branch
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -197,7 +197,7 @@ class Branch
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -207,20 +207,20 @@ class Branch
     /**
      * Set project
      *
-     * @param \App\Model\Project $project
+     * @param  \App\Model\Project $project
      * @return Branch
      */
     public function setProject(\App\Model\Project $project = null)
     {
         $this->project = $project;
-    
+
         return $this;
     }
 
     /**
      * Get project
      *
-     * @return \App\Model\Project 
+     * @return \App\Model\Project
      */
     public function getProject()
     {
@@ -230,13 +230,13 @@ class Branch
     /**
      * Add builds
      *
-     * @param \App\Model\Build $builds
+     * @param  \App\Model\Build $builds
      * @return Branch
      */
     public function addBuild(\App\Model\Build $builds)
     {
         $this->builds[] = $builds;
-    
+
         return $this;
     }
 
@@ -253,7 +253,7 @@ class Branch
     /**
      * Get builds
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBuilds()
     {
@@ -263,20 +263,20 @@ class Branch
     /**
      * Set deleted
      *
-     * @param boolean $deleted
+     * @param  boolean $deleted
      * @return Branch
      */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-    
+
         return $this;
     }
 
     /**
      * Get deleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDeleted()
     {
@@ -286,20 +286,20 @@ class Branch
     /**
      * Set isDemo
      *
-     * @param boolean $isDemo
+     * @param  boolean $isDemo
      * @return Branch
      */
     public function setIsDemo($isDemo)
     {
         $this->isDemo = $isDemo;
-    
+
         return $this;
     }
 
     /**
      * Get isDemo
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsDemo()
     {

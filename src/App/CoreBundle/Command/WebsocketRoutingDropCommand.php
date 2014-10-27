@@ -23,6 +23,7 @@ class WebsocketRoutingDropCommand extends ContainerAwareCommand
     {
         if (!$input->getOption('force')) {
             $output->writeln('<error>Use the --force, Luke.</error>');
+
             return;
         }
 

@@ -29,7 +29,7 @@ class ProjectImportCommand extends ContainerAwareCommand
         $importer = $provider->getImporter();
         $importer->setUser($user);
 
-        $project = $importer->import($input->getArgument('full_name'), function($step) use ($output) {
+        $project = $importer->import($input->getArgument('full_name'), function ($step) use ($output) {
             $output->writeln('  - '.$step['label'].' ('.$step['id'].')');
         });
 

@@ -11,7 +11,7 @@ class ProjectSettings
     const POLICY_NONE = 'none';
     const POLICY_PATTERNS = 'patterns';
     const POLICY_PR = 'pr';
-    
+
     /**
      * @var string
      */
@@ -27,24 +27,23 @@ class ProjectSettings
      */
     private $project;
 
-
     /**
      * Set buildYml
      *
-     * @param string $buildYml
+     * @param  string          $buildYml
      * @return ProjectSettings
      */
     public function setBuildYml($buildYml)
     {
         $this->buildYml = $buildYml;
-    
+
         return $this;
     }
 
     /**
      * Get buildYml
      *
-     * @return string 
+     * @return string
      */
     public function getBuildYml()
     {
@@ -54,7 +53,7 @@ class ProjectSettings
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -64,20 +63,20 @@ class ProjectSettings
     /**
      * Set project
      *
-     * @param \App\Model\Project $project
+     * @param  \App\Model\Project $project
      * @return ProjectSettings
      */
     public function setProject(\App\Model\Project $project = null)
     {
         $this->project = $project;
-    
+
         return $this;
     }
 
     /**
      * Get project
      *
-     * @return \App\Model\Project 
+     * @return \App\Model\Project
      */
     public function getProject()
     {
@@ -93,24 +92,23 @@ class ProjectSettings
      */
     private $branchPatterns;
 
-
     /**
      * Set branchPatterns
      *
-     * @param array $branchPatterns
+     * @param  array           $branchPatterns
      * @return ProjectSettings
      */
     public function setBranchPatterns($branchPatterns)
     {
         $this->branchPatterns = $branchPatterns;
-    
+
         return $this;
     }
 
     /**
      * Get branchPatterns
      *
-     * @return string 
+     * @return string
      */
     public function getBranchPatterns()
     {
@@ -121,24 +119,23 @@ class ProjectSettings
      */
     private $policy;
 
-
     /**
      * Set policy
      *
-     * @param string $policy
+     * @param  string          $policy
      * @return ProjectSettings
      */
     public function setPolicy($policy)
     {
         $this->policy = $policy;
-    
+
         return $this;
     }
 
     /**
      * Get policy
      *
-     * @return string 
+     * @return string
      */
     public function getPolicy()
     {

@@ -27,8 +27,8 @@ class WebsocketRoutingTableSubscriber implements EventSubscriber
     private $redis;
 
     /**
-     * @param LoggerInterface   $logger
-     * @param Redis                     $redis
+     * @param LoggerInterface $logger
+     * @param Redis           $redis
      */
     public function __construct(LoggerInterface $logger, Redis $redis)
     {
@@ -49,14 +49,14 @@ class WebsocketRoutingTableSubscriber implements EventSubscriber
 
     /**
      * @param App\Model\WebsocketRoutable
-     * 
+     *
      * @return string
      */
     private function getChannels(WebsocketRoutable $entity)
     {
         return [
             'entity' => $entity->getChannel(),
-            'users' => $entity->getUsers()->map(function(User $user) {
+            'users' => $entity->getUsers()->map(function (User $user) {
                 return 'channel:routing:'.$user->getChannel();
             })
         ];

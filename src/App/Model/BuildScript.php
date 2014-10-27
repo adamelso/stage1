@@ -34,7 +34,7 @@ class BuildScript
 
     /**
      * @param string $json
-     * 
+     *
      * @return BuildScript
      */
     public static function fromJson($json)
@@ -49,24 +49,23 @@ class BuildScript
         return $obj;
     }
 
-
     /**
      * Set buildScript
      *
-     * @param string $buildScript
+     * @param  string      $buildScript
      * @return BuildScript
      */
     public function setBuildScript($buildScript)
     {
         $this->buildScript = $buildScript;
-    
+
         return $this;
     }
 
     /**
      * Get buildScript
      *
-     * @return string 
+     * @return string
      */
     public function getBuildScript()
     {
@@ -76,20 +75,20 @@ class BuildScript
     /**
      * Set runScript
      *
-     * @param string $runScript
+     * @param  string      $runScript
      * @return BuildScript
      */
     public function setRunScript($runScript)
     {
         $this->runScript = $runScript;
-    
+
         return $this;
     }
 
     /**
      * Get runScript
      *
-     * @return string 
+     * @return string
      */
     public function getRunScript()
     {
@@ -99,20 +98,20 @@ class BuildScript
     /**
      * Set config
      *
-     * @param string $config
+     * @param  string      $config
      * @return BuildScript
      */
     public function setConfig($config)
     {
         $this->config = $config;
-    
+
         return $this;
     }
 
     /**
      * Get config
      *
-     * @return string 
+     * @return string
      */
     public function getConfig()
     {
@@ -122,7 +121,7 @@ class BuildScript
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -132,20 +131,20 @@ class BuildScript
     /**
      * Set build
      *
-     * @param \App\Model\Build $build
+     * @param  \App\Model\Build $build
      * @return BuildScript
      */
     public function setBuild(\App\Model\Build $build = null)
     {
         $this->build = $build;
-    
+
         return $this;
     }
 
     /**
      * Get build
      *
-     * @return \App\Model\Build 
+     * @return \App\Model\Build
      */
     public function getBuild()
     {
@@ -156,24 +155,23 @@ class BuildScript
      */
     private $runtimeEnv;
 
-
     /**
      * Set runtimeEnv
      *
-     * @param array $runtimeEnv
+     * @param  array       $runtimeEnv
      * @return BuildScript
      */
     public function setRuntimeEnv($runtimeEnv)
     {
         $this->runtimeEnv = $runtimeEnv;
-    
+
         return $this;
     }
 
     /**
      * Get runtimeEnv
      *
-     * @return array 
+     * @return array
      */
     public function getRuntimeEnv()
     {

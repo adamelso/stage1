@@ -2,7 +2,6 @@
 
 namespace App\CoreBundle\Command;
 
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,9 +23,9 @@ class OrganizationFixCommand extends ContainerAwareCommand
         foreach ($repository->findAll() as $organization) {
             if (strlen($organization->getProviderName()) === 0) {
                 $output->writeln('Fixing <info>providerName</info> for <infor>'.$organization->getName().'</info>');
-                
+
                 $organization->setProviderName('github');
-                $em->persist($organization);                
+                $em->persist($organization);
             }
         }
 

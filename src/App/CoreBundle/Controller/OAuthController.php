@@ -9,17 +9,14 @@ use App\Model\BetaSignup;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContextInterface;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\Security\Http\SecurityEvents;
 
 class OAuthController extends Controller
 {
     /**
-     * @param User $user
+     * @param User             $user
      * @param SessionInterface $session
-     * 
+     *
      * @return boolean
      */
     private function isForceEnabled(User $user, SessionInterface $session)
@@ -40,7 +37,7 @@ class OAuthController extends Controller
 
     /**
      * @param User $user
-     * 
+     *
      * @return BetaSignup
      */
     private function createBetaSignup(User $user)
@@ -55,7 +52,7 @@ class OAuthController extends Controller
             $beta->setTries($user->getWaitingList());
             $beta->setStatus(BetaSignup::STATUS_DEFAULT);
 
-            $em->persist($beta);            
+            $em->persist($beta);
         }
 
         return $beta;
@@ -63,7 +60,7 @@ class OAuthController extends Controller
 
     /**
      * @param Request $request
-     * 
+     *
      * @return Symfony\Component\HttpFoundation\Response
      */
     public function providerAction(Request $request, $providerName)
@@ -74,9 +71,9 @@ class OAuthController extends Controller
     }
 
     /**
-     * @param Request   $request
-     * @param string    $providerName
-     * 
+     * @param Request $request
+     * @param string  $providerName
+     *
      * @return Response
      */
     public function callbackAction(Request $request, $providerName)
@@ -92,9 +89,9 @@ class OAuthController extends Controller
     }
 
     /**
-     * @param Request   $request
-     * @param string    $providerName
-     * 
+     * @param Request $request
+     * @param string  $providerName
+     *
      * @return Response
      */
     private function handleOAuthCallbackNotAuthenticated(Request $request, ProviderInterface $provider)
@@ -169,11 +166,10 @@ class OAuthController extends Controller
         return $this->redirect($redirectUrl);
     }
 
-
     /**
-     * @param Request   $request
-     * @param string    $providerName
-     * 
+     * @param Request $request
+     * @param string  $providerName
+     *
      * @return Response
      */
     private function handleOAuthCallbackAuthenticated(Request $request, User $user, ProviderInterface $provider)

@@ -53,6 +53,7 @@ class KillConsumer implements ConsumerInterface
 
         if (!$build) {
             $logger->warning('could not find build', ['build' => $body->build_id]);
+
             return;
         }
 
@@ -98,10 +99,11 @@ class KillConsumer implements ConsumerInterface
                 'container' => $container->getId()
             ]);
 
-            try {            
+            try {
                 $this->docker->getContainerManager()->stop($container);
             } catch (\Exception $e) {
                 $logger->error($e->getMessage());
+
                 return;
             }
         }

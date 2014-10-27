@@ -47,6 +47,6 @@ class GithubCommand extends ContainerAwareCommand
             $response = $e->getResponse();
         }
 
-        $output->writeln(json_encode($response->json(), JSON_PRETTY_PRINT));    
+        $output->writeln(json_encode($response->json(), JSON_PRETTY_PRINT));
     }
 }

@@ -56,7 +56,7 @@ class BuildBranchRelationSubscriber implements EventSubscriber
         }
 
         $em = $this->doctrine->getManager();
-        
+
         $branch = $this->doctrine
             ->getRepository('Model:Branch')
             ->findOneByProjectAndName($build->getProject(), $build->getRef());

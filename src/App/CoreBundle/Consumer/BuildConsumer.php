@@ -17,7 +17,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Exception;
 
-
 class BuildConsumer implements ConsumerInterface
 {
     private $logger;
@@ -51,7 +50,7 @@ class BuildConsumer implements ConsumerInterface
     /**
      * @param string $name
      * @param mixed  $value
-     * 
+     *
      * @return App\CoreBundle\Builder\Builder
      */
     public function setOption($name, $value)
@@ -61,7 +60,7 @@ class BuildConsumer implements ConsumerInterface
 
     /**
      * @param string $name
-     * 
+     *
      * @return mixed
      */
     public function getOption($name)
@@ -80,6 +79,7 @@ class BuildConsumer implements ConsumerInterface
 
         if (!$build) {
             $this->logger->info('could not find build #'.$body->build_id);
+
             return;
         }
 
@@ -115,12 +115,13 @@ class BuildConsumer implements ConsumerInterface
         $allowBuild = true;
 
         if (count($sameHashBuilds) > 0) {
-            $allowBuild = array_reduce($sameHashBuilds, function($result, $b) use($build) {
+            $allowBuild = array_reduce($sameHashBuilds, function ($result, $b) use ($build) {
                 /**
                  * If at least one build if running, we don't want to rebuild it
                  * Otherwise, a user might want to relaunch a build after a temporary
                  * builder failure
                  */
+
                 return ($b->isRunning() && !$b->getAllowRebuild()) ? false : $result;
             }, $allowBuild);
         }
@@ -156,7 +157,7 @@ class BuildConsumer implements ConsumerInterface
 
                 if ($container instanceof Container) {
                     $build->setContainer($container);
-                    $build->setPort($container->getMappedPort(80)->getHostPort());                
+                    $build->setPort($container->getMappedPort(80)->getHostPort());
                 }
 
                 $build->setStatus(Build::STATUS_RUNNING);
@@ -184,7 +185,7 @@ class BuildConsumer implements ConsumerInterface
                     'exception' => $e,
                     'trace' => $e->getTraceAsString(),
                 ]);
-                
+
                 $build->setStatus(Build::STATUS_TIMEOUT);
                 $failure = BuildFailure::fromException($e);
                 $failure->setBuild($build);
@@ -195,7 +196,7 @@ class BuildConsumer implements ConsumerInterface
                     'exception' => $e,
                     'trace' => $e->getTraceAsString(),
                 ]);
-                
+
                 $build->setStatus(Build::STATUS_FAILED);
                 $build->setMessage(get_class($e).': '.$e->getMessage());
 
@@ -210,7 +211,7 @@ class BuildConsumer implements ConsumerInterface
          * we want to let listeners a chance to do something
          */
         try {
-            $this->dispatcher->dispatch(BuildEvents::FINISHED, new BuildFinishedEvent($build));            
+            $this->dispatcher->dispatch(BuildEvents::FINISHED, new BuildFinishedEvent($build));
         } catch (Exception $e) {
             $this->logger->error('build.finished listeners failed', [
                 'build' => $build->getId(),
@@ -219,7 +220,7 @@ class BuildConsumer implements ConsumerInterface
             ]);
 
             $build->setStatus(Build::STATUS_FAILED);
-            $build->setMessage(get_class($e).': '.$e->getMessage());            
+            $build->setMessage(get_class($e).': '.$e->getMessage());
             $failure = BuildFailure::fromException($e);
             $failure->setBuild($build);
             $em->persist($failure);

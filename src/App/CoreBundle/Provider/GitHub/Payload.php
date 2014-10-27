@@ -15,13 +15,13 @@ class Payload extends AbstractPayload
     {
         $this->deliveryId = $deliveryId;
         $this->event = $event;
-        
+
         parent::__construct($raw);
     }
 
     /**
      * @return string
-     * 
+     *
      * @todo use ProviderInterface#getName
      */
     public function getProviderName()
@@ -89,7 +89,7 @@ class Payload extends AbstractPayload
 
     /**
      * @return string
-     * 
+     *
      * @todo check if this is implementable for a PR
      */
     public function getHash()
@@ -97,7 +97,7 @@ class Payload extends AbstractPayload
         if ($this->isPullRequest()) {
             throw new RuntimeException('Called branch specific method on a non-branch payload');
         }
-        
+
         return $this->parsed['after'];
     }
 
@@ -131,6 +131,6 @@ class Payload extends AbstractPayload
     public function getEvent()
     {
         return $this->event;
-        
+
     }
 }

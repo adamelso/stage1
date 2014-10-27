@@ -11,7 +11,6 @@ use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-
 class StopConsumer implements ConsumerInterface
 {
     private $logger;

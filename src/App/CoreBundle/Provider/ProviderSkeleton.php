@@ -5,9 +5,6 @@ namespace App\CoreBundle\Provider;
 use App\Model\Build;
 use App\Model\Project;
 use App\Model\User;
-use App\CoreBundle\Provider\AbstractProvider;
-use App\CoreBundle\Provider\OAuthProviderTrait;
-use App\CoreBundle\Provider\OAuthProviderInterface;
 use Guzzle\Http\Client;
 use Guzzle\Plugin\Oauth\OauthPlugin;
 use Psr\Log\LoggerInterface;
@@ -79,8 +76,8 @@ class ProviderSkeleton extends AbstractProvider
 
     /**
      * @param Request $request
-     * @param User $user
-     * 
+     * @param User    $user
+     *
      * @return array
      */
     public function handleOAuthCallback(Request $request, User $user = null)

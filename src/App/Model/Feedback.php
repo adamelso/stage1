@@ -47,24 +47,23 @@ class Feedback
      */
     private $url;
 
-
     /**
      * Set email
      *
-     * @param string $email
+     * @param  string   $email
      * @return Feedback
      */
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -74,20 +73,20 @@ class Feedback
     /**
      * Set message
      *
-     * @param string $message
+     * @param  string   $message
      * @return Feedback
      */
     public function setMessage($message)
     {
         $this->message = $message;
-    
+
         return $this;
     }
 
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
     public function getMessage()
     {
@@ -97,7 +96,7 @@ class Feedback
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -107,20 +106,20 @@ class Feedback
     /**
      * Set project
      *
-     * @param \App\Model\Project $project
+     * @param  \App\Model\Project $project
      * @return Feedback
      */
     public function setProject(\App\Model\Project $project = null)
     {
         $this->project = $project;
-    
+
         return $this;
     }
 
     /**
      * Get project
      *
-     * @return \App\Model\Project 
+     * @return \App\Model\Project
      */
     public function getProject()
     {
@@ -130,20 +129,20 @@ class Feedback
     /**
      * Set build
      *
-     * @param \App\Model\Build $build
+     * @param  \App\Model\Build $build
      * @return Feedback
      */
     public function setBuild(\App\Model\Build $build = null)
     {
         $this->build = $build;
-    
+
         return $this;
     }
 
     /**
      * Get build
      *
-     * @return \App\Model\Build 
+     * @return \App\Model\Build
      */
     public function getBuild()
     {
@@ -153,21 +152,21 @@ class Feedback
     /**
      * Set user
      *
-     * @param \App\Model\User $user
+     * @param  \App\Model\User $user
      * @return Feedback
      */
     public function setUser(\App\Model\User $user = null)
     {
         $this->user = $user;
         $this->setEmail($user->getEmail());
-    
+
         return $this;
     }
 
     /**
      * Get user
      *
-     * @return Project 
+     * @return Project
      */
     public function getUser()
     {
@@ -177,20 +176,20 @@ class Feedback
     /**
      * Set token
      *
-     * @param string $token
+     * @param  string   $token
      * @return Feedback
      */
     public function setToken($token)
     {
         $this->token = $token;
-    
+
         return $this;
     }
 
     /**
      * Get token
      *
-     * @return string 
+     * @return string
      */
     public function getToken()
     {
@@ -200,20 +199,20 @@ class Feedback
     /**
      * Set url
      *
-     * @param string $url
+     * @param  string   $url
      * @return Feedback
      */
     public function setUrl($url)
     {
         $this->url = $url;
-    
+
         return $this;
     }
 
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
@@ -229,24 +228,23 @@ class Feedback
      */
     private $updatedAt;
 
-
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime $createdAt
      * @return Feedback
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -256,20 +254,20 @@ class Feedback
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime $updatedAt
      * @return Feedback
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {

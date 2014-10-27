@@ -42,20 +42,20 @@ class BuildLog
     /**
      * Set message
      *
-     * @param string $message
+     * @param  string   $message
      * @return BuildLog
      */
     public function setMessage($message)
     {
         $this->message = $message;
-    
+
         return $this;
     }
 
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
     public function getMessage()
     {
@@ -65,20 +65,20 @@ class BuildLog
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime $createdAt
      * @return BuildLog
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -88,20 +88,20 @@ class BuildLog
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime $updatedAt
      * @return BuildLog
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -111,7 +111,7 @@ class BuildLog
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -121,20 +121,20 @@ class BuildLog
     /**
      * Set build
      *
-     * @param \App\Model\Build $build
+     * @param  \App\Model\Build $build
      * @return BuildLog
      */
     public function setBuild(\App\Model\Build $build = null)
     {
         $this->build = $build;
-    
+
         return $this;
     }
 
     /**
      * Get build
      *
-     * @return \App\Model\Build 
+     * @return \App\Model\Build
      */
     public function getBuild()
     {
@@ -144,20 +144,20 @@ class BuildLog
     /**
      * Set type
      *
-     * @param string $type
+     * @param  string   $type
      * @return BuildLog
      */
     public function setType($type)
     {
         $this->type = $type;
-    
+
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -167,20 +167,20 @@ class BuildLog
     /**
      * Set stream
      *
-     * @param string $stream
+     * @param  string   $stream
      * @return BuildLog
      */
     public function setStream($stream)
     {
         $this->stream = $stream;
-    
+
         return $this;
     }
 
     /**
      * Get stream
      *
-     * @return string 
+     * @return string
      */
     public function getStream()
     {
@@ -190,20 +190,20 @@ class BuildLog
     /**
      * Set microtime
      *
-     * @param string $microtime
+     * @param  string   $microtime
      * @return BuildLog
      */
     public function setMicrotime($microtime)
     {
         $this->microtime = $microtime;
-    
+
         return $this;
     }
 
     /**
      * Get microtime
      *
-     * @return string 
+     * @return string
      */
     public function getMicrotime()
     {

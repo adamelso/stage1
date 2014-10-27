@@ -10,7 +10,7 @@ class SecurityController extends Controller
 {
     /**
      * @param Request $request
-     * 
+     *
      * @return Symfony\Component\HttpFoundation\Response
      */
     public function primusAuthAction(Request $request)
@@ -18,7 +18,7 @@ class SecurityController extends Controller
         try {
             # @todo @channel_auth move channel auth to an authenticator service
             $channel = $request->request->get('channel');
-            $token = uniqid(mt_rand(), true);            
+            $token = uniqid(mt_rand(), true);
 
             if (strlen($channel) > 0) {
                 $repo = $this->getDoctrine()->getRepository('Model:User');
@@ -40,7 +40,7 @@ class SecurityController extends Controller
             return new JsonResponse(json_encode([
                 'channel' => $this->getUser()->getChannel(),
                 'token' => $token,
-            ]));            
+            ]));
         } catch (\Exception $e) {
             return new JsonResponse(json_encode(false), 500);
         }

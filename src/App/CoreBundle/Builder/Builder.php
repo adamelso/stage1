@@ -56,10 +56,10 @@ class Builder
         'composer_enable_project_cache' => false,
         'composer_cache_path' => '/usr/local/share/composer/cache/'
     ];
-    
+
     /**
-     * @param LoggerInterface $logger
-     * @param Docker $docker
+     * @param LoggerInterface   $logger
+     * @param Docker            $docker
      * @param RegistryInterface $doctrine
      */
     public function __construct(LoggerInterface $logger, Docker $docker, RegistryInterface $doctrine, Producer $websocketProducer, Redis $redis)
@@ -74,7 +74,7 @@ class Builder
     /**
      * @param string $name
      * @param mixed  $value
-     * 
+     *
      * @return App\CoreBundle\Builder\Builder
      */
     public function setOption($name, $value)
@@ -84,7 +84,7 @@ class Builder
 
     /**
      * @param string $name
-     * 
+     *
      * @return integer
      */
     public function getOption($name)
@@ -94,7 +94,7 @@ class Builder
 
     /**
      * @param Build $build
-     * 
+     *
      * @return Docker\Container
      */
     public function run(Build $build, $timeout = null)
@@ -104,7 +104,7 @@ class Builder
         $docker = $this->docker;
         $em = $this->doctrine->getManager();
 
-        $publish = function($content) use ($build, $producer) {
+        $publish = function ($content) use ($build, $producer) {
             $message = new BuildMessage($build, $content);
             $producer->publish((string) $message);
         };
@@ -192,7 +192,7 @@ class Builder
 
         $manager
             ->attach($prepareContainer, true, false, false, true, true)
-            ->readAttach(function($type, $chunk) use (&$output) {
+            ->readAttach(function ($type, $chunk) use (&$output) {
                 $output .= $chunk;
             });
 
@@ -257,7 +257,7 @@ class Builder
                 ->create($appContainer)
                 ->start($appContainer, ['PortBindings' => $ports->toSpec()]);
 
-            $logger->info('running app container', ['build' => $build->getId(), 'container' => $appContainer->getId()]);            
+            $logger->info('running app container', ['build' => $build->getId(), 'container' => $appContainer->getId()]);
         } catch (\Docker\Exception\UnexpectedStatusCodeException $e) {
             if ($e->getCode() === 404) {
                 throw new \RuntimeException('Could not start app container ('.$e->getMessage().')', 404, $e);
@@ -267,7 +267,6 @@ class Builder
         }
 
         // $publish('  build finished ('.date('r').')'.PHP_EOL);
-
         return $appContainer;
     }
 }

@@ -37,8 +37,8 @@ class ProjectAuditCommand extends ContainerAwareCommand
         $infos['name'] = $project->getFullName();
         $infos['private'] = $project->getIsPrivate();
         $infos['provider_data'] = $project->getProviderData();
-        $infos['users'] = $project->getUsers()->map(function($user) { return $user->getUsername(); })->toArray();
-        $infos['branches'] = $project->getBranches()->map(function($branch) { return $branch->getName(); })->toArray();
+        $infos['users'] = $project->getUsers()->map(function ($user) { return $user->getUsername(); })->toArray();
+        $infos['branches'] = $project->getBranches()->map(function ($branch) { return $branch->getName(); })->toArray();
 
         $infos['builds'] = array(
             'total' => count($project->getBuilds()),

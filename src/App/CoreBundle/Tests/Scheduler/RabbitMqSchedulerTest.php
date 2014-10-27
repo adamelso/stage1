@@ -30,8 +30,9 @@ class RabbitMqSchedulerTest extends PHPUnit_Framework_TestCase
         $stopProducer
             ->expects($this->once())
             ->method('publish')
-            ->with($this->callback(function($message) {
+            ->with($this->callback(function ($message) {
                 $message = json_decode($message);
+
                 return $message->build_id === 42;
             }));
 
@@ -50,8 +51,9 @@ class RabbitMqSchedulerTest extends PHPUnit_Framework_TestCase
         $killProducer
             ->expects($this->once())
             ->method('publish')
-            ->with($this->callback(function($message) {
+            ->with($this->callback(function ($message) {
                 $message = json_decode($message);
+
                 return $message->build_id === 42;
             }));
 

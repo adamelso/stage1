@@ -125,7 +125,7 @@ class ContainerListCommand extends ContainerAwareCommand
 
         if (null !== $sort) {
             $sortIndex = array_search($sort, array_keys($headers));
-            usort($rows, function($a, $b) use ($sortIndex) {
+            usort($rows, function ($a, $b) use ($sortIndex) {
                 if ($a[$sortIndex] === $b[$sortIndex]) {
                     return 0;
                 }
@@ -153,7 +153,7 @@ class ContainerListCommand extends ContainerAwareCommand
             $table->render($output);
 
             $output->writeln('');
-            $output->writeln('Found <info>'.count($rows).'</info> running containers');                        
+            $output->writeln('Found <info>'.count($rows).'</info> running containers');
         } else {
             foreach ($rows as $row) {
                 $output->writeln(implode(',', $row));

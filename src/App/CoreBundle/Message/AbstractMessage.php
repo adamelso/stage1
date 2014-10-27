@@ -58,6 +58,7 @@ abstract class AbstractMessage implements MessageInterface
             return json_encode($this->toArray());
         } catch (Exception $e) {
             echo $e->getMessage();
+
             return get_class($e).': '.$e->getMessage();
         }
     }

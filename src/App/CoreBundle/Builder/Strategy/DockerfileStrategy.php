@@ -150,7 +150,7 @@ class DockerfileStrategy
 
         $error = false;
 
-        $response->read(function($output) use ($logger, $response, $publish, &$error) {
+        $response->read(function ($output) use ($logger, $response, $publish, &$error) {
             if ($response->headers->get('content-type') === 'application/json') {
                 $output = json_decode($output, true);
                 $logger->info('got data chunk', ['output' => $output]);

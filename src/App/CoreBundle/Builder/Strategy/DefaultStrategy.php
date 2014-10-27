@@ -120,7 +120,7 @@ class DefaultStrategy
         $manager->create($buildContainer);
 
         $build->setContainer($buildContainer);
-        
+
         $manager->start($buildContainer, $hostConfig);
         $manager->wait($buildContainer, $timeout);
 
@@ -148,7 +148,7 @@ class DefaultStrategy
 
         /**
          * Build successful!
-         * 
+         *
          * @todo the commit can timeout for no obvious reason, while actually committing
          *       catch the timeout and check if the image has been committed
          *          if yes, proceed

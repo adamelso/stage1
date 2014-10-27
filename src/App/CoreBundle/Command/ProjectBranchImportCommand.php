@@ -24,7 +24,7 @@ class ProjectBranchImportCommand extends ContainerAwareCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $project = $this->findProject($input->getArgument('project_spec'));
-        $branches = $project->getBranches()->map(function($branch) { return $branch->getName(); })->toArray();
+        $branches = $project->getBranches()->map(function ($branch) { return $branch->getName(); })->toArray();
 
         $provider = $this->getContainer()->get('app_core.provider.factory')->getProvider($project);
 
@@ -39,7 +39,7 @@ class ProjectBranchImportCommand extends ContainerAwareCommand
 
             $branch = new Branch();
             $branch->setName($name);
-            
+
             $branch->setProject($project);
             $project->addBranch($branch);
 

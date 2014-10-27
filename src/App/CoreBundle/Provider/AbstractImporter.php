@@ -35,7 +35,7 @@ abstract class AbstractImporter implements ImporterInterface
     protected $redis;
 
     /**
-     * @var SshKeysGenerator 
+     * @var SshKeysGenerator
      */
     protected $sshKeysGenerator;
 
@@ -70,11 +70,11 @@ abstract class AbstractImporter implements ImporterInterface
     protected $feature_token_access_list = true;
 
     /**
-     * @param LoggerInterface $logger
-     * @param RegistryInterface $doctrine
-     * @param Redis $redis
+     * @param LoggerInterface       $logger
+     * @param RegistryInterface     $doctrine
+     * @param Redis                 $redis
      * @param UrlGeneratorInterface $router
-     * @param SshKeysGenerator $sshKeysGenerator
+     * @param SshKeysGenerator      $sshKeysGenerator
      */
     public function __construct(LoggerInterface $logger, RegistryInterface $doctrine, Redis $redis, SshKeysGenerator $sshKeysGenerator)
     {
@@ -86,7 +86,7 @@ abstract class AbstractImporter implements ImporterInterface
 
     /**
      * @param LoggerInterface $logger
-     * 
+     *
      * @return ImporterInterface
      */
     public function setLogger(LoggerInterface $logger)
@@ -96,10 +96,9 @@ abstract class AbstractImporter implements ImporterInterface
         return $this;
     }
 
-
     /**
      * @param ProviderInterface $provider
-     * 
+     *
      * @return ImporterInterface
      */
     public function setProvider(ProviderInterface $provider)
@@ -119,9 +118,9 @@ abstract class AbstractImporter implements ImporterInterface
 
     /**
      * Default steps list
-     * 
+     *
      * Note that most steps are already implemented in this AbstractImporter
-     * 
+     *
      * {@inheritDoc}
      */
     public function getSteps()
@@ -266,10 +265,10 @@ abstract class AbstractImporter implements ImporterInterface
         $project->setProviderData($providerData);
 
         if (null === $callback) {
-            $callback = function() {};
+            $callback = function () {};
         }
 
-        $announce = function($step) use ($callback, $logger) {
+        $announce = function ($step) use ($callback, $logger) {
             $logger->debug('running import step', $step);
             $callback($step);
         };
@@ -310,7 +309,7 @@ abstract class AbstractImporter implements ImporterInterface
 
     /**
      * @param Project $project
-     * 
+     *
      * @return boolean
      */
     protected function doDeployKey(Project $project, $prune = false)
@@ -325,7 +324,6 @@ abstract class AbstractImporter implements ImporterInterface
             $provider->installDeployKey($project);
         }
 
-
         if ($prune) {
             $provider->pruneDeployKeys($project);
         }
@@ -335,7 +333,7 @@ abstract class AbstractImporter implements ImporterInterface
 
     /**
      * @param Project $project
-     * 
+     *
      * @return boolean
      */
     protected function doWebhook(Project $project)
@@ -349,7 +347,7 @@ abstract class AbstractImporter implements ImporterInterface
 
     /**
      * @param Project $project
-     * 
+     *
      * @return boolean
      */
     protected function doKeys(Project $project)
@@ -364,7 +362,7 @@ abstract class AbstractImporter implements ImporterInterface
 
     /**
      * @param Project $project
-     * 
+     *
      * @return boolean
      */
     protected function doBranches(Project $project)
@@ -382,18 +380,20 @@ abstract class AbstractImporter implements ImporterInterface
 
     /**
      * @param Project $project
-     * 
+     *
      * @return boolean
      */
     protected function doAccess(Project $project)
     {
         if (null === $this->initialProjectAccess) {
             # no initial project access means the project is public
+
             return true;
         }
 
         if (!$project->getIsPrivate()) {
             # public projects don't have access management
+
             return true;
         }
 
@@ -411,10 +411,10 @@ abstract class AbstractImporter implements ImporterInterface
 
     /**
      * @todo @project_access refactor
-     * 
-     * @param Project $project
+     *
+     * @param Project       $project
      * @param ProjectAccess $access
-     * 
+     *
      * @return boolean
      */
     protected function grantProjectAccess(Project $project, ProjectAccess $access)
@@ -429,7 +429,7 @@ abstract class AbstractImporter implements ImporterInterface
             $args[] = $access->getToken();
         }
 
-        $args = array_filter($args, function($arg) { return strlen($arg) > 0; });
+        $args = array_filter($args, function ($arg) { return strlen($arg) > 0; });
 
         return (bool) call_user_func_array([$this->redis, 'sadd'], $args);
     }

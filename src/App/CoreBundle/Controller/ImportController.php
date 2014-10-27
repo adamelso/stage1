@@ -21,9 +21,9 @@ class ImportController extends Controller
     }
 
     /**
-     * @param Request   $request
-     * @param string    $providerName
-     * 
+     * @param Request $request
+     * @param string  $providerName
+     *
      * @return Response
      */
     public function importAction(Request $request, $providerName)
@@ -65,10 +65,10 @@ class ImportController extends Controller
     }
 
     /**
-     * @param Request   $request
-     * @param string    $providerName
-     * @param string    $scope
-     * 
+     * @param Request $request
+     * @param string  $providerName
+     * @param string  $scope
+     *
      * @return Response
      */
     public function scopeAction(Request $request, $providerName, $scope)
@@ -91,9 +91,9 @@ class ImportController extends Controller
     }
 
     /**
-     * @param Request   $request
-     * @param string    $providerName
-     * 
+     * @param Request $request
+     * @param string  $providerName
+     *
      * @return Response
      */
     public function providerAction(Request $request, $providerName)
@@ -113,7 +113,7 @@ class ImportController extends Controller
                 return $this->render('AppCoreBundle:Import:providerConfig.html.twig', [
                     'provider' => $provider,
                     'form' => $form->createView(),
-                ]);                
+                ]);
             }
 
             $user->setProviderConfig($provider->getName(), $config);
@@ -153,14 +153,13 @@ class ImportController extends Controller
 
         foreach ($projects as $project) {
             $joinableProjects[$project->getFullName()] = [
-                'users' => $project->getUsers()->map(function($user) { return $user->getUsername(); })->toArray(),
+                'users' => $project->getUsers()->map(function ($user) { return $user->getUsername(); })->toArray(),
                 'url' => $this->generateUrl('app_core_project_show', ['id' => $project->getId()]),
                 'join_url' => $this->generateUrl('app_core_project_join', ['id' => $project->getId()]),
             ];
         }
 
         // @todo filter out existing projects from $indexedProjects
-
         return $this->render('AppCoreBundle:Import:provider.html.twig', [
             'provider' => $provider,
             'indexedProjects' => $indexedProjects,
@@ -168,6 +167,6 @@ class ImportController extends Controller
             'joinableProjects' => $joinableProjects,
             'importUrl' => $this->generateUrl('app_core_import_import', ['providerName' => $providerName]),
             'autostart' => $request->get('autostart')
-        ]);            
+        ]);
     }
 }

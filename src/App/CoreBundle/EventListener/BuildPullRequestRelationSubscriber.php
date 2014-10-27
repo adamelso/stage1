@@ -67,7 +67,7 @@ class BuildPullRequestRelationSubscriber implements EventSubscriber
         }
 
         $em = $this->doctrine->getManager();
-        
+
         $pr = $this->doctrine
             ->getRepository('Model:PullRequest')
             ->findOneBy([
@@ -89,7 +89,7 @@ class BuildPullRequestRelationSubscriber implements EventSubscriber
 
             $provider = $this->providerFactory->getProvider($project);
             $pr = $provider->createPullRequestFromPayload($project, $build->getRawPayload());
-            
+
             $em->persist($pr);
         }
 
