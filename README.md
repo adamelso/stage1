@@ -23,6 +23,7 @@ Getting started
 STAGE1 is quite a big project to grasp, so don't worry about understanding each and every detail (even I don't understand everything that's going on sometimes), and rather focus on the parts you're interesting in contributing to. The Vagrant VM should give you a fully functional dev environment (if not, it's a bug).
 
 #### First!
+
 You need to create an application on [Github](https://github.com/settings/applications) or Bitbucket with these settings:
 
 __For Github__
@@ -33,7 +34,7 @@ __For Github__
 
 __For Bitbucket__
 
-* @TODO
+* @todo
 
 Then, edit your `stage1/app/config/providers.yml` with these parameters:
 
