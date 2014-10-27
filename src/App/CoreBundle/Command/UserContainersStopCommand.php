@@ -45,7 +45,7 @@ class UserContainersStopCommand extends ContainerAwareCommand
                         ->stop($container)
                         ->remove($container);
 
-                    $count++;                
+                    $count++;
                 } catch (\Exception $e) {
                     $output->writeln('  <error>could not stop container</error>');
                     $output->writeln(sprintf('  [%s] %s', get_class($e), $e->getMessage()));

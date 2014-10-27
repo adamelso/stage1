@@ -5,7 +5,6 @@ namespace App\CoreBundle\Provider\BitBucket;
 use App\Model\Organization;
 use App\Model\Project;
 use App\Model\PullRequest;
-use App\Model\User;
 use App\CoreBundle\Provider\AbstractImporter;
 use App\CoreBundle\SshKeysGenerator;
 use Guzzle\Http\Client;
@@ -13,7 +12,6 @@ use Guzzle\Plugin\Oauth\OauthPlugin;
 use Psr\Log\LoggerInterface;
 use Redis;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * App\CoreBundle\Provider\BitBucket\Importer
@@ -36,11 +34,11 @@ class Importer extends AbstractImporter
     private $oauthSecret;
 
     /**
-     * @param LoggerInterface       $logger
-     * @param RegistryInterface     $doctrine
-     * @param Redis                 $redis
-     * @param SshKeysGenerator      $sshKeysGenerator
-     * @param Client                $client
+     * @param LoggerInterface   $logger
+     * @param RegistryInterface $doctrine
+     * @param Redis             $redis
+     * @param SshKeysGenerator  $sshKeysGenerator
+     * @param Client            $client
      */
     public function __construct(LoggerInterface $logger, RegistryInterface $doctrine, Redis $redis, SshKeysGenerator $sshKeysGenerator, Client $client, $oauthKey, $oauthSecret)
     {
@@ -53,7 +51,7 @@ class Importer extends AbstractImporter
 
     /**
      * The BitBucket provider does not support PR yet
-     * 
+     *
      * {@inheritDoc}
      */
     public function getSteps()
@@ -112,7 +110,7 @@ class Importer extends AbstractImporter
         ];
 
         foreach ($infos['links']['clone'] as $link) {
-            switch($link['name']) {
+            switch ($link['name']) {
                 case 'https':
                     $providerData['clone_url'] = $link['href'];
                     break;
@@ -189,7 +187,7 @@ class Importer extends AbstractImporter
 
     /**
      * @param string $url
-     * 
+     *
      * @return array
      */
     protected function fetchPullRequests($url)

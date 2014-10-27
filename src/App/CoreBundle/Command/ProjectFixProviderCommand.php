@@ -57,6 +57,7 @@ class ProjectFixProviderCommand extends ContainerAwareCommand
     {
         if (strlen($project->getProviderName()) > 0) {
             $output->writeln('project <info>'.$project->getFullName().'</info> already migrated');
+
             return false;
         }
 

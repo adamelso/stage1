@@ -46,7 +46,7 @@ class BuildController extends Controller
         do {
             $logs = $redis->lrange($list, $offset, $offset + $perPage);
 
-            $logs = array_map(function($log) {
+            $logs = array_map(function ($log) {
                 $message = json_decode($log, true)['message'];
                 $message = preg_replace('/\[\d+(?:;\d+)?m/', '', $message);
 
@@ -74,7 +74,7 @@ class BuildController extends Controller
         $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
         $response->headers->set('Content-Type', $gzip ? 'application/gzip' : 'text/plain');
 
-        $response->setCallback(function() use($tmpuri) {
+        $response->setCallback(function () use ($tmpuri) {
             readfile($tmpuri);
             unlink($tmpuri);
         });
@@ -193,6 +193,7 @@ class BuildController extends Controller
         try {
             $build = $this->findBuild($id);
             $this->get('app_core.scheduler')->kill($build);
+
             return new JsonResponse(null, 200);
         } catch (Exception $e) {
             return new JsonResponse(['message' => $e->getMessage()], 500);

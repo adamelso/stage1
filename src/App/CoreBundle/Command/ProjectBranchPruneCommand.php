@@ -39,7 +39,7 @@ class ProjectBranchPruneCommand extends ContainerAwareCommand
                 throw new InvalidArgumentException('Project not found "' . $input->getArgument('project_spec').'"');
             }
 
-            $projects = [$project];            
+            $projects = [$project];
         }
 
         $providerFactory = $this->getContainer()->get('app_core.provider.factory');
@@ -60,7 +60,7 @@ class ProjectBranchPruneCommand extends ContainerAwareCommand
         }
 
         if ($input->getOption('force')) {
-            $em->flush();            
+            $em->flush();
         } else {
             $output->writeln('<error>Use the --force if you really mean it.</error>');
         }

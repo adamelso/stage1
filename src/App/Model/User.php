@@ -69,7 +69,7 @@ class User extends BaseUser implements Serializable
 
         $this->providersScopes = [];
         $this->providersAccessTokens = [];
-        
+
         $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -83,19 +83,19 @@ class User extends BaseUser implements Serializable
 
     /**
      * @param ProviderInterface
-     * 
+     *
      * @return ArrayCollection
      */
     public function getProjectsByProvider(ProviderInterface $provider)
     {
-        return $this->getProjects()->filter(function($project) use ($provider) {
+        return $this->getProjects()->filter(function ($project) use ($provider) {
             return $project->getProviderName() === $provider->getName();
         });
     }
 
     /**
      * @param string $provider
-     * 
+     *
      * @return array
      */
     public function getProviderConfig($provider)
@@ -107,8 +107,8 @@ class User extends BaseUser implements Serializable
 
     /**
      * @param string $provider
-     * @param array $config
-     * 
+     * @param array  $config
+     *
      * @return User
      */
     public function setProviderConfig($provider, array $config)
@@ -120,7 +120,7 @@ class User extends BaseUser implements Serializable
 
     /**
      * @param string $provider
-     * 
+     *
      * @return string|null
      */
     public function getProviderAccessToken($provider)
@@ -133,7 +133,7 @@ class User extends BaseUser implements Serializable
     /**
      * @param string $provider
      * @param string $accessToken
-     * 
+     *
      * @return User
      */
     public function setProviderAccessToken($provider, $accessToken)
@@ -145,7 +145,7 @@ class User extends BaseUser implements Serializable
 
     /**
      * @param string $provider
-     * 
+     *
      * @return boolean
      */
     public function hasProviderAccessToken($provider)
@@ -156,7 +156,7 @@ class User extends BaseUser implements Serializable
     /**
      * @param string $provider
      * @param string $scope
-     * 
+     *
      * @return boolean
      */
     public function hasProviderScope($provider, $scope)
@@ -166,7 +166,7 @@ class User extends BaseUser implements Serializable
 
     /**
      * @param string $provider
-     * 
+     *
      * @return string|null
      */
     public function getProviderScopes($provider)
@@ -179,7 +179,7 @@ class User extends BaseUser implements Serializable
     /**
      * @param string $provider
      * @param array  $scopes
-     * 
+     *
      * @return User
      */
     public function setProviderScopes($provider, array $scopes)
@@ -210,7 +210,7 @@ class User extends BaseUser implements Serializable
 
     /**
      * @param string $data
-     * 
+     *
      * @return void
      */
     public function unserialize($data)
@@ -224,20 +224,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set githubId
      *
-     * @param integer $githubId
+     * @param  integer $githubId
      * @return User
      */
     public function setGithubId($githubId)
     {
         $this->githubId = $githubId;
-    
+
         return $this;
     }
 
     /**
      * Get githubId
      *
-     * @return integer 
+     * @return integer
      */
     public function getGithubId()
     {
@@ -248,14 +248,14 @@ class User extends BaseUser implements Serializable
      * Set accessToken
      *
      * @deprecated
-     * 
-     * @param string $accessToken
+     *
+     * @param  string $accessToken
      * @return User
      */
     public function setAccessToken($accessToken)
     {
         $this->accessToken = $accessToken;
-    
+
         return $this;
     }
 
@@ -263,8 +263,8 @@ class User extends BaseUser implements Serializable
      * Get accessToken
      *
      * @deprecated
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getAccessToken()
     {
@@ -274,7 +274,7 @@ class User extends BaseUser implements Serializable
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -284,20 +284,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime $createdAt
      * @return User
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -307,20 +307,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime $updatedAt
      * @return User
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -330,13 +330,13 @@ class User extends BaseUser implements Serializable
     /**
      * Add projects
      *
-     * @param \App\Model\Project $projects
+     * @param  \App\Model\Project $projects
      * @return User
      */
     public function addProject(\App\Model\Project $projects)
     {
         $this->projects[] = $projects;
-    
+
         return $this;
     }
 
@@ -353,7 +353,7 @@ class User extends BaseUser implements Serializable
     /**
      * Get projects
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProjects()
     {
@@ -362,12 +362,12 @@ class User extends BaseUser implements Serializable
 
     /**
      * Get private projects
-     * 
+     *
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getPrivateProjects()
     {
-        return $this->projects->filter(function($project) {
+        return $this->projects->filter(function ($project) {
             return $project->getIsPrivate();
         });
     }
@@ -375,20 +375,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer $status
      * @return User
      */
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
 
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -398,20 +398,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set waitingList
      *
-     * @param integer $waitingList
+     * @param  integer $waitingList
      * @return User
      */
     public function setWaitingList($waitingList)
     {
         $this->waitingList = $waitingList;
-    
+
         return $this;
     }
 
     /**
      * Get waitingList
      *
-     * @return integer 
+     * @return integer
      */
     public function getWaitingList()
     {
@@ -421,20 +421,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set channel
      *
-     * @param string $channel
+     * @param  string $channel
      * @return User
      */
     public function setChannel($channel)
     {
         $this->channel = $channel;
-    
+
         return $this;
     }
 
     /**
      * Get channel
      *
-     * @return string 
+     * @return string
      */
     public function getChannel($raw = false)
     {
@@ -448,20 +448,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set publicKey
      *
-     * @param string $publicKey
+     * @param  string $publicKey
      * @return User
      */
     public function setPublicKey($publicKey)
     {
         $this->publicKey = $publicKey;
-    
+
         return $this;
     }
 
     /**
      * Get publicKey
      *
-     * @return string 
+     * @return string
      */
     public function getPublicKey()
     {
@@ -471,20 +471,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set privateKey
      *
-     * @param string $privateKey
+     * @param  string $privateKey
      * @return User
      */
     public function setPrivateKey($privateKey)
     {
         $this->privateKey = $privateKey;
-    
+
         return $this;
     }
 
     /**
      * Get privateKey
      *
-     * @return string 
+     * @return string
      */
     public function getPrivateKey()
     {
@@ -493,25 +493,25 @@ class User extends BaseUser implements Serializable
 
     /**
      * Set accessTokenScope
-     * 
+     *
      * @deprecated
      *
-     * @param string $accessTokenScope
+     * @param  string $accessTokenScope
      * @return User
      */
     public function setAccessTokenScope($accessTokenScope)
     {
         $this->accessTokenScope = $accessTokenScope;
-    
+
         return $this;
     }
 
     /**
      * Get accessTokenScope
-     * 
+     *
      * @deprecated
      *
-     * @return string 
+     * @return string
      */
     public function getAccessTokenScope()
     {
@@ -521,20 +521,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set betaSignup
      *
-     * @param \App\Model\BetaSignup $betaSignup
+     * @param  \App\Model\BetaSignup $betaSignup
      * @return User
      */
     public function setBetaSignup(\App\Model\BetaSignup $betaSignup = null)
     {
         $this->betaSignup = $betaSignup;
-    
+
         return $this;
     }
 
     /**
      * Get betaSignup
      *
-     * @return \App\Model\BetaSignup 
+     * @return \App\Model\BetaSignup
      */
     public function getBetaSignup()
     {
@@ -550,24 +550,23 @@ class User extends BaseUser implements Serializable
      */
     private $providerScopes;
 
-
     /**
      * Set providerAccessTokens
      *
-     * @param array $providerAccessTokens
+     * @param  array $providerAccessTokens
      * @return User
      */
     public function setProviderAccessTokens($providerAccessTokens)
     {
         $this->providerAccessTokens = $providerAccessTokens;
-    
+
         return $this;
     }
 
     /**
      * Get providerAccessTokens
      *
-     * @return array 
+     * @return array
      */
     public function getProviderAccessTokens()
     {
@@ -577,20 +576,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set providersAccessTokens
      *
-     * @param array $providersAccessTokens
+     * @param  array $providersAccessTokens
      * @return User
      */
     public function setProvidersAccessTokens($providersAccessTokens)
     {
         $this->providersAccessTokens = $providersAccessTokens;
-    
+
         return $this;
     }
 
     /**
      * Get providersAccessTokens
      *
-     * @return array 
+     * @return array
      */
     public function getProvidersAccessTokens()
     {
@@ -600,20 +599,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set providersScopes
      *
-     * @param array $providersScopes
+     * @param  array $providersScopes
      * @return User
      */
     public function setProvidersScopes($providersScopes)
     {
         $this->providersScopes = $providersScopes;
-    
+
         return $this;
     }
 
     /**
      * Get providersScopes
      *
-     * @return array 
+     * @return array
      */
     public function getProvidersScopes()
     {
@@ -623,20 +622,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set loginProviderName
      *
-     * @param string $loginProviderName
+     * @param  string $loginProviderName
      * @return User
      */
     public function setLoginProviderName($loginProviderName)
     {
         $this->loginProviderName = $loginProviderName;
-    
+
         return $this;
     }
 
     /**
      * Get loginProviderName
      *
-     * @return string 
+     * @return string
      */
     public function getLoginProviderName()
     {
@@ -646,20 +645,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set loginProviderUserId
      *
-     * @param string $loginProviderUserId
+     * @param  string $loginProviderUserId
      * @return User
      */
     public function setLoginProviderUserId($loginProviderUserId)
     {
         $this->loginProviderUserId = $loginProviderUserId;
-    
+
         return $this;
     }
 
     /**
      * Get loginProviderUserId
      *
-     * @return string 
+     * @return string
      */
     public function getLoginProviderUserId()
     {
@@ -669,20 +668,20 @@ class User extends BaseUser implements Serializable
     /**
      * Set providersConfigs
      *
-     * @param array $providersConfigs
+     * @param  array $providersConfigs
      * @return User
      */
     public function setProvidersConfigs($providersConfigs)
     {
         $this->providersConfigs = $providersConfigs;
-    
+
         return $this;
     }
 
     /**
      * Get providersConfigs
      *
-     * @return array 
+     * @return array
      */
     public function getProvidersConfigs()
     {

@@ -41,7 +41,7 @@ class BuildScheduler
     /**
      * @param string $name
      * @param mixed  $value
-     * 
+     *
      * @return App\CoreBundle\Builder\Builder
      */
     public function setOption($name, $value)
@@ -51,7 +51,7 @@ class BuildScheduler
 
     /**
      * @param string $name
-     * 
+     *
      * @return mixed
      */
     public function getOption($name)
@@ -61,7 +61,7 @@ class BuildScheduler
 
     /**
      * Schedules a build
-     * 
+     *
      * @see App\CoreBundle\EventListener\BuildBranchRelationSubscriber for automatic creation of non-existing branches
      */
     public function schedule(Project $project, $ref, $hash, PayloadInterface $payload = null, $options = [])
@@ -97,7 +97,7 @@ class BuildScheduler
 
         if (null !== $payload) {
             $build->setIsPullRequest($payload->isPullRequest());
-            $build->setRawPayload($payload->getRawContent());            
+            $build->setRawPayload($payload->getRawContent());
         } else {
             $build->setIsPullRequest(false);
         }

@@ -60,7 +60,7 @@
         <service id="app_core.message.factory" class="%app_core.message.factory.class%">
             <argument type="service" id="router" />
         </service>
-        
+
         <service id="app_core.redis" class="%app_core.redis.class%">
             <call method="connect">
                 <argument>%redis_host%</argument>

@@ -22,6 +22,7 @@ class ProjectAccess
     public function setToken($token)
     {
         $this->token = $token;
+
         return $token;
     }
 
@@ -33,6 +34,7 @@ class ProjectAccess
     public function setIp($ip)
     {
         $this->ip = $ip;
+
         return $this;
     }
 }

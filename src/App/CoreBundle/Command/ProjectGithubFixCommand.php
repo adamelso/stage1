@@ -107,7 +107,7 @@ class ProjectGithubFixCommand extends ContainerAwareCommand
 
                 if (strlen($providerData['hook_id']) === 0) {
                     $this->message($output, $project, 'adding webhooks');
-                    
+
                     $request = $client->post($providerData['hooks_url']);
                     $request->setBody(json_encode([
                         'name' => 'web',

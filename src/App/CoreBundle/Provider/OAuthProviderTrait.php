@@ -71,7 +71,7 @@ trait OAuthProviderTrait
     /**
      * @param Request $request
      * @param User    $user
-     * 
+     *
      * @todo passing $user should not be allowed
      */
     public function handleOAuthCallback(Request $request, User $user = null)
@@ -106,7 +106,7 @@ trait OAuthProviderTrait
 
         if (null !== $user) {
             $user->setProviderAccessToken($this->getName(), $data['access_token']);
-            $user->setProviderScopes($this->getName(), explode(',', $data['scope']));            
+            $user->setProviderScopes($this->getName(), explode(',', $data['scope']));
         }
 
         return [

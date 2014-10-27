@@ -44,27 +44,27 @@ class Organization
 
     /**
      * @var integer
-     * @deprecated 
+     * @deprecated
      */
     private $githubId;
 
     /**
      * Set name
      *
-     * @param integer $name
+     * @param  integer      $name
      * @return Organization
      */
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return integer 
+     * @return integer
      */
     public function getName()
     {
@@ -74,20 +74,20 @@ class Organization
     /**
      * Set publicKey
      *
-     * @param string $publicKey
+     * @param  string       $publicKey
      * @return Organization
      */
     public function setPublicKey($publicKey)
     {
         $this->publicKey = $publicKey;
-    
+
         return $this;
     }
 
     /**
      * Get publicKey
      *
-     * @return string 
+     * @return string
      */
     public function getPublicKey()
     {
@@ -97,20 +97,20 @@ class Organization
     /**
      * Set privateKey
      *
-     * @param string $privateKey
+     * @param  string       $privateKey
      * @return Organization
      */
     public function setPrivateKey($privateKey)
     {
         $this->privateKey = $privateKey;
-    
+
         return $this;
     }
 
     /**
      * Get privateKey
      *
-     * @return string 
+     * @return string
      */
     public function getPrivateKey()
     {
@@ -120,20 +120,20 @@ class Organization
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime    $createdAt
      * @return Organization
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -143,20 +143,20 @@ class Organization
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime    $updatedAt
      * @return Organization
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -166,7 +166,7 @@ class Organization
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -184,17 +184,17 @@ class Organization
     {
         $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add projects
      *
-     * @param \App\Model\Project $projects
+     * @param  \App\Model\Project $projects
      * @return Organization
      */
     public function addProject(\App\Model\Project $projects)
     {
         $this->projects[] = $projects;
-    
+
         return $this;
     }
 
@@ -211,7 +211,7 @@ class Organization
     /**
      * Get projects
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProjects()
     {
@@ -221,20 +221,20 @@ class Organization
     /**
      * Set githubId
      *
-     * @param integer $githubId
+     * @param  integer      $githubId
      * @return Organization
      */
     public function setGithubId($githubId)
     {
         $this->githubId = $githubId;
-    
+
         return $this;
     }
 
     /**
      * Get githubId
      *
-     * @return integer 
+     * @return integer
      */
     public function getGithubId()
     {
@@ -244,20 +244,20 @@ class Organization
     /**
      * Set providerName
      *
-     * @param string $providerName
+     * @param  string       $providerName
      * @return Organization
      */
     public function setProviderName($providerName)
     {
         $this->providerName = $providerName;
-    
+
         return $this;
     }
 
     /**
      * Get providerName
      *
-     * @return string 
+     * @return string
      */
     public function getProviderName()
     {

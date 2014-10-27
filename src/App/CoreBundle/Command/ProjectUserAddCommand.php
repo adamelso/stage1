@@ -28,6 +28,7 @@ class ProjectUserAddCommand extends ContainerAwareCommand
 
         if ($project->getUsers()->contains($user)) {
             $output->writeln(sprintf('User <info>%s</info> already in project <info>%s</info>', $user->getUsername(), $project->getFullName()));
+
             return;
         }
 

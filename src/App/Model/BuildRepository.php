@@ -28,8 +28,8 @@ class BuildRepository extends EntityRepository
 
     /**
      * @param Project $project
-     * @param string                        $ref
-     * 
+     * @param string  $ref
+     *
      * @return Doctrine\Common\Collections\Collection
      */
     public function findPendingByRef(Project $project, $ref)
@@ -53,7 +53,7 @@ class BuildRepository extends EntityRepository
 
     /**
      * @param integer $ttl
-     * 
+     *
      * @return Doctrine\Common\Collections\Collection
      */
     public function findTimeouted($ttl)
@@ -72,7 +72,7 @@ class BuildRepository extends EntityRepository
 
     /**
      * @param User $user
-     * 
+     *
      * @return Doctrine\Common\Collections\Collection
      */
     public function findRunningBuildsByUser(User $user)
@@ -96,7 +96,7 @@ class BuildRepository extends EntityRepository
 
     /**
      * @param Project $project
-     * 
+     *
      * @return integer
      */
     public function countPendingBuildsByProject(Project $project)
@@ -116,7 +116,7 @@ class BuildRepository extends EntityRepository
 
     /**
      * @param Project $project
-     * 
+     *
      * @return Doctrine\Common\Collections\Collection
      */
     public function findLastByRefs(Project $project)
@@ -136,10 +136,10 @@ class BuildRepository extends EntityRepository
      *       or not: we might need to be able to find a previousBuild by multiple criterias. For example
      *       when we want to approximate the time a build will take based on previous builds, a previous
      *       build is actually the previous build "running" or "obsolete" with the same branch and project
-     * 
-     * @param Build $build
+     *
+     * @param Build   $build
      * @param boolean $demo
-     * 
+     *
      * @return null|App\Model\Build
      */
     public function findPreviousBuild(Build $build, $demo = false)
@@ -171,7 +171,7 @@ class BuildRepository extends EntityRepository
 
     /**
      * @param Build $build
-     * 
+     *
      * @return null|App\Model\Build
      */
     public function findPreviousDemoBuild(Build $build)

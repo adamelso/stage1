@@ -28,7 +28,7 @@ class UserProjectDiscoverCommand extends ContainerAwareCommand
 
         $provider = $this->getContainer()->get('app_core.provider.factory')->getProviderByName($input->getArgument('provider'));
         $discover = $provider->getDiscover();
-        
+
         $discover->discover($user);
 
         $output->writeln('');

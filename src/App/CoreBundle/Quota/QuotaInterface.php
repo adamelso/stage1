@@ -11,13 +11,13 @@ interface QuotaInterface
 {
     /**
      * @param User $user
-     * 
+     *
      * @return boolean
      */
     public function check(User $user);
 
     /**
-     * @param User $user
+     * @param  User $user
      * @return void
      */
     public function enforce(User $user);

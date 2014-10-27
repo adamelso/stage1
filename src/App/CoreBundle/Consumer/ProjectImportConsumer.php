@@ -84,11 +84,12 @@ class ProjectImportConsumer implements ConsumerInterface
     public function execute(AMQPMessage $message)
     {
         $this->logger->info('received import request');
-        
+
         $body = json_decode($message->body, true);
 
         if (!isset($body['request'])) {
             $this->logger->error('malformed request');
+
             return;
         }
 
@@ -116,7 +117,7 @@ class ProjectImportConsumer implements ConsumerInterface
 
         $that = $this;
 
-        $project = $importer->import($body['request'], function($step) use ($that) {
+        $project = $importer->import($body['request'], function ($step) use ($that) {
             $that->publish('import.step', ['step' => $step['id']]);
         });
 

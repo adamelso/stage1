@@ -3,7 +3,6 @@
 namespace App\CoreBundle\Provider\GitHub;
 
 use App\CoreBundle\Provider\AbstractProvider;
-use App\CoreBundle\Provider\Exception as ProviderException;
 use App\CoreBundle\Provider\InsufficientScopeException;
 use App\CoreBundle\Provider\OAuthProviderInterface;
 use App\CoreBundle\Provider\PayloadInterface;
@@ -19,8 +18,6 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-use InvalidArgumentException;
 
 /**
  * App\CoreBundle\Provider\GitHub\Provider
@@ -121,7 +118,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
 
     /**
      * @param string $accessToken
-     * 
+     *
      * @return string
      */
     public function getProviderUserId($accessToken)
@@ -131,7 +128,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
 
     /**
      * @param string $accessToken
-     * 
+     *
      * @return User
      */
     public function createUser($accessToken)
@@ -167,7 +164,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
 
     /**
      * @param string $scope
-     * 
+     *
      * @return Response
      */
     public function requireScope($scope = null)
@@ -208,7 +205,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
 
     /**
      * @param User $user
-     * 
+     *
      * @return array
      */
     public function getRepositories(User $user)
@@ -218,7 +215,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
 
     /**
      * @param Request $request
-     * 
+     *
      * @return \App\CoreBundle\Provider\PayloadInterface
      */
     public function createPayloadFromRequest(Request $request)
@@ -230,11 +227,11 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
     }
 
     /**
-     * @param Project           $project
-     * @param PayloadInterface  $payload
-     * 
+     * @param Project          $project
+     * @param PayloadInterface $payload
+     *
      * @todo implement PayloadInterface#getPullRequestUrl and PayloadInterface#getPullRequestTitle
-     * 
+     *
      * @return PullRequest
      */
     public function createPullRequestFromPayload(Project $project, $payload)
@@ -255,7 +252,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
     /**
      * @param Build  $build
      * @param string $separator
-     * 
+     *
      * @return string
      */
     public function getPullRequestHead(Build $build, $separator = ':')
@@ -275,12 +272,12 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
         $client = clone $this->client;
         $client->setDefaultOption('headers/Authorization', 'token '.$accessToken);
 
-        return $this->client;        
+        return $this->client;
     }
 
     /**
      * @param Project $project
-     * 
+     *
      * @return array
      */
     public function getCollaborators(Project $project)
@@ -293,8 +290,8 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
 
     /**
      * @param Project $project
-     * @param Build $build
-     * @param string $status
+     * @param Build   $build
+     * @param string  $status
      */
     public function setCommitStatus(Project $project, Build $build, $status)
     {
@@ -332,7 +329,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
 
     /**
      * @param Project $project
-     * @param Build $build
+     * @param Build   $build
      */
     public function sendPullRequestComment(Project $project, Build $build)
     {
@@ -361,7 +358,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
 
     /**
      * @param Project $project
-     * 
+     *
      * @return Branch[]
      */
     public function getBranches(Project $project)
@@ -523,7 +520,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
 
     /**
      * @param Project $project
-     * 
+     *
      * @return integer
      */
     public function countDeployKeys(Project $project)
@@ -544,7 +541,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
 
     /**
      * @param Project $project
-     * 
+     *
      * @return integer
      */
     public function countPushHooks(Project $project)
@@ -565,7 +562,7 @@ class Provider extends AbstractProvider implements OAuthProviderInterface
 
     /**
      * @param Project $project
-     * 
+     *
      * @return integer
      */
     public function countPullRequestHooks(Project $project)

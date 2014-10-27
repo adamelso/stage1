@@ -13,7 +13,7 @@
             <hr />
             {% endif %}
 
-            {% include 'AppCoreBundle:Project:_refs.html.twig' with { 
+            {% include 'AppCoreBundle:Project:_refs.html.twig' with {
                 type_singular: 'branch',
                 type_plural: 'branches',
                 objects: project.activeBranches
@@ -26,7 +26,7 @@
             <h4>Pull Requests</h4>
             <hr />
 
-            {% include 'AppCoreBundle:Project:_refs.html.twig' with { 
+            {% include 'AppCoreBundle:Project:_refs.html.twig' with {
                 type_singular: 'pull-request',
                 type_plural: 'pull-requests',
                 objects: project.activePullRequests

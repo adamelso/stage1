@@ -3,8 +3,6 @@
 namespace App\CoreBundle\Controller;
 
 use App\Model\Build;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {

@@ -103,8 +103,8 @@ class Project implements WebsocketRoutable
     {
         $options = new OptionsResolver();
 
-        $normalize = function($array) {
-            return array_filter(array_map('trim', $array), function($item) {
+        $normalize = function ($array) {
+            return array_filter(array_map('trim', $array), function ($item) {
                 return strlen($item) > 0;
             });
         };
@@ -129,7 +129,7 @@ class Project implements WebsocketRoutable
 
     /**
      * @param string $identityRoot
-     * 
+     *
      * @todo move to a SshKey\Dumper?
      */
     public function dumpSshKeys($identityRoot, $owner = 'root', $put = 'file_put_contents', $exec = 'exec')
@@ -144,7 +144,7 @@ class Project implements WebsocketRoutable
 
         foreach ($this->getUsers() as $user) {
             $put($identityRoot.'/id_'.$user->getUsername(), $user->getPrivateKey());
-            $put($identityRoot.'/id_'.$user->getUsername().'.pub', $user->getPublicKey());            
+            $put($identityRoot.'/id_'.$user->getUsername().'.pub', $user->getPublicKey());
         }
 
         $exec('chmod -R 0600 '.$identityRoot);
@@ -153,7 +153,7 @@ class Project implements WebsocketRoutable
 
     /**
      * @param string $identityRoot
-     * 
+     *
      * @todo github refactoring
      */
     public function getSshConfig($identityRoot)
@@ -168,7 +168,7 @@ class Project implements WebsocketRoutable
             $identities[] = $identityRoot.'/id_'.$user->getUsername();
         }
 
-        $sshIdentityFile = implode(PHP_EOL, array_map(function($identity) {
+        $sshIdentityFile = implode(PHP_EOL, array_map(function ($identity) {
             return 'IdentityFile '.$identity;
         }, $identities));
 
@@ -219,7 +219,7 @@ SSH;
             $org = preg_replace('/[^a-z0-9\-]/', '-', strtolower($org));
             $project = preg_replace('/[^a-z0-9\-]/', '-', strtolower($project));
 
-            return $org.'.'.$project;            
+            return $org.'.'.$project;
         }
 
         return $this->domain;
@@ -228,13 +228,13 @@ SSH;
     /**
      * Set domain
      *
-     * @param string $domain
+     * @param  string  $domain
      * @return Project
      */
     public function setDomain($domain)
     {
         $this->domain = $domain;
-    
+
         return $this;
     }
 
@@ -273,21 +273,21 @@ SSH;
 
     public function getPendingBuilds()
     {
-        return $this->getBuilds()->filter(function($build) {
+        return $this->getBuilds()->filter(function ($build) {
             return $build->isPending();
         });
     }
 
     public function getRunningBuilds()
     {
-        return $this->getBuilds()->filter(function($build) {
+        return $this->getBuilds()->filter(function ($build) {
             return $build->isRunning();
         });
     }
 
     public function getBuildingBuilds()
     {
-        return $this->getBuilds()->filter(function($build) {
+        return $this->getBuilds()->filter(function ($build) {
             return $build->isBuilding();
         });
     }
@@ -295,7 +295,7 @@ SSH;
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -305,20 +305,20 @@ SSH;
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string  $name
      * @return Project
      */
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -328,20 +328,20 @@ SSH;
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime $createdAt
      * @return Project
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -351,20 +351,20 @@ SSH;
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime $updatedAt
      * @return Project
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -374,20 +374,20 @@ SSH;
     /**
      * Set lastBuildAt
      *
-     * @param \DateTime $lastBuildAt
+     * @param  \DateTime $lastBuildAt
      * @return Project
      */
     public function setLastBuildAt($lastBuildAt)
     {
         $this->lastBuildAt = $lastBuildAt;
-    
+
         return $this;
     }
 
     /**
      * Get lastBuildAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastBuildAt()
     {
@@ -397,20 +397,20 @@ SSH;
     /**
      * Set lastBuildRef
      *
-     * @param string $lastBuildRef
+     * @param  string  $lastBuildRef
      * @return Project
      */
     public function setLastBuildRef($lastBuildRef)
     {
         $this->lastBuildRef = $lastBuildRef;
-    
+
         return $this;
     }
 
     /**
      * Get lastBuildRef
      *
-     * @return string 
+     * @return string
      */
     public function getLastBuildRef()
     {
@@ -426,17 +426,17 @@ SSH;
         $this->branches = new \Doctrine\Common\Collections\ArrayCollection();
         $this->settings = new ProjectSettings();
     }
-    
+
     /**
      * Add builds
      *
-     * @param \App\Model\Build $builds
+     * @param  \App\Model\Build $builds
      * @return Project
      */
     public function addBuild(\App\Model\Build $builds)
     {
         $this->builds[] = $builds;
-    
+
         return $this;
     }
 
@@ -453,7 +453,7 @@ SSH;
     /**
      * Get builds
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBuilds()
     {
@@ -463,20 +463,20 @@ SSH;
     /**
      * Set publicKey
      *
-     * @param string $publicKey
+     * @param  string  $publicKey
      * @return Project
      */
     public function setPublicKey($publicKey)
     {
         $this->publicKey = $publicKey;
-    
+
         return $this;
     }
 
     /**
      * Get publicKey
      *
-     * @return string 
+     * @return string
      */
     public function getPublicKey()
     {
@@ -486,20 +486,20 @@ SSH;
     /**
      * Set privateKey
      *
-     * @param string $privateKey
+     * @param  string  $privateKey
      * @return Project
      */
     public function setPrivateKey($privateKey)
     {
         $this->privateKey = $privateKey;
-    
+
         return $this;
     }
 
     /**
      * Get privateKey
      *
-     * @return string 
+     * @return string
      */
     public function getPrivateKey()
     {
@@ -509,20 +509,20 @@ SSH;
     /**
      * Set slug
      *
-     * @param string $slug
+     * @param  string  $slug
      * @return Project
      */
     public function setSlug($slug)
     {
         $this->slug = $slug;
-    
+
         return $this;
     }
 
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -532,20 +532,20 @@ SSH;
     /**
      * Set masterPassword
      *
-     * @param string $masterPassword
+     * @param  string  $masterPassword
      * @return Project
      */
     public function setMasterPassword($masterPassword)
     {
         $this->masterPassword = $masterPassword;
-    
+
         return $this;
     }
 
     /**
      * Get masterPassword
      *
-     * @return string 
+     * @return string
      */
     public function getMasterPassword()
     {
@@ -563,13 +563,13 @@ SSH;
     /**
      * Add users
      *
-     * @param \App\Model\User $users
+     * @param  \App\Model\User $users
      * @return Project
      */
     public function addUser(\App\Model\User $users)
     {
         $this->users[] = $users;
-    
+
         return $this;
     }
 
@@ -586,7 +586,7 @@ SSH;
     /**
      * Get users
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUsers()
     {
@@ -596,7 +596,7 @@ SSH;
     /**
      * Add branches
      *
-     * @param \App\Model\Branch $branch
+     * @param  \App\Model\Branch $branch
      * @return Project
      */
     public function addBranch(\App\Model\Branch $branch)
@@ -616,30 +616,30 @@ SSH;
 
     /**
      * Get branches not marked as deleted
-     * 
+     *
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getActiveBranches()
     {
-        return $this->getBranches()->filter(function($branch) {
+        return $this->getBranches()->filter(function ($branch) {
             return !$branch->getDeleted();
         });
     }
 
     /**
      * Get pull requests marked as open
-     * 
+     *
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getActivePullRequests()
     {
-        return $this->getPullRequests()->filter(function($pullRequest) { return $pullRequest->getOpen(); });
+        return $this->getPullRequests()->filter(function ($pullRequest) { return $pullRequest->getOpen(); });
     }
 
     /**
      * Get branches
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBranches()
     {
@@ -649,13 +649,13 @@ SSH;
     /**
      * Add branches
      *
-     * @param \App\Model\Branch $branches
+     * @param  \App\Model\Branch $branches
      * @return Project
      */
     public function addBranche(\App\Model\Branch $branches)
     {
         $this->branches[] = $branches;
-    
+
         return $this;
     }
 
@@ -672,20 +672,20 @@ SSH;
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer $status
      * @return Project
      */
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
 
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -696,10 +696,10 @@ SSH;
      * @return array
      */
     public function getContainerEnv()
-    {        
+    {
         $env = explode(PHP_EOL, $this->getEnv());
         $env = array_map('trim', $env);
-        $env = array_filter($env, function($e) {
+        $env = array_filter($env, function ($e) {
             return strlen($e) > 0;
         });
 
@@ -727,20 +727,20 @@ SSH;
     /**
      * Set env
      *
-     * @param string $env
+     * @param  string  $env
      * @return Project
      */
     public function setEnv($env)
     {
         $this->env = $env;
-    
+
         return $this;
     }
 
     /**
      * Get env
      *
-     * @return string 
+     * @return string
      */
     public function getEnv()
     {
@@ -750,20 +750,20 @@ SSH;
     /**
      * Set dockerBaseImage
      *
-     * @param string $dockerBaseImage
+     * @param  string  $dockerBaseImage
      * @return Project
      */
     public function setDockerBaseImage($dockerBaseImage)
     {
         $this->dockerBaseImage = $dockerBaseImage;
-    
+
         return $this;
     }
 
     /**
      * Get dockerBaseImage
      *
-     * @return string 
+     * @return string
      */
     public function getDockerBaseImage()
     {
@@ -773,20 +773,20 @@ SSH;
     /**
      * Set urls
      *
-     * @param string $urls
+     * @param  string  $urls
      * @return Project
      */
     public function setUrls($urls)
     {
         $this->urls = $urls;
-    
+
         return $this;
     }
 
     /**
      * Get urls
      *
-     * @return string 
+     * @return string
      */
     public function getUrls()
     {
@@ -796,20 +796,20 @@ SSH;
     /**
      * Set settings
      *
-     * @param \App\Model\ProjectSettings $settings
+     * @param  \App\Model\ProjectSettings $settings
      * @return Project
      */
     public function setSettings(\App\Model\ProjectSettings $settings = null)
     {
         $this->settings = $settings;
-    
+
         return $this;
     }
 
     /**
      * Get settings
      *
-     * @return \App\Model\ProjectSettings 
+     * @return \App\Model\ProjectSettings
      */
     public function getSettings()
     {
@@ -819,20 +819,20 @@ SSH;
     /**
      * Set organization
      *
-     * @param \App\Model\Organization $organization
+     * @param  \App\Model\Organization $organization
      * @return Project
      */
     public function setOrganization(\App\Model\Organization $organization = null)
     {
         $this->organization = $organization;
-    
+
         return $this;
     }
 
     /**
      * Get organization
      *
-     * @return \App\Model\Organization 
+     * @return \App\Model\Organization
      */
     public function getOrganization()
     {
@@ -842,13 +842,13 @@ SSH;
     /**
      * Add pullRequests
      *
-     * @param \App\Model\PullRequest $pullRequests
+     * @param  \App\Model\PullRequest $pullRequests
      * @return Project
      */
     public function addPullRequest(\App\Model\PullRequest $pullRequests)
     {
         $this->pullRequests[] = $pullRequests;
-    
+
         return $this;
     }
 
@@ -865,7 +865,7 @@ SSH;
     /**
      * Get pullRequests
      *
-     * @return PullRequest[] 
+     * @return PullRequest[]
      */
     public function getPullRequests()
     {
@@ -875,19 +875,19 @@ SSH;
     /**
      * Set fullName
      *
-     * @param string $fullName
+     * @param  string  $fullName
      * @return Project
      */
     public function setFullName($fullName)
     {
         $this->fullName = $fullName;
-    
+
         return $this;
     }
 
     /**
      * Get fullName
-     * 
+     *
      * @return string
      */
     public function getFullName()
@@ -898,20 +898,20 @@ SSH;
     /**
      * Set providerName
      *
-     * @param string $providerName
+     * @param  string  $providerName
      * @return Project
      */
     public function setProviderName($providerName)
     {
         $this->providerName = $providerName;
-    
+
         return $this;
     }
 
     /**
      * Get providerName
      *
-     * @return string 
+     * @return string
      */
     public function getProviderName()
     {
@@ -922,8 +922,8 @@ SSH;
      * Set providerData
      *
      * @param string $providerData
-     * @param mixed $value
-     * 
+     * @param mixed  $value
+     *
      * @return Project
      */
     public function setProviderData($providerData, $value = null)
@@ -933,7 +933,7 @@ SSH;
         } else {
             $this->providerData = $providerData;
         }
-    
+
         return $this;
     }
 
@@ -941,8 +941,8 @@ SSH;
      * Get providerData
      *
      * @param string|null $key
-     * 
-     * @return array|mixed 
+     *
+     * @return array|mixed
      */
     public function getProviderData($key = null)
     {
@@ -960,20 +960,20 @@ SSH;
     /**
      * Set githubPrivate
      *
-     * @param boolean $githubPrivate
+     * @param  boolean $githubPrivate
      * @return Project
      */
     public function setGithubPrivate($githubPrivate)
     {
         $this->githubPrivate = $githubPrivate;
-    
+
         return $this;
     }
 
     /**
      * Get githubPrivate
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getGithubPrivate()
     {
@@ -983,20 +983,20 @@ SSH;
     /**
      * Set contentsUrl
      *
-     * @param string $contentsUrl
+     * @param  string  $contentsUrl
      * @return Project
      */
     public function setContentsUrl($contentsUrl)
     {
         $this->contentsUrl = $contentsUrl;
-    
+
         return $this;
     }
 
     /**
      * Get contentsUrl
      *
-     * @return string 
+     * @return string
      */
     public function getContentsUrl()
     {
@@ -1006,20 +1006,20 @@ SSH;
     /**
      * Set githubId
      *
-     * @param integer $githubId
+     * @param  integer $githubId
      * @return Project
      */
     public function setGithubId($githubId)
     {
         $this->githubId = $githubId;
-    
+
         return $this;
     }
 
     /**
      * Get githubId
      *
-     * @return integer 
+     * @return integer
      */
     public function getGithubId()
     {
@@ -1029,20 +1029,20 @@ SSH;
     /**
      * Set githubFullName
      *
-     * @param string $githubFullName
+     * @param  string  $githubFullName
      * @return Project
      */
     public function setGithubFullName($githubFullName)
     {
         $this->githubFullName = $githubFullName;
-    
+
         return $this;
     }
 
     /**
      * Get githubFullName
      *
-     * @return string 
+     * @return string
      */
     public function getGithubFullName()
     {
@@ -1052,20 +1052,20 @@ SSH;
     /**
      * Set githubOwnerLogin
      *
-     * @param string $githubOwnerLogin
+     * @param  string  $githubOwnerLogin
      * @return Project
      */
     public function setGithubOwnerLogin($githubOwnerLogin)
     {
         $this->githubOwnerLogin = $githubOwnerLogin;
-    
+
         return $this;
     }
 
     /**
      * Get githubOwnerLogin
      *
-     * @return string 
+     * @return string
      */
     public function getGithubOwnerLogin()
     {
@@ -1075,20 +1075,20 @@ SSH;
     /**
      * Set githubHookId
      *
-     * @param integer $githubHookId
+     * @param  integer $githubHookId
      * @return Project
      */
     public function setGithubHookId($githubHookId)
     {
         $this->githubHookId = $githubHookId;
-    
+
         return $this;
     }
 
     /**
      * Get githubHookId
      *
-     * @return integer 
+     * @return integer
      */
     public function getGithubHookId()
     {
@@ -1098,20 +1098,20 @@ SSH;
     /**
      * Set githubDeployKeyId
      *
-     * @param integer $githubDeployKeyId
+     * @param  integer $githubDeployKeyId
      * @return Project
      */
     public function setGithubDeployKeyId($githubDeployKeyId)
     {
         $this->githubDeployKeyId = $githubDeployKeyId;
-    
+
         return $this;
     }
 
     /**
      * Get githubDeployKeyId
      *
-     * @return integer 
+     * @return integer
      */
     public function getGithubDeployKeyId()
     {
@@ -1121,20 +1121,20 @@ SSH;
     /**
      * Set githubUrl
      *
-     * @param string $githubUrl
+     * @param  string  $githubUrl
      * @return Project
      */
     public function setGithubUrl($githubUrl)
     {
         $this->githubUrl = $githubUrl;
-    
+
         return $this;
     }
 
     /**
      * Get githubUrl
      *
-     * @return string 
+     * @return string
      */
     public function getGithubUrl()
     {
@@ -1144,20 +1144,20 @@ SSH;
     /**
      * Set cloneUrl
      *
-     * @param string $cloneUrl
+     * @param  string  $cloneUrl
      * @return Project
      */
     public function setCloneUrl($cloneUrl)
     {
         $this->cloneUrl = $cloneUrl;
-    
+
         return $this;
     }
 
     /**
      * Get cloneUrl
      *
-     * @return string 
+     * @return string
      */
     public function getCloneUrl()
     {
@@ -1167,20 +1167,20 @@ SSH;
     /**
      * Set sshUrl
      *
-     * @param string $sshUrl
+     * @param  string  $sshUrl
      * @return Project
      */
     public function setSshUrl($sshUrl)
     {
         $this->sshUrl = $sshUrl;
-    
+
         return $this;
     }
 
     /**
      * Get sshUrl
      *
-     * @return string 
+     * @return string
      */
     public function getSshUrl()
     {
@@ -1190,20 +1190,20 @@ SSH;
     /**
      * Set keysUrl
      *
-     * @param string $keysUrl
+     * @param  string  $keysUrl
      * @return Project
      */
     public function setKeysUrl($keysUrl)
     {
         $this->keysUrl = $keysUrl;
-    
+
         return $this;
     }
 
     /**
      * Get keysUrl
      *
-     * @return string 
+     * @return string
      */
     public function getKeysUrl()
     {
@@ -1213,20 +1213,20 @@ SSH;
     /**
      * Set hooksUrl
      *
-     * @param string $hooksUrl
+     * @param  string  $hooksUrl
      * @return Project
      */
     public function setHooksUrl($hooksUrl)
     {
         $this->hooksUrl = $hooksUrl;
-    
+
         return $this;
     }
 
     /**
      * Get hooksUrl
      *
-     * @return string 
+     * @return string
      */
     public function getHooksUrl()
     {
@@ -1236,20 +1236,20 @@ SSH;
     /**
      * Set isPrivate
      *
-     * @param boolean $isPrivate
+     * @param  boolean $isPrivate
      * @return Project
      */
     public function setIsPrivate($isPrivate)
     {
         $this->isPrivate = $isPrivate;
-    
+
         return $this;
     }
 
     /**
      * Get isPrivate
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsPrivate()
     {
@@ -1259,20 +1259,20 @@ SSH;
     /**
      * Set gitUrl
      *
-     * @param string $gitUrl
+     * @param  string  $gitUrl
      * @return Project
      */
     public function setGitUrl($gitUrl)
     {
         $this->gitUrl = $gitUrl;
-    
+
         return $this;
     }
 
     /**
      * Get gitUrl
      *
-     * @return string 
+     * @return string
      */
     public function getGitUrl()
     {

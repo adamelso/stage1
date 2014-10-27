@@ -22,9 +22,9 @@ class RabbitMqScheduler implements SchedulerInterface
     private $producers = [];
 
     /**
-     * @param \Psr\Log\LoggerInterface                   $logger
-     * @param Producer  $stopProducer
-     * @param Producer  $killProducer
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param Producer                 $stopProducer
+     * @param Producer                 $killProducer
      */
     public function __construct(LoggerInterface $logger, Producer $stopProducer, Producer $killProducer)
     {
@@ -34,8 +34,8 @@ class RabbitMqScheduler implements SchedulerInterface
     }
 
     /**
-     * @param string            $order
-     * @param \App\Model\Build   $build
+     * @param string           $order
+     * @param \App\Model\Build $build
      */
     private function send($order, Build $build, $vars = [])
     {

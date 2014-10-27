@@ -2,23 +2,15 @@
 
 namespace App\CoreBundle\Provider\GitHub;
 
-use App\Model\Branch;
 use App\Model\Organization;
 use App\Model\Project;
-use App\Model\ProjectSettings;
 use App\Model\PullRequest;
-use App\Model\User;
 use App\CoreBundle\Provider\AbstractImporter;
-use App\CoreBundle\Provider\InsufficientScopeException;
 use App\CoreBundle\SshKeysGenerator;
-use App\CoreBundle\Value\ProjectAccess;
-use Closure;
 use Guzzle\Http\Client;
 use Psr\Log\LoggerInterface;
 use Redis;
-use RuntimeException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-
 
 /**
  * App\CoreBundle\Provider\GitHub\Import
@@ -31,11 +23,11 @@ class Import extends AbstractImporter
     private $client;
 
     /**
-     * @param LoggerInterface       $logger
-     * @param RegistryInterface     $doctrine
-     * @param Redis                 $redis
-     * @param SshKeysGenerator      $sshKeysGenerator
-     * @param Client                $client
+     * @param LoggerInterface   $logger
+     * @param RegistryInterface $doctrine
+     * @param Redis             $redis
+     * @param SshKeysGenerator  $sshKeysGenerator
+     * @param Client            $client
      */
     public function __construct(LoggerInterface $logger, RegistryInterface $doctrine, Redis $redis, SshKeysGenerator $sshKeysGenerator, Client $client)
     {
@@ -59,7 +51,7 @@ class Import extends AbstractImporter
 
     /**
      * @todo use github api instead of relying on request parameters
-     * 
+     *
      * @param Project $project
      */
     protected function doInspect(Project $project)
@@ -69,6 +61,7 @@ class Import extends AbstractImporter
             $response = $request->send();
         } catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
             $this->logger->error($e->getMessage());
+
             return false;
         }
 
@@ -128,7 +121,7 @@ class Import extends AbstractImporter
 
     /**
      * @param Project $project
-     * 
+     *
      * @return boolean
      */
     protected function doPullRequests(Project $project)

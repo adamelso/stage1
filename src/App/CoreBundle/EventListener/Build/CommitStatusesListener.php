@@ -25,9 +25,9 @@ class CommitStatusesListener
     private $enabled;
 
     /**
-     * @param LoggerInterface   $logger
-     * @param ProviderFactory   $providerFactory
-     * @param boolean           $enabled
+     * @param LoggerInterface $logger
+     * @param ProviderFactory $providerFactory
+     * @param boolean         $enabled
      */
     public function __construct(LoggerInterface $logger, ProviderFactory $providerFactory, $enabled)
     {
@@ -43,16 +43,18 @@ class CommitStatusesListener
         if (!$this->enabled) {
             return;
         }
-        
+
         $build = $event->getBuild();
 
         if (!$build->isRunning()) {
             $this->logger->info('skipping commit status for non-running build');
+
             return;
         }
 
         if (strlen($build->getHash()) === 0) {
             $this->logger->info('skipping commit status because of empty commit hash');
+
             return;
         }
 
@@ -60,6 +62,7 @@ class CommitStatusesListener
 
         if (null === $project) {
             $this->logger->info('could not find a project for build', ['build_id' => $build->getId()]);
+
             return;
         }
 

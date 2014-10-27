@@ -38,6 +38,7 @@ class BuildPreviousCommand extends ContainerAwareCommand
             $previousBuild = $repo->findPreviousBuild($build);
         } catch (NoResultException $e) {
             $output->writeln('No previous build found.');
+
             return;
         }
 

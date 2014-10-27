@@ -25,7 +25,7 @@ class ProjectHooksInstallCommand extends ContainerAwareCommand
         $project = $this->findProject($input->getArgument('project_spec'));
 
         $output->writeln('installing hooks for project <info>'.$project->getFullName().'</info>');
-        
+
         $provider = $this->getContainer()->get('app_core.provider.factory')->getProvider($project);
 
         $provider->clearHooks($project);

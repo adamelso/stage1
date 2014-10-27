@@ -23,7 +23,7 @@ class ContainersLimitListener
     private $quota;
 
     /**
-     * @param LoggerInterface                   $logger
+     * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger, QuotaInterface $quota)
     {

@@ -24,7 +24,7 @@ class MessageFactory
     public function createBuildMessage(Build $build, $message)
     {
         $message = new BuildMessage($build, $message);
-        
+
         return $message;
     }
 
@@ -89,7 +89,7 @@ class MessageFactory
     }
 
     /**
-     * @param Build $build
+     * @param Build  $build
      * @param string $step
      */
     public function createBuildStepMessage(Build $build, $step)

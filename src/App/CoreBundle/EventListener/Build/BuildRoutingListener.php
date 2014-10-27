@@ -8,7 +8,7 @@ use Redis;
 
 /**
  * App\CoreBundle\EventListener\Build\BuildRoutingListener
- * 
+ *
  * Updates the routing table after a build
  */
 class BuildRoutingListener
@@ -35,8 +35,8 @@ class BuildRoutingListener
 
     /**
      * @param LoggerInterface $logger
-     * @param Redis $redis
-     * @param string $buildHostMask
+     * @param Redis           $redis
+     * @param string          $buildHostMask
      */
     public function __construct(LoggerInterface $logger, Redis $redis, $buildHostMask, $builderIp)
     {
@@ -90,7 +90,7 @@ class BuildRoutingListener
         if (count($urls) > 0) {
             $this->logger->info('adding custom build URLs', ['build' => $build->getId(), 'domains' => $urls]);
 
-            foreach ($urls as $domain) {                
+            foreach ($urls as $domain) {
                 $host = $domain.'.'.$build->getHost();
                 $redis->del('frontend:'.$host);
                 $redis->rpush('frontend:'.$host, $build->getImageName(), $container_url);

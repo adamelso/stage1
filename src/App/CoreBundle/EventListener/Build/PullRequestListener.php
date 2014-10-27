@@ -25,8 +25,8 @@ class PullRequestListener
     private $enabled;
 
     /**
-     * @param LoggerInterface   $logger
-     * @param ProviderFactory   $providerFactory
+     * @param LoggerInterface $logger
+     * @param ProviderFactory $providerFactory
      * @param Docker\Docker
      */
     public function __construct(LoggerInterface $logger, ProviderFactory $providerFactory, $enabled)
@@ -43,7 +43,7 @@ class PullRequestListener
         if (!$this->enabled) {
             return;
         }
-        
+
         $build = $event->getBuild();
 
         if (!$build->isRunning()) {

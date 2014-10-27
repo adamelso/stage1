@@ -56,11 +56,11 @@ class Controller extends BaseController
             ->get('app_core.redis')
             ->smembers('auth:' . $project->getSlug());
 
-        $accessList = array_filter($accessList, function($token) {
+        $accessList = array_filter($accessList, function ($token) {
             return $token !== '0.0.0.0';
         });
 
-        $ips = array_filter($accessList, function($string) { return preg_match('/^'.self::REGEXP_IP.'$/S', $string); });
+        $ips = array_filter($accessList, function ($string) { return preg_match('/^'.self::REGEXP_IP.'$/S', $string); });
         $tokens = array_diff($accessList, $ips);
 
         return ['ips' => $ips, 'tokens' => $tokens];
@@ -78,7 +78,7 @@ class Controller extends BaseController
             $args[] = $access->getToken();
         }
 
-        $args = array_filter($args, function($arg) { return strlen($arg) > 0; });
+        $args = array_filter($args, function ($arg) { return strlen($arg) > 0; });
 
         return call_user_func_array([$this->get('app_core.redis'), 'sadd'], $args);
     }
@@ -238,7 +238,7 @@ class Controller extends BaseController
         if (!$project) {
             throw $this->createNotFoundException(sprintf('Could not find project with slug "%s"', $slug));
         }
-        
+
         return $project;
     }
 }

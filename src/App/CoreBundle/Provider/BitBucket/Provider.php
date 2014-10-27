@@ -7,8 +7,6 @@ use App\Model\Project;
 use App\Model\User;
 use App\CoreBundle\Provider\AbstractProvider;
 use App\CoreBundle\Provider\ImporterInterface;
-use App\CoreBundle\Provider\OAuthProviderTrait;
-use App\CoreBundle\Provider\OAuthProviderInterface;
 use Guzzle\Http\Client;
 use Guzzle\Plugin\Oauth\OauthPlugin;
 use Psr\Log\LoggerInterface;
@@ -84,7 +82,7 @@ class Provider extends AbstractProvider
 
     /**
      * @param Project $project
-     * 
+     *
      * @return string
      */
     private function getProjectSlug(Project $project)
@@ -94,7 +92,7 @@ class Provider extends AbstractProvider
 
     /**
      * @param Request $request
-     * @param User $user
+     * @param User    $user
      *
      * @return array
      */
@@ -174,7 +172,7 @@ class Provider extends AbstractProvider
 
     /**
      * BitBucket can not be used as a login provider
-     * 
+     *
      * {@inheritDoc}
      */
     public function getUserData($accessToken)
@@ -184,7 +182,7 @@ class Provider extends AbstractProvider
 
     /**
      * BitBucket can not be used as a login provider
-     * 
+     *
      * {@inheritDoc}
      */
     public function getProviderUserId($accessToken)
@@ -194,7 +192,7 @@ class Provider extends AbstractProvider
 
     /**
      * BitBucket can not be used as a login provider
-     * 
+     *
      * {@inheritDoc}
      */
     public function createUser($accessToken)
@@ -263,7 +261,7 @@ class Provider extends AbstractProvider
             ];
 
             foreach ($repo['links']['clone'] as $link) {
-                switch($link['name']) {
+                switch ($link['name']) {
                     case 'https':
                         $result['clone_url'] = $link['href'];
                         break;
@@ -289,7 +287,7 @@ class Provider extends AbstractProvider
 
     /**
      * Pull requests are not supported, yet
-     * 
+     *
      * {@inheritDoc}
      */
     public function createPullRequestFromPayload(Project $project, $payload)
@@ -299,7 +297,7 @@ class Provider extends AbstractProvider
 
     /**
      * Pull requests are not supported, yet
-     * 
+     *
      * {@inheritDoc}
      */
     public function getPullRequestHead(Build $build, $separator = ':')
@@ -333,7 +331,7 @@ class Provider extends AbstractProvider
 
     /**
      * BitBucket does not support commit statuses, just faking it out
-     * 
+     *
      * {@inheritDoc}
      */
     public function setCommitStatus(Project $project, Build $build, $status)
@@ -458,7 +456,7 @@ class Provider extends AbstractProvider
 
     /**
      * BitBucket does not support this
-     * 
+     *
      * {@inheritDoc}
      */
     public function triggerWebHook(Project $project)

@@ -24,7 +24,7 @@ class PerUserRunningBuildsQuotaTest extends PHPUnit_Framework_TestCase
         $build = $this->build;
 
         $this->repository
-            ->method('findRunningBuildsByUser') 
+            ->method('findRunningBuildsByUser')
             ->willReturn([clone $build, clone $build]);
 
         $limit = 2;
@@ -66,7 +66,7 @@ class PerUserRunningBuildsQuotaTest extends PHPUnit_Framework_TestCase
 
         $quota = new PerUserRunningBuildsQuota($this->logger, $this->scheduler, $this->repository, $limit);
 
-        $this->assertTrue($quota->check($this->user));        
+        $this->assertTrue($quota->check($this->user));
     }
 
     public function testEnforce()

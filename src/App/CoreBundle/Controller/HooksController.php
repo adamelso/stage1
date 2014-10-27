@@ -27,7 +27,7 @@ class HooksController extends Controller
             return new JsonResponse([
                 'build_url' => $this->generateUrl('app_core_build_show', ['id' => $build->getId()]),
                 'build' => $build->asMessage(),
-            ], 201);            
+            ], 201);
         } catch (Exception $e) {
             $this->container->get('logger')->error($e->getMessage());
 
@@ -66,6 +66,7 @@ class HooksController extends Controller
 
             if ($project->getStatus() === Project::STATUS_HOLD) {
                 $logger->info('project is on hold');
+
                 return new JsonResponse(['class' => 'danger', 'message' => 'Project is on hold']);
             }
 
@@ -158,7 +159,7 @@ class HooksController extends Controller
         $ref = sprintf('pull/%d/head', $payload->getPullRequestNumber());
 
         $provider = $this->get('app_core.provider.factory')->getProvider($project);
-        
+
         return [$ref, $provider->getHashFromRef($project, $ref)];
     }
 
@@ -202,11 +203,13 @@ class HooksController extends Controller
                 break;
             default:
                 $logger->error('could not find a build policy', ['project' => $project->getId(), 'ref' => $ref]);
+
                 return new JsonResponse(['class' => 'danger', 'message' => 'Could not find a build policy'], 400);
         }
 
         if (!$doBuild) {
             $logger->info('build declined by project policy', ['project' => $project->getId(), 'ref' => $ref]);
+
             return new JsonResponse(['class' => 'info', 'message' => 'Build declined by project policy ('.$project->getSettings()->getPolicy().')'], 200);
         }
 
@@ -230,15 +233,16 @@ class HooksController extends Controller
 
         if (count($sameHashBuilds) > 0) {
             $logger->warn('found builds with same hash', ['count' => count($sameHashBuilds)]);
-            
-            $allowRebuild = array_reduce($sameHashBuilds, function($result, $b) {
+
+            $allowRebuild = array_reduce($sameHashBuilds, function ($result, $b) {
                 return $result || $b->getAllowRebuild();
             }, false);
         }
 
         if (isset($allowRebuild) && !$allowRebuild) {
             $logger->warn('build already scheduled for hash', ['hash' => $hash]);
-            return new JsonResponse(['class' => 'danger', 'message' => 'Build already scheduled for hash'], 400);                    
+
+            return new JsonResponse(['class' => 'danger', 'message' => 'Build already scheduled for hash'], 400);
         } else {
             $logger->info('scheduling build for hash', ['hash' => $hash]);
         }

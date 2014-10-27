@@ -78,7 +78,7 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param User $user
-     * 
+     *
      * @return string|array $accessToken
      */
     public function getAccessTokenFromUser(User $user)
@@ -96,7 +96,7 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param Project $project
-     * 
+     *
      * @return Client
      */
     public function configureClientForProject(Project $project)
@@ -110,7 +110,7 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param User $user
-     * 
+     *
      * @return Client
      */
     public function configureClientForUser(User $user)
@@ -122,9 +122,9 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * Translates a Stage1 scope to the provider scope.
-     * 
+     *
      * @param string $scope
-     * 
+     *
      * @return string|null
      */
     public function translateScope($scope)
@@ -139,7 +139,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * Translates a provider scope to a Stage1 scope
      * @param string $scope
-     * 
+     *
      * @return string
      */
     public function reverseTranslateScope($scope)
@@ -154,7 +154,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @param User  $user
      * @param array $scope
-     * 
+     *
      * @return boolean
      */
     public function hasScope(User $user, $scope)
@@ -176,7 +176,7 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param Project $project
-     * 
+     *
      * @return boolean
      */
     public function hasDeployKey(Project $project)
@@ -186,7 +186,7 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param User $user
-     * 
+     *
      * @return array
      */
     public function getIndexedRepositories(User $user)

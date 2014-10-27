@@ -39,10 +39,10 @@ class PerUserRunningBuildsQuota implements QuotaInterface
     private $output;
 
     /**
-     * @param \Psr\Log\LoggerInterface                       $logger
-     * @param \App\CoreBundle\Scheduler\SchedulerInterface   $scheduler
-     * @param \App\Model\BuildRepository                     $repository
-     * @param integer                                       $limit
+     * @param \Psr\Log\LoggerInterface                     $logger
+     * @param \App\CoreBundle\Scheduler\SchedulerInterface $scheduler
+     * @param \App\Model\BuildRepository                   $repository
+     * @param integer                                      $limit
      */
     public function __construct(LoggerInterface $logger, SchedulerInterface $scheduler, BuildRepository $repository, $limit)
     {
@@ -54,7 +54,7 @@ class PerUserRunningBuildsQuota implements QuotaInterface
 
     /**
      * @param \App\Model\User $user
-     * 
+     *
      * @return \App\Model\Build[]
      */
     private function getRunningBuilds(User $user)
@@ -62,7 +62,7 @@ class PerUserRunningBuildsQuota implements QuotaInterface
         $builds = $this->repository->findRunningBuildsByUser($user);
 
         // demo builds don't count in the running builds quota
-        $builds = array_filter($builds, function(Build $build) {
+        $builds = array_filter($builds, function (Build $build) {
             return !$build->isDemo();
         });
 
@@ -71,7 +71,7 @@ class PerUserRunningBuildsQuota implements QuotaInterface
 
     /**
      * @param \App\Model\User $user
-     * 
+     *
      * @return boolean
      */
     public function check(User $user)

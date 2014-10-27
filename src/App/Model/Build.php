@@ -32,7 +32,7 @@ class Build implements WebsocketRoutable
     const LOG_OUTPUT = 'output';
 
     const LOG_APPLICATION = 'application';
-    
+
     private $id;
 
     private $project;
@@ -185,8 +185,7 @@ class Build implements WebsocketRoutable
             return $this->channel;
         }
 
-        if (null === $this->getProject())
-        {
+        if (null === $this->getProject()) {
             return 'build.'.$this->getId();
         }
 
@@ -200,7 +199,7 @@ class Build implements WebsocketRoutable
 
     /**
      * @param string $message
-     * @param string $type      log|output
+     * @param string $type    log|output
      */
     public function appendLog($message, $type, $stream = null)
     {
@@ -209,7 +208,7 @@ class Build implements WebsocketRoutable
         $log->setType($type);
         $log->setMessage(trim($message));
         $log->setStream($stream);
-        
+
         return $log;
     }
 
@@ -359,7 +358,7 @@ class Build implements WebsocketRoutable
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer $status
      * @return Build
      */
     public function setStatus($status)
@@ -369,14 +368,14 @@ class Build implements WebsocketRoutable
         if ($status !== self::STATUS_RUNNING) {
             $this->setPort(null);
         }
-    
+
         return $this;
     }
 
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -386,20 +385,20 @@ class Build implements WebsocketRoutable
     /**
      * Set ref
      *
-     * @param string $ref
+     * @param  string $ref
      * @return Build
      */
     public function setRef($ref)
     {
         $this->ref = $ref;
-    
+
         return $this;
     }
 
     /**
      * Get ref
      *
-     * @return string 
+     * @return string
      */
     public function getRef()
     {
@@ -409,20 +408,20 @@ class Build implements WebsocketRoutable
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime $createdAt
      * @return Build
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -432,20 +431,20 @@ class Build implements WebsocketRoutable
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime $updatedAt
      * @return Build
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -454,7 +453,7 @@ class Build implements WebsocketRoutable
 
     /**
      * @param integer $id
-     * 
+     *
      * @return Build
      */
     public function setId($id)
@@ -467,7 +466,7 @@ class Build implements WebsocketRoutable
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -477,20 +476,20 @@ class Build implements WebsocketRoutable
     /**
      * Set project
      *
-     * @param \App\Model\Project $project
+     * @param  \App\Model\Project $project
      * @return Build
      */
     public function setProject(\App\Model\Project $project = null)
     {
         $this->project = $project;
-    
+
         return $this;
     }
 
     /**
      * Get project
      *
-     * @return \App\Model\Project 
+     * @return \App\Model\Project
      */
     public function getProject()
     {
@@ -500,20 +499,20 @@ class Build implements WebsocketRoutable
     /**
      * Set initiator
      *
-     * @param \App\Model\User $initiator
+     * @param  \App\Model\User $initiator
      * @return Build
      */
     public function setInitiator(\App\Model\User $initiator = null)
     {
         $this->initiator = $initiator;
-    
+
         return $this;
     }
 
     /**
      * Get initiator
      *
-     * @return \App\Model\User 
+     * @return \App\Model\User
      */
     public function getInitiator()
     {
@@ -523,20 +522,20 @@ class Build implements WebsocketRoutable
     /**
      * Set hash
      *
-     * @param string $hash
+     * @param  string $hash
      * @return Build
      */
     public function setHash($hash)
     {
         $this->hash = $hash;
-    
+
         return $this;
     }
 
     /**
      * Get hash
      *
-     * @return string 
+     * @return string
      */
     public function getHash()
     {
@@ -546,7 +545,7 @@ class Build implements WebsocketRoutable
     /**
      * Set containerId
      *
-     * @param string $containerId
+     * @param  string $containerId
      * @return Build
      */
     public function setContainerId($containerId)
@@ -556,14 +555,14 @@ class Build implements WebsocketRoutable
         if ($this->container && $this->container->getId() !== $containerId) {
             $this->container = null;
         }
-    
+
         return $this;
     }
 
     /**
      * Get containerId
      *
-     * @return string 
+     * @return string
      */
     public function getContainerId()
     {
@@ -598,20 +597,20 @@ class Build implements WebsocketRoutable
     /**
      * Set imageId
      *
-     * @param string $imageId
+     * @param  string $imageId
      * @return Build
      */
     public function setImageId($imageId)
     {
         $this->imageId = $imageId;
-    
+
         return $this;
     }
 
     /**
      * Get imageId
      *
-     * @return string 
+     * @return string
      */
     public function getImageId()
     {
@@ -621,20 +620,20 @@ class Build implements WebsocketRoutable
     /**
      * Set message
      *
-     * @param string $message
+     * @param  string $message
      * @return Build
      */
     public function setMessage($message)
     {
         $this->message = $message;
-    
+
         return $this;
     }
 
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
     public function getMessage()
     {
@@ -644,20 +643,20 @@ class Build implements WebsocketRoutable
     /**
      * Set exitCode
      *
-     * @param integer $exitCode
+     * @param  integer $exitCode
      * @return Build
      */
     public function setExitCode($exitCode)
     {
         $this->exitCode = $exitCode;
-    
+
         return $this;
     }
 
     /**
      * Get exitCode
      *
-     * @return integer 
+     * @return integer
      */
     public function getExitCode()
     {
@@ -667,20 +666,20 @@ class Build implements WebsocketRoutable
     /**
      * Set exitCodeText
      *
-     * @param string $exitCodeText
+     * @param  string $exitCodeText
      * @return Build
      */
     public function setExitCodeText($exitCodeText)
     {
         $this->exitCodeText = $exitCodeText;
-    
+
         return $this;
     }
 
     /**
      * Get exitCodeText
      *
-     * @return string 
+     * @return string
      */
     public function getExitCodeText()
     {
@@ -690,20 +689,20 @@ class Build implements WebsocketRoutable
     /**
      * Set port
      *
-     * @param string $port
+     * @param  string $port
      * @return Build
      */
     public function setPort($port)
     {
         $this->port = $port;
-    
+
         return $this;
     }
 
     /**
      * Get port
      *
-     * @return string 
+     * @return string
      */
     public function getPort()
     {
@@ -713,7 +712,7 @@ class Build implements WebsocketRoutable
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
@@ -727,36 +726,36 @@ class Build implements WebsocketRoutable
     /**
      * Set branch
      *
-     * @param \App\Model\Branch $branch
+     * @param  \App\Model\Branch $branch
      * @return Build
      */
     public function setBranch(\App\Model\Branch $branch = null)
     {
         $this->branch = $branch;
-    
+
         return $this;
     }
 
     /**
      * Get branch
      *
-     * @return \App\Model\Branch 
+     * @return \App\Model\Branch
      */
     public function getBranch()
     {
         return $this->branch;
     }
-    
+
     /**
      * Add logs
      *
-     * @param \App\Model\BuildLog $logs
+     * @param  \App\Model\BuildLog $logs
      * @return Build
      */
     public function addLog(\App\Model\BuildLog $logs)
     {
         $this->logs[] = $logs;
-    
+
         return $this;
     }
 
@@ -773,8 +772,8 @@ class Build implements WebsocketRoutable
     /**
      * Get logs
      *
-     * @param string $type
-     * @return \Doctrine\Common\Collections\Collection 
+     * @param  string                                  $type
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getLogs($type = null)
     {
@@ -782,7 +781,7 @@ class Build implements WebsocketRoutable
             return $this->logs;
         }
 
-        return array_filter($this->logs->toArray(), function($log) use ($type) {
+        return array_filter($this->logs->toArray(), function ($log) use ($type) {
             return $log->getType() === $type;
         });
     }
@@ -790,20 +789,20 @@ class Build implements WebsocketRoutable
     /**
      * Set streamOutput
      *
-     * @param boolean $streamOutput
+     * @param  boolean $streamOutput
      * @return Build
      */
     public function setStreamOutput($streamOutput)
     {
         $this->streamOutput = $streamOutput;
-    
+
         return $this;
     }
 
     /**
      * Get streamOutput
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getStreamOutput()
     {
@@ -813,20 +812,20 @@ class Build implements WebsocketRoutable
     /**
      * Set streamSteps
      *
-     * @param boolean $streamSteps
+     * @param  boolean $streamSteps
      * @return Build
      */
     public function setStreamSteps($streamSteps)
     {
         $this->streamSteps = $streamSteps;
-    
+
         return $this;
     }
 
     /**
      * Get streamSteps
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getStreamSteps()
     {
@@ -836,20 +835,20 @@ class Build implements WebsocketRoutable
     /**
      * Set host
      *
-     * @param string $host
+     * @param  string $host
      * @return Build
      */
     public function setHost($host)
     {
         $this->host = $host;
-    
+
         return $this;
     }
 
     /**
      * Get host
      *
-     * @return string 
+     * @return string
      */
     public function getHost()
     {
@@ -859,20 +858,20 @@ class Build implements WebsocketRoutable
     /**
      * Set isDemo
      *
-     * @param boolean $isDemo
+     * @param  boolean $isDemo
      * @return Build
      */
     public function setIsDemo($isDemo)
     {
         $this->isDemo = $isDemo;
-    
+
         return $this;
     }
 
     /**
      * Get isDemo
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsDemo()
     {
@@ -882,20 +881,20 @@ class Build implements WebsocketRoutable
     /**
      * Set duration
      *
-     * @param integer $duration
+     * @param  integer $duration
      * @return Build
      */
     public function setDuration($duration)
     {
         $this->duration = $duration;
-    
+
         return $this;
     }
 
     /**
      * Get duration
      *
-     * @return integer 
+     * @return integer
      */
     public function getDuration()
     {
@@ -905,20 +904,20 @@ class Build implements WebsocketRoutable
     /**
      * Set startTime
      *
-     * @param \DateTime $startTime
+     * @param  \DateTime $startTime
      * @return Build
      */
     public function setStartTime($startTime)
     {
         $this->startTime = $startTime;
-    
+
         return $this;
     }
 
     /**
      * Get startTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartTime()
     {
@@ -928,20 +927,20 @@ class Build implements WebsocketRoutable
     /**
      * Set endTime
      *
-     * @param \DateTime $endTime
+     * @param  \DateTime $endTime
      * @return Build
      */
     public function setEndTime($endTime)
     {
         $this->endTime = $endTime;
-    
+
         return $this;
     }
 
     /**
      * Get endTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndTime()
     {
@@ -951,20 +950,20 @@ class Build implements WebsocketRoutable
     /**
      * Set memoryUsage
      *
-     * @param integer $memoryUsage
+     * @param  integer $memoryUsage
      * @return Build
      */
     public function setMemoryUsage($memoryUsage)
     {
         $this->memoryUsage = $memoryUsage;
-    
+
         return $this;
     }
 
     /**
      * Get memoryUsage
      *
-     * @return integer 
+     * @return integer
      */
     public function getMemoryUsage()
     {
@@ -974,20 +973,20 @@ class Build implements WebsocketRoutable
     /**
      * Set pid
      *
-     * @param integer $pid
+     * @param  integer $pid
      * @return Build
      */
     public function setPid($pid)
     {
         $this->pid = $pid;
-    
+
         return $this;
     }
 
     /**
      * Get pid
      *
-     * @return integer 
+     * @return integer
      */
     public function getPid()
     {
@@ -997,20 +996,20 @@ class Build implements WebsocketRoutable
     /**
      * Set containerName
      *
-     * @param string $containerName
+     * @param  string $containerName
      * @return Build
      */
     public function setContainerName($containerName)
     {
         $this->containerName = $containerName;
-    
+
         return $this;
     }
 
     /**
      * Get containerName
      *
-     * @return string 
+     * @return string
      */
     public function getContainerName()
     {
@@ -1020,20 +1019,20 @@ class Build implements WebsocketRoutable
     /**
      * Set allowRebuild
      *
-     * @param boolean $allowRebuild
+     * @param  boolean $allowRebuild
      * @return Build
      */
     public function setAllowRebuild($allowRebuild)
     {
         $this->allowRebuild = $allowRebuild;
-    
+
         return $this;
     }
 
     /**
      * Get allowRebuild
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getAllowRebuild()
     {
@@ -1044,24 +1043,23 @@ class Build implements WebsocketRoutable
      */
     private $script;
 
-
     /**
      * Set script
      *
-     * @param \App\Model\BuildScript $script
+     * @param  \App\Model\BuildScript $script
      * @return Build
      */
     public function setScript(\App\Model\BuildScript $script = null)
     {
         $this->script = $script;
-    
+
         return $this;
     }
 
     /**
      * Get script
      *
-     * @return \App\Model\BuildScript 
+     * @return \App\Model\BuildScript
      */
     public function getScript()
     {
@@ -1087,20 +1085,20 @@ class Build implements WebsocketRoutable
     /**
      * Set options
      *
-     * @param array $options
+     * @param  array $options
      * @return Build
      */
     public function setOptions($options)
     {
         $this->options = $options;
-    
+
         return $this;
     }
 
     /**
      * Get options
      *
-     * @return array 
+     * @return array
      */
     public function getOptions()
     {
@@ -1110,20 +1108,20 @@ class Build implements WebsocketRoutable
     /**
      * Set forceLocalBuildYml
      *
-     * @param boolean $forceLocalBuildYml
+     * @param  boolean $forceLocalBuildYml
      * @return Build
      */
     public function setForceLocalBuildYml($forceLocalBuildYml)
     {
         $this->forceLocalBuildYml = $forceLocalBuildYml;
-    
+
         return $this;
     }
 
     /**
      * Get forceLocalBuildYml
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getForceLocalBuildYml()
     {
@@ -1134,24 +1132,23 @@ class Build implements WebsocketRoutable
      */
     private $failure;
 
-
     /**
      * Set failure
      *
-     * @param \App\Model\BuildFailure $failure
+     * @param  \App\Model\BuildFailure $failure
      * @return Build
      */
     public function setFailure(\App\Model\BuildFailure $failure = null)
     {
         $this->failure = $failure;
-    
+
         return $this;
     }
 
     /**
      * Get failure
      *
-     * @return \App\Model\BuildFailure 
+     * @return \App\Model\BuildFailure
      */
     public function getFailure()
     {
@@ -1161,20 +1158,20 @@ class Build implements WebsocketRoutable
     /**
      * Set builderHost
      *
-     * @param string $builderHost
+     * @param  string $builderHost
      * @return Build
      */
     public function setBuilderHost($builderHost)
     {
         $this->builderHost = $builderHost;
-    
+
         return $this;
     }
 
     /**
      * Get builderHost
      *
-     * @return string 
+     * @return string
      */
     public function getBuilderHost()
     {
@@ -1184,20 +1181,20 @@ class Build implements WebsocketRoutable
     /**
      * Set pullRequest
      *
-     * @param \App\Model\PullRequest $pullRequest
+     * @param  \App\Model\PullRequest $pullRequest
      * @return Build
      */
     public function setPullRequest(\App\Model\PullRequest $pullRequest = null)
     {
         $this->pullRequest = $pullRequest;
-    
+
         return $this;
     }
 
     /**
      * Get pullRequest
      *
-     * @return \App\Model\PullRequest 
+     * @return \App\Model\PullRequest
      */
     public function getPullRequest()
     {
@@ -1207,20 +1204,20 @@ class Build implements WebsocketRoutable
     /**
      * Set commitUrl
      *
-     * @param string $commitUrl
+     * @param  string $commitUrl
      * @return Build
      */
     public function setCommitUrl($commitUrl)
     {
         $this->commitUrl = $commitUrl;
-    
+
         return $this;
     }
 
     /**
      * Get commitUrl
      *
-     * @return string 
+     * @return string
      */
     public function getCommitUrl()
     {
@@ -1230,20 +1227,20 @@ class Build implements WebsocketRoutable
     /**
      * Set isPullRequest
      *
-     * @param boolean $isPullRequest
+     * @param  boolean $isPullRequest
      * @return Build
      */
     public function setIsPullRequest($isPullRequest)
     {
         $this->isPullRequest = $isPullRequest;
-    
+
         return $this;
     }
 
     /**
      * Get isPullRequest
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsPullRequest()
     {
@@ -1253,20 +1250,20 @@ class Build implements WebsocketRoutable
     /**
      * Set rawPayload
      *
-     * @param string $rawPayload
+     * @param  string $rawPayload
      * @return Build
      */
     public function setRawPayload($rawPayload)
     {
         $this->rawPayload = $rawPayload;
-    
+
         return $this;
     }
 
     /**
      * Get rawPayload
      *
-     * @return string 
+     * @return string
      */
     public function getRawPayload()
     {

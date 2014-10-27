@@ -41,7 +41,7 @@ class GenerateSshKeysSubscriber implements EventSubscriber
 
     /**
      * @param mixed $entity
-     * 
+     *
      * @return boolean
      */
     public function supports($entity)

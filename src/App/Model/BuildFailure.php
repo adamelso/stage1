@@ -45,24 +45,23 @@ class BuildFailure
         return $obj;
     }
 
-
     /**
      * Set message
      *
-     * @param string $message
+     * @param  string       $message
      * @return BuildFailure
      */
     public function setMessage($message)
     {
         $this->message = $message;
-    
+
         return $this;
     }
 
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
     public function getMessage()
     {
@@ -72,20 +71,20 @@ class BuildFailure
     /**
      * Set code
      *
-     * @param integer $code
+     * @param  integer      $code
      * @return BuildFailure
      */
     public function setCode($code)
     {
         $this->code = $code;
-    
+
         return $this;
     }
 
     /**
      * Get code
      *
-     * @return integer 
+     * @return integer
      */
     public function getCode()
     {
@@ -95,20 +94,20 @@ class BuildFailure
     /**
      * Set trace
      *
-     * @param string $trace
+     * @param  string       $trace
      * @return BuildFailure
      */
     public function setTrace($trace)
     {
         $this->trace = $trace;
-    
+
         return $this;
     }
 
     /**
      * Get trace
      *
-     * @return string 
+     * @return string
      */
     public function getTrace()
     {
@@ -118,7 +117,7 @@ class BuildFailure
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -128,20 +127,20 @@ class BuildFailure
     /**
      * Set build
      *
-     * @param \App\Model\Build $build
+     * @param  \App\Model\Build $build
      * @return BuildFailure
      */
     public function setBuild(\App\Model\Build $build = null)
     {
         $this->build = $build;
-    
+
         return $this;
     }
 
     /**
      * Get build
      *
-     * @return \App\Model\Build 
+     * @return \App\Model\Build
      */
     public function getBuild()
     {
@@ -152,24 +151,23 @@ class BuildFailure
      */
     private $exception;
 
-
     /**
      * Set exception
      *
-     * @param string $exception
+     * @param  string       $exception
      * @return BuildFailure
      */
     public function setException($exception)
     {
         $this->exception = $exception;
-    
+
         return $this;
     }
 
     /**
      * Get exception
      *
-     * @return string 
+     * @return string
      */
     public function getException()
     {
@@ -185,24 +183,23 @@ class BuildFailure
      */
     private $updatedAt;
 
-
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime    $createdAt
      * @return BuildFailure
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -212,20 +209,20 @@ class BuildFailure
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime    $updatedAt
      * @return BuildFailure
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {

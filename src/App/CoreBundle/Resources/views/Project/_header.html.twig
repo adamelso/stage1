@@ -11,7 +11,7 @@
     <li{% if current_route == 'app_core_project_builds' or current_route | slice(0, 14) == 'app_core_build' %} class="active"{% endif %}>
         <a href="{{ path('app_core_project_builds', { id: project.id }) }}">Builds</a>
     </li>
-    
+
     {% if project.isPrivate %}
     <li{% if current_route == 'app_core_project_access' %} class="active"{% endif %}>
         <a href="{{ path('app_core_project_access', { id: project.id }) }}">Access</a>

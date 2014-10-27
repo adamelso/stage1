@@ -21,9 +21,9 @@ trait ConfigurableProviderTrait
     abstract public function getConfigFormType();
 
     /**
-     * @param Request   $request
-     * @param Form      $form
-     * 
+     * @param Request $request
+     * @param Form    $form
+     *
      * @return array|boolean
      */
     public function handleConfigForm(Request $request, Form $form)
@@ -41,7 +41,7 @@ trait ConfigurableProviderTrait
 
     /**
      * @param array $config
-     * 
+     *
      * @return ProviderInterface
      */
     public function setConfig(array $config)

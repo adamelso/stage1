@@ -59,20 +59,20 @@ class BetaSignup
     /**
      * Set email
      *
-     * @param string $email
+     * @param  string     $email
      * @return BetaSignup
      */
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -82,20 +82,20 @@ class BetaSignup
     /**
      * Set betaKey
      *
-     * @param string $betaKey
+     * @param  string     $betaKey
      * @return BetaSignup
      */
     public function setBetaKey($betaKey)
     {
         $this->betaKey = $betaKey;
-    
+
         return $this;
     }
 
     /**
      * Get betaKey
      *
-     * @return string 
+     * @return string
      */
     public function getBetaKey()
     {
@@ -105,20 +105,20 @@ class BetaSignup
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime  $createdAt
      * @return BetaSignup
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -128,20 +128,20 @@ class BetaSignup
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime  $updatedAt
      * @return BetaSignup
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -151,20 +151,20 @@ class BetaSignup
     /**
      * Set tries
      *
-     * @param integer $tries
+     * @param  integer    $tries
      * @return BetaSignup
      */
     public function setTries($tries)
     {
         $this->tries = $tries;
-    
+
         return $this;
     }
 
     /**
      * Get tries
      *
-     * @return integer 
+     * @return integer
      */
     public function getTries()
     {
@@ -174,7 +174,7 @@ class BetaSignup
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -184,20 +184,20 @@ class BetaSignup
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer    $status
      * @return BetaSignup
      */
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
 
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -207,20 +207,20 @@ class BetaSignup
     /**
      * Set emailSentAt
      *
-     * @param \DateTime $emailSentAt
+     * @param  \DateTime  $emailSentAt
      * @return BetaSignup
      */
     public function setEmailSentAt($emailSentAt)
     {
         $this->emailSentAt = $emailSentAt;
-    
+
         return $this;
     }
 
     /**
      * Get emailSentAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEmailSentAt()
     {

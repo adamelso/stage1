@@ -30,6 +30,7 @@ class ProjectAccessTableListener
 
         if ($this->redis->sismember('auth:'.$project->getSlug(), $token)) {
             # token still valid, do nothing
+
             return;
         }
 
