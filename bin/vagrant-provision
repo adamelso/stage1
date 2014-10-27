@@ -2,6 +2,8 @@
 export DEBIAN_FRONTEND=noninteractive
 
 cd /var/www/stage1
+cp app/config/providers.yml.dist app/config/providers.yml
+
 composer self-update
 composer install
 
