@@ -22,9 +22,44 @@ Getting started
 
 STAGE1 is quite a big project to grasp, so don't worry about understanding each and every detail (even I don't understand everything that's going on sometimes), and rather focus on the parts you're interesting in contributing to. The Vagrant VM should give you a fully functional dev environment (if not, it's a bug).
 
+#### First!
+
+You need to create an application on [Github](https://github.com/settings/applications) or Bitbucket with these settings:
+
+__For Github__
+
+* Application Name: Stage1-dev
+* Homepage URL: http://stage1.dev/
+* Authorization callback URL: http://stage1.dev/oauth/github
+
+__For Bitbucket__
+
+* @todo
+
+Then, edit your `stage1/app/config/providers.yml` with these parameters:
+
+```yaml
+parameters:
+    github_client_id: <The Client ID>
+    github_client_secret: <The Client Secret>
+    github_api_base_url: https://api.github.com
+    github_base_url: https://github.com
+    bitbucket_key: ~
+    bitbucket_secret: ~
+    bitbucket_api_base_url: ~
+    bitbucket_base_url: ~
+```
+
+Next, go to your CLI and create the administrator:
+
+* `php app/console fos:user:create`
+* `php app/console fos:user:activate`
+* `php app/console fos:user:promote` (and add `ROLE_SUPER_ADMIN`)
+
+And go!
+
 There a few CLI commands that you may find interesting:
 
-* `stage1:user:role:add <username> <role>`: add a security role to a user. You might want give your user the `ROLE_ADMIN` role
 * `stage1:github -u <username> <path>`: a non-interactive CLI github client that uses the Access Token associated with the given user
 
 Structure
