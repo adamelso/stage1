@@ -62,6 +62,40 @@ There a few CLI commands that you may find interesting:
 
 * `stage1:github -u <username> <path>`: a non-interactive CLI github client that uses the Access Token associated with the given user
 
+### DNS Wildcard
+
+Stage1 leverages DNS wildcard to offer you a unique URL pointing to the branch
+of the project you are deploying. In order to use such a feature in your
+development environment, you can use the
+[`vagrant-dns`](https://github.com/BerlinVagrant/vagrant-dns) plugin.
+
+Install the plugin:
+
+    vagrant plugin install vagrant-dns
+
+Update your `Vagrantfile`:
+
+```
+Vagrant.configure("2") do |config|
+    # ...
+
+    config.dns.tld = "dev"
+    config.dns.patterns = /^*.stage1.dev$/
+end
+```
+
+Register the DNS server as resolver:
+
+    vagrant dns --install
+
+Run the DNS server:
+
+    vagrant dns --start
+
+**Note:** if you install this plugin after having booted the VM, you must
+`vagrant reload` it.
+
+
 Structure
 ---------
 
