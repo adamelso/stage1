@@ -1269,4 +1269,9 @@ class Build implements WebsocketRoutable
     {
         return $this->rawPayload;
     }
+
+    public function getPayload()
+    {
+        return $this->payload;
+    }
 }
