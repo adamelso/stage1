@@ -30,7 +30,7 @@ class BuildSetStatusCommand extends ContainerAwareCommand
             throw new InvalidArgumentException('Could not find build');
         }
 
-        $build->setStatus(constant('Build::STATUS_'.strtoupper($input->getArgument('status'))));
+        $build->setStatus(constant('App\Model\Build::STATUS_'.strtoupper($input->getArgument('status'))));
 
         $em->persist($build);
         $em->flush();
