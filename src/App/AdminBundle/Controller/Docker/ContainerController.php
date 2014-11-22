@@ -6,6 +6,18 @@ use App\AdminBundle\Controller\Controller;
 
 class ContainerController extends Controller
 {
+    private function getClient()
+    {
+        return $this->container->get('app_core.docker.http_client');
+    }
+
+    private function fetch($urlspec, array $params = [])
+    {
+        $request = $this->getClient()->get($urlspec, $params);
+
+        return $this->getClient()->send($request)->json(true);
+    }
+
     public function indexAction()
     {
         $docker = $this->get('app_core.docker');
