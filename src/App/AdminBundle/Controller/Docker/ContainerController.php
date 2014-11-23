@@ -29,8 +29,8 @@ class ContainerController extends Controller
 
     public function stopAction($id)
     {
-        $docker = $this->get('app_core.docker');
-        $container = $docker->find($id);
+        $docker    = $this->get('app_core.docker');
+        $container = $docker->getContainerManager()->find($id);
 
         $docker->getContainerManager()->stop($container);
 
@@ -44,7 +44,7 @@ class ContainerController extends Controller
         $docker = $this->get('app_core.docker');
 
         return $this->render('AppAdminBundle:Docker/Container:inspect.html.twig', [
-            'container' => $docker->find($id),
+            'container' => $docker->getContainerManager()->find($id),
         ]);
     }
 
