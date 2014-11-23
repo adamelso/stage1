@@ -13,7 +13,10 @@ app/console doctrine:schema:update --force
 app/console assetic:dump
 
 bundle install
-$(cd node/ && npm install)
+
+cd node/
+sudo npm install
+cd -
 
 sudo fab service.export
 
