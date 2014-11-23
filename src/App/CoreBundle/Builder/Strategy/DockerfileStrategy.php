@@ -154,7 +154,10 @@ class DockerfileStrategy
             if ($response->headers->get('content-type') === 'application/json') {
                 $output = json_decode($output, true);
                 $logger->info('got data chunk', ['output' => $output]);
-                $publish($output['stream']);
+
+                if (isset($output['stream'])) {
+                    $publish($output['stream']);
+                }
             } else {
                 $message = $output;
             }
