@@ -11,9 +11,9 @@ class ContainerController extends Controller
         return $this->container->get('app_core.docker.http_client');
     }
 
-    private function fetch($urlspec, array $params = [])
+    private function fetch($urlspec)
     {
-        $request = $this->getClient()->get($urlspec, $params);
+        $request = $this->getClient()->get($urlspec);
 
         return $this->getClient()->send($request)->json(true);
     }
@@ -41,10 +41,8 @@ class ContainerController extends Controller
 
     public function inspectAction($id)
     {
-        $docker = $this->get('app_core.docker');
-
         return $this->render('AppAdminBundle:Docker/Container:inspect.html.twig', [
-            'container' => $docker->getContainerManager()->find($id),
+            'container' => $this->fetch(['/containers/{id}/json', ['id' => $id]]),
         ]);
     }
 
