@@ -135,7 +135,7 @@ class Build implements WebsocketRoutable
 
     public function isDemo()
     {
-        return $this->isBranch() && $this->getBranch()->getIsDemo();
+        return $this->isBranch() && $this->getBranch() && $this->getBranch()->getIsDemo();
     }
 
     public function isBranch()
